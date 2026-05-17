@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 
 <!-- Code-referenced resources lifted for the standalone bundler -->
-<meta name="ext-resource-dependency" content="uploads/universfield-heavy-walking-footsteps-352771.mp3" data-resource-id="ambientAudio" />
+<meta name="ext-resource-dependency" content="universfield-heavy-walking-footsteps-352771.mp3" data-resource-id="ambientAudio" />
 
 <template id="__bundler_thumbnail" data-bg-color="#1a1a18">
   <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg">
@@ -1410,7 +1410,7 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
   const TARGET_VOL = 0.55;
 
   function build() {
-    audio = new Audio((window.__resources && window.__resources.ambientAudio) || 'uploads/universfield-heavy-walking-footsteps-352771.mp3');
+    audio = new Audio((window.__resources && window.__resources.ambientAudio) || 'universfield-heavy-walking-footsteps-352771.mp3');
     audio.loop = true;
     audio.volume = 0;
     audio.preload = 'auto';
