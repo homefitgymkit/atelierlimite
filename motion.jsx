@@ -19,7 +19,9 @@ function Reveal({ children, delay = 0, y = 22, as = "div", className = "", style
       ents.forEach((e) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } });
     }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    // safety: never let content stay invisible if the observer doesn't fire
+    const t = setTimeout(() => setSeen(true), 1600);
+    return () => { io.disconnect(); clearTimeout(t); };
   }, []);
   const Tag = as;
   return (
