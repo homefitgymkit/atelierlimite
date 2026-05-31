@@ -57,7 +57,7 @@ function Hero({ go }) {
         <div className="hg-tee">
           <span className="tee-spot"></span>
           <div ref={teeRef} style={{ opacity: teeFading ? 0 : 1, transition: "opacity .18s ease" }}>
-            <TeeMockup id={selectedArt} color="#1A1A18" />
+            <TeeMockup id={selectedArt} color={ART[selectedArt] ? ART[selectedArt].bg : "#E7DFD0"} />
           </div>
         </div>
         <div className="hg-art-sel">
@@ -93,7 +93,7 @@ function WallToWardrobe() {
         </Reveal>
         <div className="w2w-arrow" aria-hidden="true">→</div>
         <Reveal className="w2w-step" delay={120}>
-          <div className="w2w-stage" style={{ background: "#E7DFD0" }}><TeeMockup id="figure" color="#E7DFD0" /></div>
+          <div className="w2w-stage w2w-tee-stage"><TeeMockup id="figure" color="#E7DFD0" /></div>
           <div className="w2w-num">Step 02</div>
           <div className="w2w-label">The wearable piece</div>
           <p className="w2w-desc">Hand screen-printed on GOTS-certified organic cotton. Water-based inks, a fixed numbered run, the artist's name on every label.</p>
