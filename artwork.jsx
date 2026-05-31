@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Artwork library + T-shirt mockup
+   Atelier Limité, Artwork library + T-shirt mockup
    Generative gallery-grade placeholder artworks (swap for real
    art later), gallery frames, and a printable tee mockup.
    Exposes: ART, ArtComposition, FramedArt, TeeMockup → window
@@ -14,7 +14,7 @@ const ART_PALETTE = {
   slate: "#56697A", bronze: "#B5A28E", plum: "#6E4A52", clay: "#C77E5E",
 };
 
-/* Artwork registry — id → { title, medium, palette, render(p) } */
+/* Artwork registry, id → { title, medium, palette, render(p) } */
 const ART = {
   figure: {
     title: "Untitled I",
@@ -129,7 +129,7 @@ function ArtComposition({ id, style }) {
   );
 }
 
-/* Same artwork as a NESTED <svg> node (no foreignObject) — robust everywhere */
+/* Same artwork as a NESTED <svg> node (no foreignObject), robust everywhere */
 function ArtNode({ id, x, y, width, height }) {
   const art = ART[id] || ART.figure;
   return (
@@ -163,8 +163,14 @@ function FramedArt({ id, plate = true, className = "", style = {}, onClick }) {
 }
 
 /* T-shirt mockup with the artwork printed on the chest */
+function hexLuminance(hex) {
+  const h = (hex || "#000").replace("#", "");
+  if (h.length < 6) return 0;
+  const r = parseInt(h.substr(0, 2), 16), g = parseInt(h.substr(2, 2), 16), b = parseInt(h.substr(4, 2), 16);
+  return (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+}
 function TeeMockup({ id, color = "#1A1A18", className = "", style = {}, printScale = 1 }) {
-  const isDark = color === "#1A1A18" || color === "#131310";
+  const isDark = hexLuminance(color) < 0.5;
   const seam = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
   const shade = isDark ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.06)";
   return (
@@ -188,7 +194,7 @@ function TeeMockup({ id, color = "#1A1A18", className = "", style = {}, printSca
         <path d="M112 66 Q150 84 188 66" fill="none" stroke={seam} strokeWidth="1.4"/>
         {/* fold shading */}
         <rect x="78" y="84" width="144" height="228" fill={`url(#tee-fold-${id})`}/>
-        {/* printed artwork — nested svg (robust, no foreignObject) */}
+        {/* printed artwork, nested svg (robust, no foreignObject) */}
         <g clipPath={`url(#tee-print-${id})`}>
           <ArtNode id={id} x={150 - 52 * printScale} y={108} width={104 * printScale} height={125 * printScale} />
         </g>
@@ -199,4 +205,41 @@ function TeeMockup({ id, color = "#1A1A18", className = "", style = {}, printSca
   );
 }
 
-Object.assign(window, { ART, ArtComposition, FramedArt, TeeMockup });
+/* Hoodie mockup with the artwork printed on the chest */
+function HoodieMockup({ id, color = "#1A1A18", className = "", style = {}, printScale = 1 }) {
+  const isDark = hexLuminance(color) < 0.5;
+  const seam = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.09)";
+  const shade = isDark ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.08)";
+  const pw = 92 * printScale, ph = 110 * printScale, px = 150 - pw / 2, py = 120;
+  return (
+    <div className={"tee-mockup " + className} style={style}>
+      <svg viewBox="0 0 300 340" style={{ width: "100%", height: "100%", display: "block", overflow: "visible" }}>
+        <defs>
+          <clipPath id={"hood-print-" + id}>
+            <rect x={px} y={py} width={pw} height={ph} rx="2"/>
+          </clipPath>
+          <linearGradient id={"hood-fold-" + id} x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stopColor="#000" stopOpacity="0.14"/>
+            <stop offset="0.5" stopColor="#000" stopOpacity="0"/>
+            <stop offset="1" stopColor="#000" stopOpacity="0.14"/>
+          </linearGradient>
+        </defs>
+        <path d="M88 74 L54 92 L34 132 L62 152 L78 126 L78 300 Q78 314 92 314 L208 314 Q222 314 222 300 L222 126 L238 152 L266 132 L246 92 L212 74 Q204 96 188 100 L188 116 Q150 132 112 116 L112 100 Q96 96 88 74 Z"
+          fill={color} stroke={seam} strokeWidth="1"/>
+        <path d="M112 74 Q112 104 150 104 Q188 104 188 74 Q188 92 150 92 Q112 92 112 74 Z" fill={shade}/>
+        <path d="M112 100 Q150 118 188 100" fill="none" stroke={seam} strokeWidth="1.4"/>
+        <line x1="138" y1="108" x2="136" y2="150" stroke={seam} strokeWidth="1.6"/>
+        <line x1="162" y1="108" x2="164" y2="150" stroke={seam} strokeWidth="1.6"/>
+        <path d="M104 250 L196 250 L196 292 L104 292 Z" fill="none" stroke={seam} strokeWidth="1"/>
+        <rect x="78" y="100" width="144" height="214" fill={`url(#hood-fold-${id})`}/>
+        <g clipPath={`url(#hood-print-${id})`}>
+          <ArtNode id={id} x={px} y={py} width={pw} height={ph} />
+        </g>
+        <rect x={px} y={py} width={pw} height={ph} rx="2"
+          fill="none" stroke={isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)"} strokeWidth="0.5"/>
+      </svg>
+    </div>
+  );
+}
+
+Object.assign(window, { ART, ArtComposition, FramedArt, TeeMockup, HoodieMockup });

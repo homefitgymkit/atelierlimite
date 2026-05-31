@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Journal (index + article)
+   Atelier Limité, Journal (index + article)
    Reads AL_JOURNAL (journal-data.jsx).
    ============================================================ */
 
@@ -15,7 +15,7 @@ function JournalIndex({ go }) {
         <div className="page-hero-inner">
           <div className="page-eyebrow"><span className="l"></span><span className="t">The journal</span></div>
           <h1 className="page-title">How the <em>editions</em> actually work.</h1>
-          <p className="page-lead">Everything we believe, written plainly — the model, the numbering, the certificate, the way we choose artists. No marketing. Just the record.</p>
+          <p className="page-lead">Everything we believe, written plainly, the model, the numbering, the certificate, the way we choose artists. No marketing. Just the record.</p>
         </div>
       </section>
 
@@ -63,8 +63,8 @@ function JournalArticle({ go, slug }) {
     <main className="article">
       <div className="article-header-wrap">
         <nav className="breadcrumb">
-          <button onClick={() => go("home")}>Home</button><span className="sep">—</span>
-          <button onClick={() => go("journal")}>Journal</button><span className="sep">—</span>
+          <button onClick={() => go("home")}>Home</button><span className="sep">·</span>
+          <button onClick={() => go("journal")}>Journal</button><span className="sep">·</span>
           <span className="current">{a.title.replace(/\?$/, "")}</span>
         </nav>
         <span className="article-tag">{a.tag}</span>
@@ -86,7 +86,7 @@ function JournalArticle({ go, slug }) {
       <div className="article-body">
         <div className="article-figure">
           <FramedArt id={artId} className="on-dark" />
-          <p className="article-figure-cap">From the current edition — {ART[artId].title}, {ART[artId].medium.toLowerCase()}.</p>
+          <p className="article-figure-cap">From the current edition, {ART[artId].title}, {ART[artId].medium.toLowerCase()}.</p>
         </div>
       </div>
 

@@ -1,14 +1,14 @@
 /* ============================================================
-   Atelier Limité — Motion toolkit
+   Atelier Limité, Motion toolkit
    Scroll reveals · parallax · cursor spotlight · magnetic buttons
-   Quiet and eased — never bouncy. Respects reduced-motion.
+   Quiet and eased, never bouncy. Respects reduced-motion.
    ============================================================ */
 const { useEffect: useEffectM, useRef: useRefM, useState: useStateM } = React;
 
 const REDUCED = typeof window !== "undefined" &&
   window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* Reveal on scroll — adds .is-in when the element enters the viewport */
+/* Reveal on scroll, adds .is-in when the element enters the viewport */
 function Reveal({ children, delay = 0, y = 22, as = "div", className = "", style = {} }) {
   const ref = useRefM(null);
   const [seen, setSeen] = useStateM(false);
@@ -19,7 +19,9 @@ function Reveal({ children, delay = 0, y = 22, as = "div", className = "", style
       ents.forEach((e) => { if (e.isIntersecting) { setSeen(true); io.disconnect(); } });
     }, { threshold: 0.16, rootMargin: "0px 0px -8% 0px" });
     io.observe(el);
-    return () => io.disconnect();
+    // safety: never let content stay invisible if the observer doesn't fire
+    const t = setTimeout(() => setSeen(true), 1600);
+    return () => { io.disconnect(); clearTimeout(t); };
   }, []);
   const Tag = as;
   return (
@@ -31,7 +33,7 @@ function Reveal({ children, delay = 0, y = 22, as = "div", className = "", style
   );
 }
 
-/* Parallax — translateY proportional to scroll position relative to element center */
+/* Parallax, translateY proportional to scroll position relative to element center */
 function useParallax(speed = 0.12) {
   const ref = useRefM(null);
   useEffectM(() => {
@@ -53,7 +55,7 @@ function useParallax(speed = 0.12) {
   return ref;
 }
 
-/* Pointer drift — element floats slightly toward the cursor (for hero panels) */
+/* Pointer drift, element floats slightly toward the cursor (for hero panels) */
 function usePointerDrift(strength = 14) {
   const ref = useRefM(null);
   useEffectM(() => {
@@ -80,7 +82,7 @@ function usePointerDrift(strength = 14) {
   return ref;
 }
 
-/* Magnetic button — pulls toward the cursor, springs back */
+/* Magnetic button, pulls toward the cursor, springs back */
 function Magnetic({ children, strength = 0.32, className = "", style = {}, onClick, ...rest }) {
   const ref = useRefM(null);
   useEffectM(() => {
@@ -104,7 +106,7 @@ function Magnetic({ children, strength = 0.32, className = "", style = {}, onCli
   );
 }
 
-/* Cursor spotlight — a soft warm glow that follows the pointer. Mount once. */
+/* Cursor spotlight, a soft warm glow that follows the pointer. Mount once. */
 function CursorSpotlight() {
   const ref = useRefM(null);
   useEffectM(() => {

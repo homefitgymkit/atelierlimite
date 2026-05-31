@@ -1,37 +1,42 @@
 /* ============================================================
-   Atelier Limité — Home sections (collection + supporting)
+   Atelier Limité, Home sections (collection + supporting)
    ============================================================ */
 
-/* map each product to an artwork for the mockups */
-const PRODUCT_ART = { tee: "figure", long: "coast", crew: "strata", hoodie: "grid", bundle: "bloom" };
+/* map each product to an artwork for the mockups (this edition is Untitled I on both garments) */
+const PRODUCT_ART = { tee: "figure", long: "coast", crew: "strata", hoodie: "figure", bundle: "bloom" };
 
 function WallLabelCard({ go, product, index }) {
   const closed = product.remaining === 0;
   const artId = PRODUCT_ART[product.id] || "figure";
-  const num = String(index + 1).padStart(3, "0");
+  const [worn, setWorn] = useState(false);
+  const size = product.editionSize || AL.edition.size;
+  const claimed = product.claimed != null ? product.claimed : 0;
   return (
     <Reveal delay={index * 90}>
-      <button className="wl-card" onClick={() => go("product", product.id)}>
-        <div className="wl-stage">
-          <span className="wl-flip"><span className="dot"></span>Hover to wear</span>
+      <div className={"wl-card" + (worn ? " is-worn" : "")}>
+        <button className="wl-stage" onClick={() => setWorn((v) => !v)} aria-pressed={worn}
+          aria-label={worn ? "Show the artwork" : "See it worn"}>
+          <span className="wl-flip"><span className="dot"></span>{worn ? "Tap for artwork" : "Tap to wear"}</span>
           <div className="wl-art"><FramedArt id={artId} plate={false} className="on-dark" /></div>
-          <div className="wl-tee"><TeeMockup id={artId} color={"#1A1A18"} /></div>
-        </div>
+          <div className="wl-tee">{product.id === "hoodie"
+            ? <HoodieMockup id={artId} color="#1b1813" />
+            : <TeeMockup id={artId} color="#1b1813" />}</div>
+        </button>
         <div className="wl-label">
           <div className="wl-l-artist">{AL.edition.artist}</div>
-          <div className="wl-l-title">{ART[artId].title} — {product.name}</div>
+          <div className="wl-l-title">{ART[artId].title} · {product.name}</div>
           <div className="wl-l-rows">
             <div className="wl-l-row"><span className="wl-l-k">Edition</span><span className="wl-l-v">No. {AL.edition.no} · {product.spec || product.gsm}</span></div>
             <div className="wl-l-row"><span className="wl-l-k">Medium</span><span className="wl-l-v">{ART[artId].medium}</span></div>
-            <div className="wl-l-row"><span className="wl-l-k">Run</span><span className="wl-l-v">{num}/{String(AL.edition.size).padStart(3, "0")}</span></div>
+            <div className="wl-l-row"><span className="wl-l-k">Acquired</span><span className="wl-l-v">{String(claimed).padStart(2, "0")} / {size}</span></div>
             <div className="wl-l-row"><span className="wl-l-k">Certificate</span><span className="wl-l-v cert">Included</span></div>
           </div>
           <div className="wl-l-foot">
             <span className="wl-l-price">${product.price}</span>
-            <span className={"wl-l-stock" + (closed ? " closed" : "")}>{closed ? "Edition closed" : `${product.remaining} remaining`}</span>
+            <button className="wl-l-view" onClick={() => go("product", product.id)}>View piece</button>
           </div>
         </div>
-      </button>
+      </div>
     </Reveal>
   );
 }
@@ -43,6 +48,7 @@ function Collection({ go }) {
         <div>
           <p className="label">Edition {AL.edition.no} · {AL.edition.title}</p>
           <h2 className="section-h2">The collection</h2>
+          <p className="section-note">Two garments this edition: the Heavyweight Tee and the Heavyweight Hoodie. Tap a piece to see the artwork worn.</p>
         </div>
         <button className="section-see-all" onClick={() => go("product")}>View all pieces</button>
       </div>
@@ -76,7 +82,7 @@ function ArtistFeature({ go }) {
 
 function HowItWorks() {
   const steps = [
-    ["01", "Artist selected", "Each edition is themed. We find artists whose work deserves a wider audience — painters, sculptors, photographers, musicians, and more."],
+    ["01", "Artist selected", "Each edition is themed. We find artists whose work deserves a wider audience, painters, sculptors, photographers, musicians, and more."],
     ["02", "Edition produced", "Limited run, numbered. Screen-printed on GOTS-certified organic cotton with water-based inks. The artist's name on every label."],
     ["03", "You acquire", "Your piece arrives with a 350gsm certificate of edition, an artist postcard, a mini poster, and a wax-sealed package."],
     ["04", "The artist gets paid", "50% of net profit goes directly to the artist, every quarter, with a full transparent statement. The artist keeps their IP."],
@@ -116,14 +122,14 @@ function PrivateView({ joined, onJoin }) {
     <section className="pvl-section" id="private">
       <div className="pvl-eyebrow"><span className="pvl-eyebrow-line"></span><span className="label label--light">Private view list</span><span className="pvl-eyebrow-line"></span></div>
       <h2 className="pvl-title">{joined ? "You're on the list." : "48 hours before the public."}</h2>
-      <p className="pvl-sub">{joined ? "We'll write once per edition — gallery tone, no noise. See you at the opening." : "Four emails a year. One per edition. In before the opening."}</p>
+      <p className="pvl-sub">{joined ? "We'll write when a new edition opens, with the occasional studio note. See you at the opening." : "Early access to every edition before it opens to the public, plus studio news straight to your inbox."}</p>
       {!joined && (
         <form className="pvl-form" onSubmit={(ev) => { ev.preventDefault(); if (email.trim()) onJoin(); }}>
           <input className="pvl-input" type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           <button className="pvl-btn" type="submit">Join</button>
         </form>
       )}
-      <p className="pvl-note">No noise. No marketing. Just the opening.</p>
+      <p className="pvl-note">Early access, studio news, and the occasional offer.</p>
     </section>
   );
 }

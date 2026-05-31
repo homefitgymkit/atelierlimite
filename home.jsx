@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Home: gallery hero + wall-to-wardrobe
+   Atelier Limité, Home: gallery hero + wall-to-wardrobe
    ============================================================ */
 
 function Hero({ go }) {
@@ -11,13 +11,13 @@ function Hero({ go }) {
       <div className="hg-copy">
         <span className="hg-eyebrow"><span className="pip"></span><span className="t">Edition {e.no} · {e.title} · Now open</span></span>
         <h1 className="hg-title">Artists turn their work into <em>limited editions</em> you can wear.</h1>
-        <p className="hg-sub">One artist. A numbered run. A certificate in every box — and half of every sale paid back to the maker.</p>
+        <p className="hg-sub">One artist. A numbered run. A certificate in every box, and half of every sale paid back to the maker.</p>
         <div className="hg-actions">
           <Magnetic><button className="btn-primary" onClick={() => go("product")}>Acquire a piece</button></Magnetic>
           <Magnetic><button className="btn-ghost" onClick={() => go("artist", e.artist)}>Meet {e.artist.split(" ")[0]}</button></Magnetic>
         </div>
         <div className="hg-meta">
-          <div className="hg-meta-item"><span className="hg-meta-k"><em>{e.remaining}</em>/{e.size}</span><span className="hg-meta-l">Pieces remaining</span></div>
+          <div className="hg-meta-item"><span className="hg-meta-k"><em>{e.size}</em></span><span className="hg-meta-l">Pieces, total</span></div>
           <span className="hg-meta-div"></span>
           <div className="hg-meta-item"><span className="hg-meta-k">50/50</span><span className="hg-meta-l">Split with the artist</span></div>
           <span className="hg-meta-div"></span>
@@ -46,13 +46,14 @@ function WallToWardrobe() {
       <Reveal className="w2w-head">
         <p className="label" style={{ textAlign: "center" }}>The process</p>
         <h2 className="w2w-title">From <em>wall</em> to wardrobe.</h2>
+        <p className="w2w-cap">Untitled I &middot; Spray &amp; Stencil</p>
       </Reveal>
       <div className="w2w-track">
         <Reveal className="w2w-step" delay={0}>
-          <div className="w2w-stage"><FramedArt id="figure" className="on-dark" /></div>
+          <div className="w2w-stage"><FramedArt id="figure" plate={false} className="on-dark" /></div>
           <div className="w2w-num">Step 01</div>
           <div className="w2w-label">The artwork</div>
-          <p className="w2w-desc">An original work by the edition's artist — selected for a wider audience, not a gallery wall.</p>
+          <p className="w2w-desc">An original work by the edition's artist, selected for a wider audience, not a gallery wall.</p>
         </Reveal>
         <div className="w2w-arrow" aria-hidden="true">→</div>
         <Reveal className="w2w-step" delay={120}>
@@ -61,14 +62,14 @@ function WallToWardrobe() {
           </div>
           <div className="w2w-num">Step 02</div>
           <div className="w2w-label">The limited print</div>
-          <p className="w2w-desc">Hand screen-printed in a fixed, numbered run on organic cotton — water-based inks, never plastisol.</p>
+          <p className="w2w-desc">Hand screen-printed in a fixed, numbered run on organic cotton, water-based inks, never plastisol.</p>
         </Reveal>
         <div className="w2w-arrow" aria-hidden="true">→</div>
         <Reveal className="w2w-step" delay={240}>
-          <div className="w2w-stage"><TeeMockup id="figure" color="#C8B89A" /></div>
+          <div className="w2w-stage"><TeeMockup id="figure" color="#1b1813" /></div>
           <div className="w2w-num">Step 03</div>
           <div className="w2w-label">The wearable piece</div>
-          <p className="w2w-desc">A collectable garment — numbered, named, certified, and yours to wear out into the world.</p>
+          <p className="w2w-desc">A collectable garment, numbered, named, certified, and yours to wear out into the world.</p>
         </Reveal>
       </div>
     </section>
@@ -83,7 +84,6 @@ function Home({ go, joined, onJoin }) {
       <Collection go={go} />
       <ArtistFeature go={go} />
       <HowItWorks />
-      <ImpactStrip />
       <PrivateView joined={joined} onJoin={onJoin} />
     </main>
   );

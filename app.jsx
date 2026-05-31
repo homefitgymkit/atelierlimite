@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Storefront UI Kit · App root
+   Atelier Limité, Storefront UI Kit · App root
    Routes: home · product · article · artists · archive
    ============================================================ */
 
@@ -55,6 +55,7 @@ function App() {
       {route === "about" && <AboutPage go={go} />}
       {route === "work" && <WorkPage go={go} />}
       {route === "journal" && <JournalIndex go={go} />}
+      {route === "collection" && <CollectionGallery go={go} />}
       {route === "journal-article" && <JournalArticle go={go} slug={articleSlug} />}
       {route === "private" && <PrivateViewPage go={go} joined={joined} onJoin={() => setJoined(true)} />}
       {route === "artists" && <ArtistsScreen go={go} />}

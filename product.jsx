@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Storefront UI Kit · Product detail + Certificate
+   Atelier Limité, Storefront UI Kit · Product detail + Certificate
    ============================================================ */
 
 function Product({ go, productId, onAdd }) {
@@ -31,18 +31,18 @@ function Product({ go, productId, onAdd }) {
         <div className="pdp-detail">
           <div className="pdp-eyebrow">
             <span className="pdp-eyebrow-line"></span>
-            <span className="pdp-eyebrow-text">Edition {AL.edition.no} — {AL.edition.artist}</span>
+            <span className="pdp-eyebrow-text">Edition {AL.edition.no}, {AL.edition.artist}</span>
           </div>
           <div className="pdp-artist">{AL.edition.work}</div>
           <h1 className="pdp-title">{product.name}</h1>
 
           <div className="pdp-price-row">
             <span className="pdp-price">${product.price}</span>
-            <span className="pdp-edition-no">/{String(AL.edition.size).padStart(3, "0")} edition</span>
-            <span className="pdp-remaining">{closed ? "Edition closed" : `${product.remaining} of ${AL.edition.size} remaining`}</span>
+            <span className="pdp-edition-no">/{String(product.editionSize || AL.edition.size).padStart(3, "0")} edition</span>
+            <span className="pdp-remaining">{closed ? "Edition closed" : `${product.remaining} of ${product.editionSize || AL.edition.size} available`}</span>
           </div>
 
-          <div className="pdp-opt-label">Colourway — {cw.name}</div>
+          <div className="pdp-opt-label">Colourway, {cw.name}</div>
           <div className="pdp-opt-row">
             {AL.colourways.map((c) => (
               <button key={c.id} className="pdp-swatch" data-active={cw.id === c.id} style={{ background: c.hex }} onClick={() => setCw(c)} title={c.name}></button>
@@ -59,14 +59,14 @@ function Product({ go, productId, onAdd }) {
           <div className="pdp-actions">
             {closed
               ? <button className="btn-primary dark" style={{ opacity: 0.4, cursor: "not-allowed" }} disabled>Edition closed</button>
-              : <button className="btn-primary dark" onClick={acquire}>Acquire — ${product.price}</button>}
+              : <button className="btn-primary dark" onClick={acquire}>Acquire, ${product.price}</button>}
             <button className="btn-ghost ink" onClick={() => go("article")}>About this edition</button>
           </div>
 
           <div className="pdp-meta-list">
             <div className="pdp-meta-item"><span className="pdp-meta-k">Artwork</span><span className="pdp-meta-v">{AL.edition.discipline}</span></div>
             <div className="pdp-meta-item"><span className="pdp-meta-k">Blank</span><span className="pdp-meta-v">{product.gsm}, GOTS-certified</span></div>
-            <div className="pdp-meta-item"><span className="pdp-meta-k">Print</span><span className="pdp-meta-v">Water-based / discharge — no plastisol</span></div>
+            <div className="pdp-meta-item"><span className="pdp-meta-k">Print</span><span className="pdp-meta-v">Water-based / discharge, no plastisol</span></div>
             <div className="pdp-meta-item"><span className="pdp-meta-k">Number assigned</span><span className="pdp-meta-v">At point of order</span></div>
           </div>
         </div>
@@ -94,13 +94,13 @@ function Certificate({ go, items }) {
         <div className="cert-seal">AL</div>
         <p className="cert-eyebrow">Certificate of edition</p>
         <h1 className="cert-title">Acquired.<br/><em>Welcome, collector.</em></h1>
-        <p className="cert-sub">Your piece is sealed and on its way — numbered, named, and yours.</p>
+        <p className="cert-sub">Your piece is sealed and on its way, numbered, named, and yours.</p>
 
         <div className="cert-row"><span className="cert-k">Artist</span><span className="cert-v">{AL.edition.artist}</span></div>
         <div className="cert-row"><span className="cert-k">Work</span><span className="cert-v">{AL.edition.work}</span></div>
         <div className="cert-row"><span className="cert-k">Piece</span><span className="cert-v">{lead.name} · {lead.cw} · {lead.size}</span></div>
-        <div className="cert-row"><span className="cert-k">Edition number</span><span className="cert-v num">{lead.number} / {String(AL.edition.size).padStart(3, "0")}</span></div>
-        <div className="cert-row"><span className="cert-k">Edition</span><span className="cert-v">No. {AL.edition.no} — {AL.edition.location}</span></div>
+        <div className="cert-row"><span className="cert-k">Edition number</span><span className="cert-v num">{lead.number} / {String(lead.editionSize || AL.edition.size).padStart(3, "0")}</span></div>
+        <div className="cert-row"><span className="cert-k">Edition</span><span className="cert-v">No. {AL.edition.no}, {AL.edition.location}</span></div>
 
         <div className="cert-foot">
           <span className="cert-wordmark">Atelier <em>Limité</em></span>

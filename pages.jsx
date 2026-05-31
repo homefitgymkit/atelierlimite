@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Work with us + Private view (full pages)
+   Atelier Limité, Work with us + Private view (full pages)
    ============================================================ */
 
 function WorkPage({ go }) {
@@ -55,12 +55,12 @@ function WorkPage({ go }) {
       <section className="work-promises">
         <div>
           <div className="page-eyebrow"><span className="l" style={{ background: "var(--bronze)" }}></span><span className="t">Our commitments</span></div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 34, color: "var(--ink)", lineHeight: 1.15, marginTop: 8 }}>The terms are the same for everyone — by design.</h2>
+          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 34, color: "var(--ink)", lineHeight: 1.15, marginTop: 8 }}>The terms are the same for everyone, by design.</h2>
         </div>
         <div>
           {w.promises.map((p, i) => (
             <div className="work-promise-row" key={i}>
-              <span className="wp-mark">—</span>
+              <span className="wp-mark">·</span>
               <span className="wp-t">{p}</span>
             </div>
           ))}
@@ -84,8 +84,8 @@ function PrivateViewPage({ go, joined, onJoin }) {
   const [email, setEmail] = useState("");
   const promises = [
     { num: "48h", t: "Early access before\nevery public opening" },
-    { num: "4", t: "Emails a year —\none per edition" },
-    { num: "0", t: "Newsletters, sales,\nor urgency mechanics" },
+    { num: "01", t: "First pick of the\nlowest edition numbers" },
+    { num: "New", t: "Edition openings and\nstudio news, first" },
   ];
   return (
     <main className="pv-page" id="private">
@@ -96,8 +96,8 @@ function PrivateViewPage({ go, joined, onJoin }) {
         </div>
         <h1 className="pv-title">{joined ? <>You're on <em>the list.</em></> : <>48 hours before <em>the public.</em></>}</h1>
         <p className="pv-lead">{joined
-          ? "We'll write once per edition — gallery tone, never marketing. The next opening is yours to see first."
-          : "An invitation-only preview of every edition, in the tradition of a gallery private view. Four emails a year. One per opening. Nothing else."}</p>
+          ? "We'll write when a new edition opens, with the occasional studio note. The next opening is yours to see first."
+          : "An invitation-only preview of every edition, in the tradition of a gallery private view. Early access before the public, plus the occasional studio note."}</p>
 
         {!joined ? (
           <form className="pv-form" onSubmit={(e) => { e.preventDefault(); if (email.trim()) onJoin(); }}>

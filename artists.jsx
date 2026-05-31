@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Storefront UI Kit · Artists + Archive
+   Atelier Limité, Storefront UI Kit · Artists + Archive
    ============================================================ */
 
 function ArtistsScreen({ go }) {
@@ -55,7 +55,7 @@ function ArtistsScreen({ go }) {
 function ArtistDetail({ go, artistName }) {
   const a = AL.artists.find((x) => x.name === artistName) || AL.artists[0];
   const bio = a.bio || `${a.name} works in ${a.medium.toLowerCase()}, based in ${a.city}. Part of the Atelier Limité roster for ${a.edition}.`;
-  const statement = a.current ? AL.edition.quote : `Collaborating with Atelier Limité meant my work could leave the studio and be worn — numbered, named, and shared on equal terms.`;
+  const statement = a.current ? AL.edition.quote : `Collaborating with Atelier Limité meant my work could leave the studio and be worn, numbered, named, and shared on equal terms.`;
   return (
     <main className="artist-detail">
       <section className="ad-hero">
@@ -100,7 +100,7 @@ function ArtistDetail({ go, artistName }) {
                 <button className="product-card" key={p.id} onClick={() => go("product", p.id)}>
                   <div className="product-img-wrap"><ImageWell className="product-img-inner" tone={p.tone} mark={`Ed. ${AL.edition.no}`} /></div>
                   <div className="product-info">
-                    <h3 className="product-artist">{AL.edition.work} — {p.name}</h3>
+                    <h3 className="product-artist">{AL.edition.work}, {p.name}</h3>
                     <p className="product-format">{a.medium} · {p.gsm}</p>
                     <div className="product-divider"></div>
                     <div className="product-row">
@@ -139,7 +139,7 @@ function ArchiveScreen({ go }) {
               <ImageWell className="product-img-inner" tone="#201F1C" mark={`Ed. ${c.ed}`} />
             </div>
             <div className="product-info">
-              <h3 className="product-artist">{c.title} — {c.artist}</h3>
+              <h3 className="product-artist">{c.title}, {c.artist}</h3>
               <p className="product-format">Edition {c.ed} · {c.year}</p>
               <div className="product-divider"></div>
               <div className="product-row">

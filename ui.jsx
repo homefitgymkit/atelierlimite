@@ -1,5 +1,5 @@
 /* ============================================================
-   Atelier Limité — Storefront UI Kit · shared UI + chrome + data
+   Atelier Limité, Storefront UI Kit · shared UI + chrome + data
    Exposes: AL (data), Wordmark, ImageWell, Header, Ticker,
             Footer, BagDrawer  → window
    ============================================================ */
@@ -22,7 +22,7 @@ const AL = {
   },
   artists: [
     { name: "Mia Torres", city: "Melbourne", year: "2025", medium: "Spray and stencil", edition: "Edition 03", current: true,
-      bio: "Mia Torres builds stencilled figures from layered acetate and aerosol — small works, public walls, and now wearable editions. Her practice sits between street, gallery, and printmaking." },
+      bio: "Mia Torres builds stencilled figures from layered acetate and aerosol, small works, public walls, and now wearable editions. Her practice sits between street, gallery, and printmaking." },
     { name: "Aki Nomura", city: "Sydney", year: "2024", medium: "Sumi-e and digital", edition: "Edition 02" },
     { name: "Rosa Vidal", city: "Lisbon", year: "2024", medium: "Collage and screenprint", edition: "Edition 01" },
     { name: "Jordan Pell", city: "Auckland", year: "2025", medium: "Linocut", edition: "Next" },
@@ -33,10 +33,10 @@ const AL = {
     { id: "canvas", name: "Raw Canvas", hex: "#C8B89A" },
   ],
   sizes: ["XS", "S", "M", "L", "XL"],
+  /* Edition 03 is split across two garments, 40 pieces each = 80 total */
   products: [
-    { id: "tee",   name: "Heavyweight Tee",   price: 95,  gsm: "280gsm organic cotton", remaining: 31, tone: "#232320" },
-    { id: "hoodie",name: "Heavyweight Hoodie",price: 185, gsm: "380gsm organic cotton", remaining: 16, tone: "#1E1E1B" },
-    { id: "crew",  name: "Crewneck",          price: 155, gsm: "320gsm organic cotton", remaining: 0,  tone: "#26241F" },
+    { id: "tee",   name: "Heavyweight Tee",   price: 95,  gsm: "280gsm organic cotton", editionSize: 40, claimed: 0, remaining: 40, tone: "#232320" },
+    { id: "hoodie",name: "Heavyweight Hoodie",price: 185, gsm: "380gsm organic cotton", editionSize: 40, claimed: 0, remaining: 40, tone: "#1E1E1B" },
   ],
   included: [
     { n: "01", t: "Certificate of edition", b: "350gsm, bearing your unique number." },
@@ -71,25 +71,36 @@ function ImageWell({ tone = "#1E1E1B", mark, style, className = "" }) {
 /* ---------- HEADER ---------- */
 function Header({ route, go, bagCount, openBag }) {
   // Archive is intentionally hidden from primary nav (reachable via footer).
+  const [menuOpen, setMenuOpen] = useState(false);
   const nav = [
-    ["product", "Editions"], ["artists", "Artists"],
-    ["journal", "Journal"], ["about", "About"], ["work", "Work with us"],
+    ["home", "Home"], ["product", "Editions"], ["collection", "Collection"],
+    ["artists", "Artists"], ["journal", "Journal"], ["about", "About"], ["work", "Work with us"],
   ];
   const isCurrent = (r) =>
     route === r || (r === "product" && (route === "product" || route === "edition")) ||
     (r === "artists" && route === "artist") || (r === "journal" && route === "journal-article");
+  const goAnd = (r) => { setMenuOpen(false); go(r); };
   return (
-    <header className="site-header">
-      <Wordmark onClick={() => go("home")} />
+    <header className="site-header" data-menu-open={menuOpen}>
+      <Wordmark onClick={() => goAnd("home")} />
       <nav className="site-nav">
         {nav.map(([r, label]) => (
-          <button key={r} data-current={isCurrent(r)} onClick={() => go(r)}>{label}</button>
+          <button key={r} data-current={isCurrent(r)} onClick={() => goAnd(r)}>{label}</button>
         ))}
       </nav>
       <div className="nav-actions">
-        <button className="nav-action-btn" onClick={() => go("private")}>Private view</button>
+        <button className="nav-action-btn" onClick={() => goAnd("private")}>Private view</button>
         <button className="nav-bag" onClick={openBag}>Bag (<span>{bagCount}</span>)</button>
+        <button className="nav-burger" aria-label="Menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
+          <span></span><span></span><span></span>
+        </button>
       </div>
+      <nav className="site-nav-mobile" data-open={menuOpen}>
+        {nav.map(([r, label]) => (
+          <button key={r} data-current={isCurrent(r)} onClick={() => goAnd(r)}>{label}</button>
+        ))}
+        <button className="snm-extra" onClick={() => goAnd("private")}>Private view</button>
+      </nav>
     </header>
   );
 }
@@ -138,10 +149,10 @@ function Footer({ go }) {
         </div>
         <div>
           <p className="footer-col-label">Contact</p>
-          <a className="footer-link">hello@atelierlimite.com</a>
-          <a className="footer-link">artists@atelierlimite.com</a>
-          <a className="footer-link">Instagram</a>
-          <a className="footer-link">TikTok</a>
+          <a className="footer-link" href="mailto:hello@atelierlimite.com">hello@atelierlimite.com</a>
+          <a className="footer-link" href="mailto:artists@atelierlimite.com">artists@atelierlimite.com</a>
+          <a className="footer-link" href="https://instagram.com/atelier.limite" target="_blank" rel="noopener">Instagram &middot; @atelier.limite</a>
+          <a className="footer-link" href="https://tiktok.com/@atelier.limite" target="_blank" rel="noopener">TikTok &middot; @atelier.limite</a>
         </div>
       </footer>
       <div className="footer-bottom">
@@ -177,7 +188,7 @@ function BagDrawer({ open, onClose, items, onRemove, onCheckout }) {
                   <div>
                     <div className="bag-item-artist">{AL.edition.artist}</div>
                     <div className="bag-item-fmt">{it.name} · {it.cw} · {it.size}</div>
-                    <div className="bag-item-no">{it.number} / {String(AL.edition.size).padStart(3, "0")}</div>
+                    <div className="bag-item-no">{it.number} / {String(it.editionSize || AL.edition.size).padStart(3, "0")}</div>
                     <button className="bag-item-remove" onClick={() => onRemove(i)}>Remove</button>
                   </div>
                   <div className="bag-item-price">${it.price}</div>
@@ -189,8 +200,8 @@ function BagDrawer({ open, onClose, items, onRemove, onCheckout }) {
                 <span className="bag-subtotal-k">Subtotal</span>
                 <span className="bag-subtotal-v">${subtotal}</span>
               </div>
-              <p className="bag-split-note">${Math.round(subtotal * 0.25)} to {AL.edition.artist} — your half of the patronage.</p>
-              <button className="btn-primary dark bag-checkout" onClick={onCheckout}>Acquire — checkout</button>
+              <p className="bag-split-note">${Math.round(subtotal * 0.25)} to {AL.edition.artist}, your half of the patronage.</p>
+              <button className="btn-primary dark bag-checkout" onClick={onCheckout}>Acquire, checkout</button>
             </div>
           </React.Fragment>
         )}
