@@ -1,0 +1,200 @@
+/* ============================================================
+   Atelier Limité, Home redesign + artwork system
+   Gallery frames · layered hero · wall-to-wardrobe · wall labels
+   ============================================================ */
+
+/* ─── Framed artwork (gallery) ─── */
+.framed-art { position: relative; }
+.framed-art-frame {
+  background: linear-gradient(145deg, #2a2622, #14120f);
+  padding: 9px; border-radius: 1px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.06) inset, 0 22px 44px -18px rgba(0,0,0,0.7), 0 6px 14px -8px rgba(0,0,0,0.5);
+}
+.framed-art.frame-pale .framed-art-frame { background: linear-gradient(145deg, #d8cdb8, #b8a98e); }
+.framed-art-mat { background: var(--ivory); padding: 14px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.12); }
+.framed-art-window { overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.25); position: relative; aspect-ratio: 5/6; }
+.framed-art-window::after { content: ''; position: absolute; inset: 0; background: linear-gradient(115deg, rgba(255,255,255,0.18), transparent 38%); pointer-events: none; }
+.framed-art-plate { display: flex; flex-direction: column; align-items: center; gap: 2px; margin-top: 12px; text-align: center; }
+.fa-title { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink); }
+.fa-medium { font-size: 7.5px; font-weight: 300; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dust); }
+.framed-art.on-dark .fa-title { color: var(--ivory); }
+.framed-art.on-dark .fa-medium { color: var(--bronze); }
+
+/* ─── Tee mockup ─── */
+.tee-mockup { filter: drop-shadow(0 30px 40px rgba(0,0,0,0.45)); }
+
+/* ─── Cursor spotlight ─── */
+.cursor-spotlight {
+  position: fixed; top: 0; left: 0; width: 520px; height: 520px; margin: -260px 0 0 -260px;
+  border-radius: 50%; pointer-events: none; z-index: 40; mix-blend-mode: soft-light;
+  background: radial-gradient(circle, rgba(220,200,170,0.55), rgba(220,200,170,0) 62%);
+  transition: opacity .4s ease;
+}
+
+/* ═══ HERO (gallery) ═══ */
+.hero-gallery {
+  position: relative; background:
+    radial-gradient(120% 90% at 78% 32%, #232220 0%, #1a1a17 46%, #141312 100%);
+  padding: 92px 56px 96px; overflow: hidden; min-height: 660px;
+  display: grid; grid-template-columns: minmax(380px, 0.92fr) 1.08fr; gap: 40px; align-items: center;
+}
+.hero-gallery::before { /* soft wall vignette */
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(80% 60% at 50% 120%, rgba(0,0,0,0.5), transparent 70%);
+}
+.hg-copy { position: relative; z-index: 3; max-width: 520px; }
+.hg-eyebrow { display: inline-flex; align-items: center; gap: 14px; margin-bottom: 26px; padding: 7px 14px 7px 12px; border: 0.5px solid var(--bronze-dim); border-radius: 999px; }
+.hg-eyebrow .pip { width: 6px; height: 6px; border-radius: 50%; background: var(--bronze); box-shadow: 0 0 0 4px rgba(181,162,142,0.18); }
+.hg-eyebrow .t { font-size: 8.5px; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--bronze); }
+.hg-title { font-family: var(--serif); font-weight: 300; font-size: clamp(44px, 5vw, 74px); line-height: 1.02; letter-spacing: -0.015em; color: var(--ivory); }
+.hg-title em { font-style: italic; color: #E9DECB; }
+.hg-sub { font-family: var(--serif); font-weight: 300; font-style: italic; font-size: clamp(17px,1.6vw,21px); line-height: 1.55; color: rgba(246,243,237,0.5); margin-top: 26px; max-width: 440px; }
+.hg-actions { display: flex; align-items: center; gap: 28px; margin-top: 40px; }
+.hg-meta { display: flex; align-items: center; gap: 22px; margin-top: 34px; }
+.hg-meta-item { display: flex; flex-direction: column; gap: 5px; }
+.hg-meta-k { font-family: var(--serif); font-size: 26px; font-weight: 300; color: var(--ivory); line-height: 1; }
+.hg-meta-k em { font-style: italic; color: var(--bronze); }
+.hg-meta-l { font-size: 7.5px; font-weight: 300; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(246,243,237,0.34); }
+.hg-meta-div { width: 0.5px; height: 30px; background: rgba(246,243,237,0.14); }
+
+/* stage with floating frames + central tee */
+.hg-stage { position: relative; z-index: 2; height: 540px; }
+.hg-tee { position: absolute; left: 50%; top: 52%; width: 300px; transform: translate(-50%,-50%); z-index: 2;
+  animation: teeRise 1.1s cubic-bezier(.16,1,.3,1) 0.15s both; }
+.hg-tee .tee-spot { position: absolute; left: 50%; bottom: -26px; width: 220px; height: 38px; transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(0,0,0,0.5), transparent 70%); filter: blur(3px); z-index: -1; }
+.hg-pedestal { position: absolute; left: 50%; bottom: 56px; width: 320px; height: 1px; transform: translateX(-50%); background: linear-gradient(90deg, transparent, rgba(181,162,142,0.4), transparent); z-index: 1; }
+
+.float-slot { position: absolute; width: 168px; z-index: 3; opacity: 0; }
+.float-slot .float-inner { will-change: transform; }
+.hg-frame-btn { cursor: pointer; transition: opacity .25s ease; }
+.hg-frame-btn:hover { opacity: 0.88; }
+.float-slot.is-active .framed-art-frame { box-shadow: 0 0 0 2px var(--bronze), 0 22px 44px -18px rgba(0,0,0,0.7), 0 6px 14px -8px rgba(0,0,0,0.5); }
+
+/* ─── Artwork selector strip ─── */
+.hg-art-sel {
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 7px; z-index: 4;
+}
+.hgas-btn {
+  width: 48px; height: 48px; border-radius: 2px; overflow: hidden; flex-shrink: 0;
+  border: 1.5px solid rgba(246,243,237,0.14); cursor: pointer; padding: 0;
+  background: var(--surface); transition: border-color .25s ease, transform .22s ease;
+}
+.hgas-btn:hover { border-color: rgba(181,162,142,0.55); transform: scale(1.07); }
+.hgas-btn.is-active { border-color: var(--bronze); box-shadow: 0 0 0 1px rgba(181,162,142,0.25); }
+
+/* ─── W2W certificate card ─── */
+.w2w-cert-stage { justify-content: center; align-items: center; }
+.w2w-cert {
+  width: 88%; background: var(--ivory); border: 0.5px solid var(--rule);
+  padding: 22px 20px 28px; position: relative;
+  box-shadow: 0 16px 34px -18px rgba(0,0,0,0.2);
+}
+.w2w-cert-num {
+  font-family: var(--serif); font-size: 30px; font-weight: 300;
+  color: var(--ink); letter-spacing: 0.02em; margin-bottom: 14px;
+  border-bottom: 0.5px solid var(--rule); padding-bottom: 12px;
+}
+.w2w-cert-rows { display: flex; flex-direction: column; }
+.w2w-cert-row {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 10px;
+  padding: 6px 0; border-bottom: 0.5px solid var(--rule);
+}
+.w2w-cert-row span:first-child {
+  font-size: 8px; font-weight: 300; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--dust); white-space: nowrap; flex-shrink: 0;
+}
+.w2w-cert-row span:last-child {
+  font-family: var(--serif); font-size: 12px; color: var(--ink); text-align: right;
+}
+.w2w-cert-seal {
+  position: absolute; bottom: 12px; right: 14px;
+  font-family: var(--serif); font-style: italic; font-size: 11px; letter-spacing: 0.1em;
+  color: var(--bronze); border: 0.5px solid var(--bronze-dim); border-radius: 50%;
+  width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+}
+.float-slot.fs1 { left: -2%;  top: 8%;   width: 176px; animation: dropIn 1s cubic-bezier(.16,1,.3,1) 0.45s forwards; --tilt: -7deg; }
+.float-slot.fs2 { right: 1%;  top: 2%;   width: 150px; animation: dropIn 1s cubic-bezier(.16,1,.3,1) 0.65s forwards; --tilt: 6deg; }
+.float-slot.fs3 { right: -1%; bottom: 6%; width: 162px; animation: dropIn 1s cubic-bezier(.16,1,.3,1) 0.85s forwards; --tilt: 5deg; }
+.float-slot.fs4 { left: 3%;   bottom: 2%; width: 138px; animation: dropIn 1s cubic-bezier(.16,1,.3,1) 1.05s forwards; --tilt: -5deg; }
+
+@keyframes dropIn {
+  from { opacity: 0; transform: translateY(-54px) rotate(calc(var(--tilt) * 0.2)) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0) rotate(var(--tilt)) scale(1); }
+}
+@keyframes teeRise { from { opacity: 0; transform: translate(-50%,-42%) scale(0.94); } to { opacity: 1; transform: translate(-50%,-50%) scale(1); } }
+
+/* ═══ FROM WALL TO WARDROBE ═══ */
+.w2w { background: var(--ivory); padding: 92px 56px; position: relative; }
+.w2w-head { max-width: 1180px; margin: 0 auto 56px; text-align: center; }
+.w2w-title { font-family: var(--serif); font-weight: 300; font-size: clamp(32px,4vw,54px); color: var(--ink); line-height: 1.05; letter-spacing: -0.01em; margin-top: 14px; }
+.w2w-title em { font-style: italic; color: var(--bronze); }
+.w2w-track { max-width: 1180px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; align-items: center; gap: 12px; }
+.w2w-step { text-align: center; }
+.w2w-stage { position: relative; aspect-ratio: 4/5; display: flex; align-items: center; justify-content: center; padding: 8px; }
+.w2w-num { font-size: 8px; font-weight: 300; letter-spacing: 0.26em; text-transform: uppercase; color: var(--bronze); margin-bottom: 16px; }
+.w2w-label { font-family: var(--serif); font-size: 21px; color: var(--ink); margin-top: 20px; }
+.w2w-desc { font-size: 11.5px; font-weight: 300; line-height: 1.7; color: var(--dust); margin-top: 8px; max-width: 230px; margin-left: auto; margin-right: auto; }
+.w2w-arrow { font-family: var(--serif); font-size: 30px; color: var(--bronze); opacity: 0.6; padding-bottom: 60px; }
+.w2w-stage .framed-art { width: 78%; }
+.w2w-stage .tee-mockup { width: 90%; }
+.w2w-print { width: 70%; aspect-ratio: 1/1; background: var(--ink); padding: 16px; box-shadow: 0 18px 36px -16px rgba(0,0,0,0.5); position: relative; }
+.w2w-print .pwin { width: 100%; height: 100%; overflow: hidden; position: relative; }
+.w2w-print .pmark { position: absolute; bottom: 8px; right: 10px; font-family: var(--serif); font-style: italic; font-size: 10px; color: rgba(181,162,142,0.5); }
+
+/* ═══ COLLECTION, museum wall labels ═══ */
+.collection-2 { background: var(--ivory-mid); padding: 0 0 8px; }
+.coll-grid { max-width: 1320px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 64px 56px; }
+.wl-card { background: transparent; border: none; cursor: pointer; text-align: left; padding: 0; font-family: inherit; display: flex; flex-direction: column; }
+.wl-stage { position: relative; aspect-ratio: 5/6; background:
+  radial-gradient(120% 100% at 50% 0%, #222 0%, #181714 100%); overflow: hidden;
+  display: flex; align-items: center; justify-content: center; padding: 26px;
+  box-shadow: 0 30px 50px -28px rgba(0,0,0,0.55); }
+.wl-stage::before { content:''; position:absolute; inset:0; background: repeating-linear-gradient(-42deg, transparent, transparent 46px, rgba(181,162,142,0.022) 46px, rgba(181,162,142,0.022) 47px); }
+.wl-art, .wl-tee { position: absolute; inset: 26px; display: flex; align-items: center; justify-content: center; transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+.wl-art { z-index: 1; }
+.wl-art .framed-art { width: 74%; }
+.wl-tee { z-index: 2; opacity: 0; transform: scale(0.92); }
+.wl-tee .tee-mockup { width: 86%; }
+.wl-card:hover .wl-art { opacity: 0; transform: scale(1.04); }
+.wl-card:hover .wl-tee { opacity: 1; transform: scale(1); }
+.wl-flip { position: absolute; top: 16px; right: 16px; z-index: 3; font-size: 7.5px; font-weight: 300; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(246,243,237,0.4); display: flex; align-items: center; gap: 6px; }
+.wl-flip .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--bronze); transition: transform .4s; }
+.wl-card:hover .wl-flip .dot { transform: scale(1.6); }
+
+/* wall label (the museum plate) */
+.wl-label { background: var(--ivory); border: 0.5px solid var(--rule); margin-top: -34px; margin-left: 22px; margin-right: 22px; position: relative; z-index: 4; padding: 20px 22px 22px; box-shadow: 0 14px 30px -18px rgba(0,0,0,0.3); }
+.wl-l-artist { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--ink); }
+.wl-l-title { font-family: var(--serif); font-size: 20px; font-weight: 400; color: var(--ink); margin-top: 2px; }
+.wl-l-rows { margin-top: 14px; border-top: 0.5px solid var(--rule); }
+.wl-l-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid var(--rule); }
+.wl-l-k { font-size: 8px; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dust); }
+.wl-l-v { font-family: var(--serif); font-size: 13px; color: var(--ink); }
+.wl-l-v.cert { font-style: italic; color: var(--bronze); }
+.wl-l-foot { display: flex; justify-content: space-between; align-items: baseline; margin-top: 14px; }
+.wl-l-price { font-family: var(--serif); font-size: 22px; color: var(--ink); }
+.wl-l-stock { font-size: 8px; font-weight: 300; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bronze); }
+.wl-l-stock.closed { color: rgba(19,19,16,0.3); }
+
+@media (max-width: 1000px) {
+  .hero-gallery { grid-template-columns: 1fr; }
+  .hg-stage { height: 460px; margin-top: 20px; }
+  .coll-grid { grid-template-columns: 1fr; }
+  .w2w-track { grid-template-columns: 1fr; gap: 40px; }
+  .w2w-arrow { display: none; }
+}
+
+@media (max-width: 760px) {
+  /* hide decorative floating frames — selector strip takes over */
+  .float-slot { display: none; }
+  /* tee: smaller, moved up to leave room for selector */
+  .hg-stage { height: 380px; }
+  .hg-tee { width: 200px; top: 44%; }
+  /* selector strip: larger touch targets, visible */
+  .hg-art-sel { bottom: 10px; gap: 8px; }
+  .hgas-btn { width: 54px; height: 54px; border-color: rgba(246,243,237,0.22); }
+  /* W2W cert: compact */
+  .w2w-cert { width: 100%; }
+  .w2w-cert-num { font-size: 24px; }
+}
