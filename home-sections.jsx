@@ -5,9 +5,17 @@
 /* map each product to an artwork for the mockups (this edition is Untitled I on both garments) */
 const PRODUCT_ART = { tee: "figure", long: "coast", crew: "strata", hoodie: "figure", bundle: "bloom" };
 
+function _artLum(hex) {
+  const r = parseInt(hex.slice(1,3),16)/255, g = parseInt(hex.slice(3,5),16)/255, b = parseInt(hex.slice(5,7),16)/255;
+  const l = v => v <= 0.04045 ? v/12.92 : Math.pow((v+0.055)/1.055, 2.4);
+  return 0.2126*l(r) + 0.7152*l(g) + 0.0722*l(b);
+}
+
 function WallLabelCard({ go, product, index }) {
   const closed = product.remaining === 0;
   const artId = PRODUCT_ART[product.id] || "figure";
+  const artBg = (ART[artId] && ART[artId].bg) || "#E7DFD0";
+  const teeColor = _artLum(artBg) > 0.35 ? artBg : "#E8E1D3";
   const [worn, setWorn] = useState(false);
   const size = product.editionSize || AL.edition.size;
   const claimed = product.claimed != null ? product.claimed : 0;
@@ -19,8 +27,8 @@ function WallLabelCard({ go, product, index }) {
           <span className="wl-flip"><span className="dot"></span>{worn ? "Tap for artwork" : "Tap to wear"}</span>
           <div className="wl-art"><FramedArt id={artId} plate={false} className="on-dark" /></div>
           <div className="wl-tee">{product.id === "hoodie"
-            ? <HoodieMockup id={artId} color="#1b1813" />
-            : <TeeMockup id={artId} color="#1b1813" />}</div>
+            ? <HoodieMockup id={artId} color={teeColor} />
+            : <TeeMockup id={artId} color={teeColor} />}</div>
         </button>
         <div className="wl-label">
           <div className="wl-l-artist">{AL.edition.artist}</div>

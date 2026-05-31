@@ -69,20 +69,25 @@
 .float-slot .float-inner { will-change: transform; }
 .hg-frame-btn { cursor: pointer; transition: opacity .25s ease; }
 .hg-frame-btn:hover { opacity: 0.88; }
-.float-slot.is-active .framed-art-frame { box-shadow: 0 0 0 2px var(--bronze), 0 22px 44px -18px rgba(0,0,0,0.7), 0 6px 14px -8px rgba(0,0,0,0.5); }
+.float-slot .framed-art-window svg { transition: opacity 0.3s ease; }
+.float-slot.is-active .framed-art-window svg { opacity: 0; }
 
-/* ─── Artwork selector strip ─── */
+/* ─── Artwork selector strip (mobile only) ─── */
 .hg-art-sel {
   position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
-  display: flex; gap: 7px; z-index: 4;
+  display: none; gap: 7px; z-index: 4;
 }
 .hgas-btn {
-  width: 48px; height: 48px; border-radius: 2px; overflow: hidden; flex-shrink: 0;
-  border: 1.5px solid rgba(246,243,237,0.14); cursor: pointer; padding: 0;
-  background: var(--surface); transition: border-color .25s ease, transform .22s ease;
+  background: none; border: none; padding: 0; cursor: pointer; flex-shrink: 0;
+  transition: transform .22s ease;
 }
-.hgas-btn:hover { border-color: rgba(181,162,142,0.55); transform: scale(1.07); }
-.hgas-btn.is-active { border-color: var(--bronze); box-shadow: 0 0 0 1px rgba(181,162,142,0.25); }
+.hgas-btn:hover { transform: scale(1.06); }
+.hgas-f { display: block; background: linear-gradient(145deg, #2a2622, #14120f); padding: 4px; border-radius: 1px; }
+.hgas-m { display: block; background: #EDE8DF; padding: 3px; }
+.hgas-w { display: block; overflow: hidden; width: 46px; height: 46px; }
+.hgas-w > * { display: block; width: 100%; height: 100%; transition: opacity 0.25s ease; }
+.hgas-btn.is-active .hgas-w > * { opacity: 0; }
+.hgas-btn.is-active .hgas-f { outline: 1.5px solid var(--bronze); outline-offset: 0; }
 
 /* ─── W2W certificate card ─── */
 .w2w-cert-stage { justify-content: center; align-items: center; }
@@ -191,9 +196,9 @@
   /* tee: smaller, moved up to leave room for selector */
   .hg-stage { height: 380px; }
   .hg-tee { width: 200px; top: 44%; }
-  /* selector strip: larger touch targets, visible */
-  .hg-art-sel { bottom: 10px; gap: 8px; }
-  .hgas-btn { width: 54px; height: 54px; border-color: rgba(246,243,237,0.22); }
+  /* selector strip: visible, framed thumbnails */
+  .hg-art-sel { display: flex; bottom: 10px; gap: 8px; }
+  .hgas-w { width: 52px; height: 52px; }
   /* W2W cert: compact */
   .w2w-cert { width: 100%; }
   .w2w-cert-num { font-size: 24px; }

@@ -6,10 +6,10 @@ const HERO_FRAMES = [
   { slot: "fs1", id: "strata", plate: true  },
   { slot: "fs2", id: "coast",  plate: true  },
   { slot: "fs3", id: "grid",   plate: true  },
-  { slot: "fs4", id: "bloom",  plate: false },
+  { slot: "fs4", id: "figure", plate: false },
 ];
 
-const ALL_ARTWORKS = ["figure", "strata", "coast", "grid", "bloom"];
+const ALL_ARTWORKS = ["strata", "coast", "grid", "figure"];
 
 function Hero({ go }) {
   const e = AL.edition;
@@ -65,7 +65,9 @@ function Hero({ go }) {
             <button key={id} className={"hgas-btn" + (selectedArt === id ? " is-active" : "")}
               onClick={() => pickArt(id)} aria-pressed={selectedArt === id}
               title={ART[id].title}>
-              <ArtComposition id={id} />
+              <span className="hgas-f"><span className="hgas-m"><span className="hgas-w">
+                <ArtComposition id={id} />
+              </span></span></span>
             </button>
           ))}
         </div>
@@ -91,7 +93,7 @@ function WallToWardrobe() {
         </Reveal>
         <div className="w2w-arrow" aria-hidden="true">→</div>
         <Reveal className="w2w-step" delay={120}>
-          <div className="w2w-stage"><TeeMockup id="figure" color="#E7DFD0" /></div>
+          <div className="w2w-stage" style={{ background: "#E7DFD0" }}><TeeMockup id="figure" color="#E7DFD0" /></div>
           <div className="w2w-num">Step 02</div>
           <div className="w2w-label">The wearable piece</div>
           <p className="w2w-desc">Hand screen-printed on GOTS-certified organic cotton. Water-based inks, a fixed numbered run, the artist's name on every label.</p>
