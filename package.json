@@ -1,0 +1,14 @@
+{
+  "name": "atelier-limite-storefront",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Atelier Limité storefront. JSX sources are prebuilt to app.js; no in-browser Babel.",
+  "scripts": {
+    "build": "babel content.jsx journal-data.jsx motion.jsx artwork.jsx ui.jsx home-sections.jsx home.jsx product.jsx article.jsx artists.jsx about.jsx pages.jsx collection.jsx journal.jsx app.jsx --presets @babel/preset-react --no-comments -o app.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.27.0",
+    "@babel/preset-react": "^7.27.0"
+  }
+}

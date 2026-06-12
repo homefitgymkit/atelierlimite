@@ -86,7 +86,7 @@ function JournalArticle({ go, slug }) {
       <div className="article-body">
         <div className="article-figure">
           <FramedArt id={artId} className="on-dark" />
-          <p className="article-figure-cap">From the current edition, {ART[artId].title}, {ART[artId].medium.toLowerCase()}.</p>
+          <p className="article-figure-cap">A studio study, {ART[artId].title}, {ART[artId].medium.toLowerCase()}.</p>
         </div>
       </div>
 
@@ -114,10 +114,10 @@ function JournalArticle({ go, slug }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} now open</div>
-        <h2 className="cta-title">Acquire a piece of <em>{AL.edition.artist}.</em></h2>
+        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
+        <h2 className="cta-title">Be first through <em>the door.</em></h2>
         <p className="cta-sub">Numbered. Named. Worn.</p>
-        <button className="btn-cta" onClick={() => go("product")}>View the edition</button>
+        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>
   );

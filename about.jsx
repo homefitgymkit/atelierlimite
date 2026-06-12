@@ -81,7 +81,7 @@ function AboutPage({ go }) {
         </div>
         <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: "var(--ivory)", lineHeight: 1.1, marginTop: 14 }}>Every edition tells the rest.</h2>
         <div style={{ display: "flex", gap: 20, justifyContent: "center", marginTop: 36 }}>
-          <button className="btn-primary" onClick={() => go("product")}>View the current edition</button>
+          <button className="btn-primary" onClick={() => go("product")}>See Edition 01</button>
           <button className="btn-ghost" onClick={() => go("private")}>Join the private view</button>
         </div>
       </section>

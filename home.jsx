@@ -28,15 +28,15 @@ function Hero({ go }) {
   return (
     <section className="hero-gallery" data-drift-host>
       <div className="hg-copy">
-        <span className="hg-eyebrow"><span className="pip"></span><span className="t">Edition {e.no} · {e.title} · Now open</span></span>
+        <span className="hg-eyebrow"><span className="pip"></span><span className="t">Edition {e.no} · {e.opens}</span></span>
         <h1 className="hg-title">Artists turn their work into <em>limited editions</em> you can wear.</h1>
-        <p className="hg-sub">One artist. A numbered run. A certificate in every box, and half of every sale paid back to the maker.</p>
+        <p className="hg-sub">One artist. A numbered run. A certificate in every box, and half of every sale paid back to the maker. The first edition is on its way.</p>
         <div className="hg-actions">
-          <Magnetic><button className="btn-primary" onClick={() => go("product")}>Acquire a piece</button></Magnetic>
-          <Magnetic><button className="btn-ghost" onClick={() => go("artist", e.artist)}>Meet {e.artist.split(" ")[0]}</button></Magnetic>
+          <button className="btn-primary" onClick={() => go("product")}>See Edition 01</button>
+          <button className="btn-ghost" onClick={() => go("private")}>Join the private view</button>
         </div>
         <div className="hg-meta">
-          <div className="hg-meta-item"><span className="hg-meta-k"><em>{e.size}</em></span><span className="hg-meta-l">Pieces, total</span></div>
+          <div className="hg-meta-item"><span className="hg-meta-k"><em>{e.no}</em></span><span className="hg-meta-l">First edition</span></div>
           <span className="hg-meta-div"></span>
           <div className="hg-meta-item"><span className="hg-meta-k">50/50</span><span className="hg-meta-l">Split with the artist</span></div>
           <span className="hg-meta-div"></span>
@@ -82,7 +82,7 @@ function WallToWardrobe() {
       <Reveal className="w2w-head">
         <p className="label" style={{ textAlign: "center" }}>The process</p>
         <h2 className="w2w-title">From <em>wall</em> to wardrobe.</h2>
-        <p className="w2w-cap">Untitled I · Spray &amp; Stencil</p>
+        <p className="w2w-cap">Shown with a studio study. Edition 01's artwork is revealed at the opening.</p>
       </Reveal>
       <div className="w2w-track">
         <Reveal className="w2w-step" delay={0}>
@@ -104,10 +104,10 @@ function WallToWardrobe() {
             <div className="w2w-cert">
               <div className="w2w-cert-num">047 / 080</div>
               <div className="w2w-cert-rows">
-                <div className="w2w-cert-row"><span>Edition</span><span>No. 03 · Sydney to Melbourne</span></div>
-                <div className="w2w-cert-row"><span>Artist</span><span>Mia Torres</span></div>
-                <div className="w2w-cert-row"><span>Work</span><span>Untitled I</span></div>
+                <div className="w2w-cert-row"><span>Edition</span><span>No. {AL.edition.no} · First edition</span></div>
+                <div className="w2w-cert-row"><span>Artist</span><span>{AL.edition.artist}</span></div>
                 <div className="w2w-cert-row"><span>Garment</span><span>Heavyweight Tee · 280gsm</span></div>
+                <div className="w2w-cert-row"><span>Status</span><span>Specimen</span></div>
               </div>
               <div className="w2w-cert-seal">AL</div>
             </div>
@@ -127,7 +127,7 @@ function Home({ go, joined, onJoin }) {
       <Hero go={go} />
       <WallToWardrobe />
       <Collection go={go} />
-      <ArtistFeature go={go} />
+      <FirstArtist go={go} />
       <HowItWorks />
       <PrivateView joined={joined} onJoin={onJoin} />
     </main>

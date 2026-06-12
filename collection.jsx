@@ -1,17 +1,18 @@
 /* ============================================================
    Atelier Limité, The Collection (gallery)
-   A gallery wall of framed works. Tap a frame and the artwork
-   "flicks" out of the frame onto the two garments it was
-   printed on; tap again and it flicks back in.
+   A gallery wall of framed studio studies. Tap a frame and the
+   work "flicks" out of the frame onto the two garments it would
+   be printed on; tap again and it flicks back in.
+   Pre-launch: no released works yet, so every frame is a study.
    ============================================================ */
 
 const COLLECTION_WORKS = [
-  { id: "figure", edition: "03", title: "Untitled I",        medium: "Spray & stencil", artist: "Mia Torres" },
-  { id: "strata", edition: "02", title: "Strata II",         medium: "Pigment & wax",   artist: "Aki Nomura" },
-  { id: "coast",  edition: "02", title: "Coastline",         medium: "Sumi-e & digital", artist: "Aki Nomura" },
-  { id: "grid",   edition: "01", title: "Lot 04",            medium: "Collage & ink",   artist: "Rosa Vidal" },
-  { id: "bloom",  edition: "01", title: "Bloom (Nocturne)",  medium: "Ink on cotton",   artist: "Rosa Vidal" },
-  { id: "arc",    edition: "Next", title: "Meridian",        medium: "Screenprint",     artist: "Jordan Pell" },
+  { id: "figure", title: "Untitled I",       medium: "Spray & stencil" },
+  { id: "strata", title: "Strata II",        medium: "Pigment & wax" },
+  { id: "coast",  title: "Coastline",        medium: "Sumi-e & digital" },
+  { id: "grid",   title: "Lot 04",           medium: "Collage & ink" },
+  { id: "bloom",  title: "Bloom (Nocturne)", medium: "Ink on cotton" },
+  { id: "arc",    title: "Meridian",         medium: "Screenprint" },
 ];
 
 function CollectionWork({ work, index, go }) {
@@ -21,7 +22,7 @@ function CollectionWork({ work, index, go }) {
       <div className={"cg-card" + (open ? " is-open" : "")}>
         <button className="cg-frame" onClick={() => setOpen((v) => !v)} aria-expanded={open}
           aria-label={open ? "Return the artwork to its frame" : "See the artwork worn"}>
-          <span className="cg-tag">Ed. {work.edition}</span>
+          <span className="cg-tag">Study</span>
           <div className="cg-art-layer"><FramedArt id={work.id} plate={false} className="on-dark" /></div>
           <span className="cg-hint">{open ? "Tap to reframe" : "Tap to wear"}</span>
         </button>
@@ -29,14 +30,14 @@ function CollectionWork({ work, index, go }) {
         <div className="cg-plate">
           <div>
             <div className="cg-plate-title">{work.title}</div>
-            <div className="cg-plate-sub">{work.artist} · {work.medium}</div>
+            <div className="cg-plate-sub">Studio study · {work.medium}</div>
           </div>
           <span className="cg-chevron" aria-hidden="true">{open ? "–" : "+"}</span>
         </div>
 
         <div className="cg-drop" data-open={open}>
           <div className="cg-drop-inner">
-            <p className="cg-drop-label">Worn on two garments this edition</p>
+            <p className="cg-drop-label">How a work wears on the two garments</p>
             <div className="cg-garments">
               <div className="cg-garment">
                 <div className="cg-garment-stage"><TeeMockup id={work.id} color="#1b1813" /></div>
@@ -62,8 +63,8 @@ function CollectionGallery({ go }) {
         <div className="page-hero-bigchar" aria-hidden="true">◈</div>
         <div className="page-hero-inner">
           <div className="page-eyebrow"><span className="l"></span><span className="t">The collection</span></div>
-          <h1 className="page-title">Every <em>artwork,</em> and the pieces it became.</h1>
-          <p className="page-lead">A gallery wall of the works we've released. Tap any frame and the artwork lifts out, onto the garments it was printed on.</p>
+          <h1 className="page-title">How an <em>artwork</em> becomes an edition.</h1>
+          <p className="page-lead">No edition has opened yet, so this wall hangs studio studies: tap any frame and the work lifts out, onto the garments it would be printed on. Edition 01's artwork takes its place at the opening.</p>
         </div>
       </section>
 
@@ -74,10 +75,10 @@ function CollectionGallery({ go }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} now open</div>
-        <h2 className="cta-title">Acquire a piece of <em>{AL.edition.artist}.</em></h2>
+        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
+        <h2 className="cta-title">Be first through <em>the door.</em></h2>
         <p className="cta-sub">Numbered. Named. Worn.</p>
-        <button className="btn-cta" onClick={() => go("product")}>View the edition</button>
+        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>
   );

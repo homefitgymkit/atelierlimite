@@ -100,10 +100,10 @@ function Article({ go }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} now open</div>
-        <h2 className="cta-title">Acquire a piece of <em>{AL.edition.artist}.</em></h2>
+        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
+        <h2 className="cta-title">Be first through <em>the door.</em></h2>
         <p className="cta-sub">Numbered. Named. Worn.</p>
-        <button className="btn-cta" onClick={() => go("product")}>View the edition</button>
+        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>
   );

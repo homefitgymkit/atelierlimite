@@ -4,15 +4,6 @@
    Exposed on window for all screen scripts.
    ============================================================ */
 
-/* Garment range, from the "what garments" FAQ */
-const AL_GARMENTS = [
-  { id: "tee",    name: "Heavyweight Tee",    price: 95,  spec: "280gsm organic cotton",        remaining: 31, tone: "#232320" },
-  { id: "long",   name: "Long Sleeve",        price: 120, spec: "240gsm organic cotton",        remaining: 22, tone: "#26241F" },
-  { id: "crew",   name: "Crewneck",           price: 155, spec: "320gsm organic cotton",        remaining: 14, tone: "#1E1E1B" },
-  { id: "hoodie", name: "Heavyweight Hoodie", price: 185, spec: "380gsm organic cotton fleece", remaining: 16, tone: "#201F1C" },
-  { id: "bundle", name: "Collector Bundle",   price: 285, spec: "Hoodie · signed print · zine",  remaining: 9,  tone: "#28261F" },
-];
-
 /* FAQ, grouped, lightly trimmed from the source answers */
 const AL_FAQ = [
   {
@@ -67,10 +58,10 @@ const AL_ABOUT = {
     { n: "04", t: "Ethical by design", b: "Organic cotton, water-based inks, plastic-free packaging, a tree per piece, carbon-neutral shipping. The ethics are structural, not rhetorical." },
   ],
   vocab: [
-    ["Edition closed", "not \u201Csold out\u201D \u2014 editions close permanently"],
-    ["Acquire / collect", "not \u201Cbuy\u201D \u2014 what you hold is numbered and permanent"],
-    ["Private view", "not \u201Cnewsletter\u201D \u2014 four invitations a year, nothing else"],
-    ["Opening", "not \u201Cdrop\u201D \u2014 a release is an event, like a show"],
+    ["Edition closed", "not \u201Csold out\u201D: editions close permanently"],
+    ["Acquire / collect", "not \u201Cbuy\u201D: what you hold is numbered and permanent"],
+    ["Private view", "not \u201Cnewsletter\u201D: four invitations a year, nothing else"],
+    ["Opening", "not \u201Cdrop\u201D: a release is an event, like a show"],
   ],
 };
 
@@ -97,4 +88,4 @@ const AL_WORK = {
   ],
 };
 
-Object.assign(window, { AL_GARMENTS, AL_FAQ, AL_ABOUT, AL_WORK });
+Object.assign(window, { AL_FAQ, AL_ABOUT, AL_WORK });

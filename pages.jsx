@@ -13,7 +13,7 @@ function WorkPage({ go }) {
           <h1 className="page-title">We split <em>everything,</em> fifty-fifty.</h1>
           <p className="page-lead">{w.lead}</p>
           <div style={{ marginTop: 40 }}>
-            <button className="btn-primary" onClick={() => go("private")}>artists@atelierlimite.com</button>
+            <a className="btn-primary" href="mailto:artists@atelierlimite.com" style={{ textDecoration: "none", display: "inline-block" }}>artists@atelierlimite.com</a>
           </div>
         </div>
       </section>
@@ -73,7 +73,7 @@ function WorkPage({ go }) {
           <span className="l"></span><span className="t">Express interest</span><span className="l"></span>
         </div>
         <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: "var(--ivory)", lineHeight: 1.1, marginTop: 14 }}>Show us the work.</h2>
-        <p style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 17, color: "rgba(246,243,237,0.4)", marginTop: 14 }}>Every submission gets a genuine response within two weeks.</p>
+        <p style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 17, color: "rgba(246,243,237,0.55)", marginTop: 14 }}>Every submission gets a genuine response within two weeks.</p>
         <div className="work-cta-mail">artists@atelierlimite.com</div>
       </section>
     </main>
@@ -81,7 +81,7 @@ function WorkPage({ go }) {
 }
 
 function PrivateViewPage({ go, joined, onJoin }) {
-  const [email, setEmail] = useState("");
+  const f = usePrivateViewSignup(onJoin);
   const promises = [
     { num: "48h", t: "Early access before\nevery public opening" },
     { num: "01", t: "First pick of the\nlowest edition numbers" },
@@ -96,17 +96,20 @@ function PrivateViewPage({ go, joined, onJoin }) {
         </div>
         <h1 className="pv-title">{joined ? <>You're on <em>the list.</em></> : <>48 hours before <em>the public.</em></>}</h1>
         <p className="pv-lead">{joined
-          ? "We'll write when a new edition opens, with the occasional studio note. The next opening is yours to see first."
+          ? "We'll write when Edition 01 opens, with the occasional studio note. The first opening is yours to see first."
           : "An invitation-only preview of every edition, in the tradition of a gallery private view. Early access before the public, plus the occasional studio note."}</p>
 
         {!joined ? (
-          <form className="pv-form" onSubmit={(e) => { e.preventDefault(); if (email.trim()) onJoin(); }}>
-            <input className="pv-input" type="email" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
-            <button className="pv-submit" type="submit">Request access</button>
-          </form>
+          <React.Fragment>
+            <form className="pv-form" onSubmit={f.submit}>
+              <input className="pv-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
+              <button className="pv-submit" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Requesting…" : "Request access"}</button>
+            </form>
+            {f.error && <p className="form-error-line" role="alert">{f.error}</p>}
+          </React.Fragment>
         ) : (
           <div style={{ marginTop: 48 }}>
-            <button className="btn-primary" onClick={() => go("product")}>View the current edition</button>
+            <button className="btn-primary" onClick={() => go("product")}>See Edition 01</button>
           </div>
         )}
 

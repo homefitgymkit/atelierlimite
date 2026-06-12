@@ -1,42 +1,32 @@
 /* ============================================================
    Atelier Limité, Storefront UI Kit · shared UI + chrome + data
-   Exposes: AL (data), Wordmark, ImageWell, Header, Ticker,
-            Footer, BagDrawer  → window
+   Exposes: AL (data), alPrice, usePrivateViewSignup, Wordmark,
+            ImageWell, Header, EditionLine, Footer  → window
    ============================================================ */
 const { useState, useEffect, useRef } = React;
 
 /* ---------- DATA ---------- */
+/* Pre-launch: Edition 01 has not opened yet. Set AL_OPENS to the real
+   date once it is confirmed, e.g. "Opens Thursday 14 March, 7pm AEDT". */
+const AL_OPENS = "Opening to be announced";
+
 const AL = {
   edition: {
-    no: "03",
-    title: "Sydney to Melbourne",
-    artist: "Mia Torres",
-    artistSlug: "mia-torres",
-    discipline: "Spray and stencil on heavyweight cotton",
-    location: "Melbourne, Australia",
-    quote: "I started cutting stencils because I wanted the work to leave the studio. Wearing the piece is the logical next step. Each garment is a wall that walks.",
-    size: 80,
-    remaining: 41,
-    closes: "when sold",
-    work: "Untitled I",
+    no: "01",
+    opens: AL_OPENS,
+    artist: "Announced at the opening",
+    size: 80, /* planned run, split across two garments */
   },
-  artists: [
-    { name: "Mia Torres", city: "Melbourne", year: "2025", medium: "Spray and stencil", edition: "Edition 03", current: true,
-      bio: "Mia Torres builds stencilled figures from layered acetate and aerosol, small works, public walls, and now wearable editions. Her practice sits between street, gallery, and printmaking." },
-    { name: "Aki Nomura", city: "Sydney", year: "2024", medium: "Sumi-e and digital", edition: "Edition 02" },
-    { name: "Rosa Vidal", city: "Lisbon", year: "2024", medium: "Collage and screenprint", edition: "Edition 01" },
-    { name: "Jordan Pell", city: "Auckland", year: "2025", medium: "Linocut", edition: "Next" },
-  ],
   colourways: [
     { id: "black", name: "Studio Black", hex: "#1A1A18" },
     { id: "white", name: "Atelier White", hex: "#F5F2EC" },
     { id: "canvas", name: "Raw Canvas", hex: "#C8B89A" },
   ],
   sizes: ["XS", "S", "M", "L", "XL"],
-  /* Edition 03 is split across two garments, 40 pieces each = 80 total */
+  /* Edition 01 is planned across two garments, 40 pieces each = 80 total */
   products: [
-    { id: "tee",   name: "Heavyweight Tee",   price: 95,  gsm: "280gsm organic cotton", editionSize: 40, claimed: 0, remaining: 40, tone: "#232320" },
-    { id: "hoodie",name: "Heavyweight Hoodie",price: 185, gsm: "380gsm organic cotton", editionSize: 40, claimed: 0, remaining: 40, tone: "#1E1E1B" },
+    { id: "tee",    name: "Heavyweight Tee",    price: 95,  gsm: "280gsm organic cotton", editionSize: 40, tone: "#232320" },
+    { id: "hoodie", name: "Heavyweight Hoodie", price: 185, gsm: "380gsm organic cotton", editionSize: 40, tone: "#1E1E1B" },
   ],
   included: [
     { n: "01", t: "Certificate of edition", b: "350gsm, bearing your unique number." },
@@ -44,13 +34,49 @@ const AL = {
     { n: "03", t: "Mini poster", b: "A5 matte, the full artwork." },
     { n: "04", t: "Wax-sealed kraft box", b: "AL monogram seal. No virgin plastic." },
   ],
-  impact: [
-    { num: "3", label: "Artists supported" },
-    { num: "260", label: "Trees planted" },
-    { num: "$18.4k", label: "Paid to artists" },
-    { num: "3", label: "Editions released" },
-  ],
 };
+
+/* Prices are AUD; always say so for international collectors. */
+function alPrice(p) { return "$" + p + " AUD"; }
+
+/* ---------- PRIVATE VIEW SIGNUP (Brevo) ---------- */
+/* Same Brevo form the original landing page used (Brevo list #3,
+   "Landing Page"). The serve endpoint accepts cross-origin POSTs; we
+   use no-cors mode to guarantee delivery even if CORS headers vary,
+   so we cannot read the response and treat any non-network-error as
+   success. Brevo's double opt-in email is the subscriber's real proof. */
+const AL_BREVO_ACTION = "https://7ea0b4b9.sibforms.com/serve/MUIFAJ2jVYUyVUSLGIIUOxInXPrJOLsqdBTNYKmyeGdou0v65dkTBF2lAdPLoSbh24u_0qriI2WvDJGupc441oGWqF37gsNijy4-0uvZ2iq7Jz-7tFCbMtMzHGIx_uyt7hzPz2RwIYaUdLPEG21GqmF0GvdBed-HP56Lvxyugz0sdYPEZiMvWvukERwqCaLonQKb_XsMACkSnwO--A==";
+
+async function alSubscribe(email) {
+  const body = new FormData();
+  body.append("EMAIL", email);
+  body.append("email_address_check", ""); /* Brevo honeypot, must stay empty */
+  body.append("locale", "en");
+  await fetch(AL_BREVO_ACTION, { method: "POST", mode: "no-cors", body });
+}
+
+function usePrivateViewSignup(onJoin) {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  async function submit(ev) {
+    if (ev) ev.preventDefault();
+    if (busy) return;
+    const v = email.trim();
+    if (!v || !/.+@.+\..+/.test(v)) { setError("Please enter a valid email"); return; }
+    setBusy(true); setError("");
+    try {
+      await alSubscribe(v);
+      if (onJoin) onJoin();
+    } catch (err) {
+      setError("Network error, please retry");
+    } finally {
+      setBusy(false);
+    }
+  }
+  function onChange(e) { setEmail(e.target.value); if (error) setError(""); }
+  return { email, onChange, busy, error, submit };
+}
 
 /* ---------- WORDMARK ---------- */
 function Wordmark({ className = "site-logo", onClick }) {
@@ -69,16 +95,16 @@ function ImageWell({ tone = "#1E1E1B", mark, style, className = "" }) {
 }
 
 /* ---------- HEADER ---------- */
-function Header({ route, go, bagCount, openBag }) {
+function Header({ route, go }) {
   // Archive is intentionally hidden from primary nav (reachable via footer).
   const [menuOpen, setMenuOpen] = useState(false);
   const nav = [
-    ["home", "Home"], ["product", "Editions"], ["collection", "Collection"],
+    ["home", "Home"], ["product", "Edition 01"], ["collection", "Collection"],
     ["artists", "Artists"], ["journal", "Journal"], ["about", "About"], ["work", "Work with us"],
   ];
   const isCurrent = (r) =>
     route === r || (r === "product" && (route === "product" || route === "edition")) ||
-    (r === "artists" && route === "artist") || (r === "journal" && route === "journal-article");
+    (r === "journal" && route === "journal-article");
   const goAnd = (r) => { setMenuOpen(false); go(r); };
   return (
     <header className="site-header" data-menu-open={menuOpen}>
@@ -90,7 +116,6 @@ function Header({ route, go, bagCount, openBag }) {
       </nav>
       <div className="nav-actions">
         <button className="nav-action-btn" onClick={() => goAnd("private")}>Private view</button>
-        <button className="nav-bag" onClick={openBag}>Bag (<span>{bagCount}</span>)</button>
         <button className="nav-burger" aria-label="Menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
           <span></span><span></span><span></span>
         </button>
@@ -105,20 +130,17 @@ function Header({ route, go, bagCount, openBag }) {
   );
 }
 
-/* ---------- TICKER ---------- */
-function Ticker() {
-  const items = [`Edition ${AL.edition.no}`, AL.edition.artist, AL.edition.title, `${AL.edition.size} pieces`, `Closes ${AL.edition.closes}`, "Wear the artwork"];
-  const run = [...items, ...items];
+/* ---------- EDITION LINE (static, replaces the marquee ticker) ---------- */
+function EditionLine() {
+  const items = [`Edition ${AL.edition.no}`, AL.edition.opens, "Wear the artwork"];
   return (
-    <div className="ticker-wrap">
-      <div className="ticker-inner">
-        {run.map((t, i) => (
-          <React.Fragment key={i}>
-            <span className="ticker-item">{t}</span>
-            <span className="ticker-sep">·</span>
-          </React.Fragment>
-        ))}
-      </div>
+    <div className="edition-line">
+      {items.map((t, i) => (
+        <React.Fragment key={i}>
+          {i > 0 && <span className="edition-line-sep">·</span>}
+          <span className="edition-line-item">{t}</span>
+        </React.Fragment>
+      ))}
     </div>
   );
 }
@@ -131,7 +153,7 @@ function Footer({ go }) {
         <div>
           <div className="footer-brand-logo">Atelier <em>Limité</em></div>
           <p className="footer-brand-tagline">Wear the artwork.</p>
-          <p className="footer-brand-detail">Sydney, New South Wales<br/>Australia · Founded 2025<br/>B Corp certification in progress</p>
+          <p className="footer-brand-detail">Sydney, New South Wales<br/>Australia · Founded 2025<br/>B Corp certification targeted, year three</p>
         </div>
         <div>
           <p className="footer-col-label">Studio</p>
@@ -143,7 +165,7 @@ function Footer({ go }) {
         </div>
         <div>
           <p className="footer-col-label">Collect</p>
-          <a className="footer-link" onClick={() => go("product")}>Current edition</a>
+          <a className="footer-link" onClick={() => go("product")}>Edition 01</a>
           <a className="footer-link" onClick={() => go("private")}>Private view list</a>
           <a className="footer-link" onClick={() => go("about")}>FAQ</a>
         </div>
@@ -157,57 +179,10 @@ function Footer({ go }) {
       </footer>
       <div className="footer-bottom">
         <div className="footer-bottom-left">Atelier <em>Limité</em></div>
-        <small className="footer-copy">Sydney, Australia · 2025 · All editions are numbered and certified</small>
+        <small className="footer-copy">Sydney, Australia · 2026 · Every edition numbered and certified</small>
       </div>
     </React.Fragment>
   );
 }
 
-/* ---------- BAG DRAWER ---------- */
-function BagDrawer({ open, onClose, items, onRemove, onCheckout }) {
-  const subtotal = items.reduce((s, it) => s + it.price, 0);
-  return (
-    <React.Fragment>
-      <div className="bag-overlay" data-open={open} onClick={onClose}></div>
-      <aside className="bag-drawer" data-open={open} aria-hidden={!open}>
-        <div className="bag-head">
-          <span className="bag-head-title">Your bag</span>
-          <button className="bag-close" onClick={onClose}>✕</button>
-        </div>
-        {items.length === 0 ? (
-          <div className="bag-empty">
-            <p className="bag-empty-note">Your bag is empty.</p>
-            <button className="section-see-all" onClick={onClose}>Continue browsing</button>
-          </div>
-        ) : (
-          <React.Fragment>
-            <div className="bag-items">
-              {items.map((it, i) => (
-                <div className="bag-item" key={i}>
-                  <ImageWell className="bag-item-img" tone={it.tone} />
-                  <div>
-                    <div className="bag-item-artist">{AL.edition.artist}</div>
-                    <div className="bag-item-fmt">{it.name} · {it.cw} · {it.size}</div>
-                    <div className="bag-item-no">{it.number} / {String(it.editionSize || AL.edition.size).padStart(3, "0")}</div>
-                    <button className="bag-item-remove" onClick={() => onRemove(i)}>Remove</button>
-                  </div>
-                  <div className="bag-item-price">${it.price}</div>
-                </div>
-              ))}
-            </div>
-            <div className="bag-foot">
-              <div className="bag-subtotal">
-                <span className="bag-subtotal-k">Subtotal</span>
-                <span className="bag-subtotal-v">${subtotal}</span>
-              </div>
-              <p className="bag-split-note">${Math.round(subtotal * 0.25)} to {AL.edition.artist}, your half of the patronage.</p>
-              <button className="btn-primary dark bag-checkout" onClick={onCheckout}>Acquire, checkout</button>
-            </div>
-          </React.Fragment>
-        )}
-      </aside>
-    </React.Fragment>
-  );
-}
-
-Object.assign(window, { AL, Wordmark, ImageWell, Header, Ticker, Footer, BagDrawer });
+Object.assign(window, { AL, alPrice, usePrivateViewSignup, Wordmark, ImageWell, Header, EditionLine, Footer });

@@ -1,6 +1,6 @@
 /* ============================================================
    Atelier Limité, Motion toolkit
-   Scroll reveals · parallax · cursor spotlight · magnetic buttons
+   Scroll reveals · parallax · pointer drift
    Quiet and eased, never bouncy. Respects reduced-motion.
    ============================================================ */
 const { useEffect: useEffectM, useRef: useRefM, useState: useStateM } = React;
@@ -82,48 +82,4 @@ function usePointerDrift(strength = 14) {
   return ref;
 }
 
-/* Magnetic button, pulls toward the cursor, springs back */
-function Magnetic({ children, strength = 0.32, className = "", style = {}, onClick, ...rest }) {
-  const ref = useRefM(null);
-  useEffectM(() => {
-    if (REDUCED) return;
-    const el = ref.current; if (!el) return;
-    const onMove = (e) => {
-      const r = el.getBoundingClientRect();
-      const x = (e.clientX - (r.left + r.width / 2)) * strength;
-      const y = (e.clientY - (r.top + r.height / 2)) * strength;
-      el.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`;
-    };
-    const reset = () => { el.style.transform = "translate(0,0)"; };
-    el.addEventListener("mousemove", onMove);
-    el.addEventListener("mouseleave", reset);
-    return () => { el.removeEventListener("mousemove", onMove); el.removeEventListener("mouseleave", reset); };
-  }, [strength]);
-  return (
-    <span ref={ref} className={"magnetic " + className} style={{ display: "inline-flex", transition: "transform .4s cubic-bezier(.16,1,.3,1)", ...style }} onClick={onClick} {...rest}>
-      {children}
-    </span>
-  );
-}
-
-/* Cursor spotlight, a soft warm glow that follows the pointer. Mount once. */
-function CursorSpotlight() {
-  const ref = useRefM(null);
-  useEffectM(() => {
-    if (REDUCED) return;
-    const el = ref.current; if (!el) return;
-    let raf = 0, tx = window.innerWidth / 2, ty = window.innerHeight / 2, cx = tx, cy = ty;
-    const onMove = (e) => { tx = e.clientX; ty = e.clientY; if (!raf) raf = requestAnimationFrame(loop); };
-    const loop = () => {
-      raf = 0; cx += (tx - cx) * 0.12; cy += (ty - cy) * 0.12;
-      el.style.transform = `translate(${cx}px, ${cy}px)`;
-      if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) raf = requestAnimationFrame(loop);
-    };
-    window.addEventListener("mousemove", onMove, { passive: true });
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-  if (REDUCED) return null;
-  return <div ref={ref} className="cursor-spotlight" aria-hidden="true"></div>;
-}
-
-Object.assign(window, { Reveal, useParallax, usePointerDrift, Magnetic, CursorSpotlight, REDUCED });
+Object.assign(window, { Reveal, useParallax, usePointerDrift, REDUCED });
