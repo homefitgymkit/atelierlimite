@@ -4,14 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Running the project
 
-The `.jsx` sources are **prebuilt** to `app.js` — there is no Babel in the browser and React loads as the production UMD build from CDN.
+A **Vite app with SSG prerendering**. `npm run dev` for local dev. `npm run build` runs the client build, an SSR build, and `scripts/prerender.mjs`, which renders every route in `PRERENDER_PATHS` (src/routes.js) into `docs/<path>/index.html` with per-route title/description/canonical, plus `sitemap.xml`, `robots.txt`, and a `404.html` SPA fallback.
 
-```
-npm install        # once
-npm run build      # compiles all .jsx (in load order) → app.js
-```
-
-**After editing any `.jsx` file you must run `npm run build` and commit the regenerated `app.js`.** To test locally, serve the folder (`python3 -m http.server`) or open `index.html` directly — there are no module imports, so `file://` works.
+**GitHub Pages serves the committed `docs/` folder on `main`. After editing anything in `src/` or `public/`, run `npm run build` and commit `docs/`.**
 
 ## Pre-launch honesty rules (do not break these)
 
@@ -29,7 +24,7 @@ All private-view forms (home section, private view page, product pages) submit t
 
 ## Architecture
 
-A **single-page React app with a build step but no bundler**. The build script in `package.json` concatenates the `.jsx` files in load order; each file exposes its exports on `window`, so order matters and there are no ES module imports.
+Standard ES modules under `src/`, bundled by Vite. `src/main.jsx` mounts in the browser (hydrates prerendered HTML; falls back to client render after a legacy `#/` redirect); `src/entry-server.jsx` renders per-route for the prerender step. Components must stay SSR-safe: touch `window`/`localStorage` only inside effects or behind guards.
 
 **Routing** is hash-based (`parseHash`/`hashFor`/`titleFor` in `app.jsx`): `#/`, `#/piece/:id`, `#/collection`, `#/artists`, `#/journal`, `#/journal/:slug`, `#/editions`, `#/about`, `#/work`, `#/private`, `#/archive`. `go(route, arg)` writes `location.hash`; the `hashchange` listener updates state and every route sets `document.title`. The only other top-level state is `joined` (private-view membership, persisted to `localStorage` as `al_private_view`).
 
@@ -41,7 +36,9 @@ A **single-page React app with a build step but no bundler**. The build script i
 - `artwork.jsx` — `ART` photo registry (`assets/art-*.jpg`, seven supplied studies) + framed-art/tee/hoodie mockup components; mockups print the real artwork via SVG `<image>`
 - `home.jsx` / `home-sections.jsx` — home screen and its sections
 - `product.jsx` — piece detail with register-interest form
-- `app.jsx` — mounts the React root; defines `go()` and routing
+- `app.jsx` — App root + route switch; `routes.js` — path/title/description helpers + `PRERENDER_PATHS`
+- `signature.jsx` — `SignatureScroll` (the one scroll-driven artwork→garment moment; reduced-motion gets a static fallback) + `JournalForward` (journal on home)
+- NOTE: `position: sticky` is load-bearing in SignatureScroll — `.app-root` uses `overflow-x: clip`, never `hidden`
 
 ## Design tokens
 
@@ -53,7 +50,7 @@ Defined as CSS custom properties in `styles.css`:
 
 ## Stylesheet
 
-One consolidated `styles.css`, in cascade order: @font-face (self-hosted latin woff2 in `assets/fonts/`) → tokens/base → pages → site → home → updates → Phase 2 additions (full-bleed hero, garment beat, roster/archive, PDP gallery, mobile pass). Append new rules at the end so they win the cascade. Fonts are self-hosted — do not reintroduce the Google Fonts CDN @import.
+One consolidated `public/styles.css`, in cascade order: @font-face (self-hosted latin woff2 in `assets/fonts/`) → tokens/base → pages → site → home → updates → Phase 2 additions (full-bleed hero, garment beat, roster/archive, PDP gallery, mobile pass). Append new rules at the end so they win the cascade. Fonts are self-hosted — do not reintroduce the Google Fonts CDN @import.
 
 ## Content vs. data
 
@@ -70,3 +67,7 @@ Artwork imagery is real photography (`assets/art-*.jpg`), registered in `ART` (a
 ## Head / social
 
 `index.html` owns the title, meta description, OG/Twitter tags (`og.png`, 1200×630), `favicon.svg`, and `apple-touch-icon.png`. The OG/canonical URLs point at `https://www.atelierlimite.com/`.
+
+## Email (Brevo)
+
+Transactional template **id 5, "Private view · Welcome"** exists in the Brevo account (sender id 1, atelierlimite.studio@gmail.com). It is the welcome email for private view signups; attach it to a list-3 automation in the Brevo UI (automations are not exposed via API).

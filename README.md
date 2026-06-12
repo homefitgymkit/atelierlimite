@@ -11,20 +11,21 @@ The pre-launch storefront for **atelierlimite.com**. Studio dark palette, Cormor
 
 ## Build
 
-The `.jsx` sources are prebuilt to `app.js` — there is **no Babel in the browser** and React loads as the production UMD build.
+A Vite build with **prerendered routes**: every page ships as real static HTML (own title, description, canonical) and hydrates into the React app. React is bundled (no CDN), fonts and artwork are self-hosted.
 
 ```
 npm install        # once
-npm run build      # compiles all .jsx (in load order) → app.js
+npm run dev        # local dev server
+npm run build      # vite build + SSR render of all 20 routes → docs/
 ```
 
-Commit `app.js` after building; GitHub Pages serves the static result. To preview locally: `python3 -m http.server` and open `http://localhost:8000`.
+GitHub Pages serves the **`docs/` folder on `main`** — commit `docs/` after building. `npm run build` also regenerates `sitemap.xml`, `robots.txt`, and the `404.html` SPA fallback.
 
-**If you edit any `.jsx` file you must run `npm run build` again.**
+**If you edit anything in `src/` or `public/` you must run `npm run build` and commit the regenerated `docs/`.**
 
 ## Setting the opening date
 
-When the Edition 01 date is confirmed, set `AL_OPENS` at the top of `ui.jsx` (e.g. `"Opens Thursday 14 March, 7pm AEDT"`), rebuild, commit.
+When the Edition 01 date is confirmed, set `AL_OPENS` at the top of `src/ui.jsx` (e.g. `"Opens Thursday 14 March, 7pm AEDT"`), rebuild, commit.
 
 ## Screens
 
@@ -42,25 +43,26 @@ When the Edition 01 date is confirmed, set `AL_OPENS` at the top of `ui.jsx` (e.
 
 ## Architecture
 
-Hash routing in `app.jsx` (`#/piece/tee` etc., shareable URLs, per-route document titles), no router library. Each source file exposes its exports on `window`; `package.json`'s build script concatenates them in load order. Shared data (`AL`), the Brevo signup hook (`usePrivateViewSignup`), and chrome live in `ui.jsx`.
+Path routing in `src/routes.js` (`/piece/tee/`, `/journal/:slug/`, ...): every route is prerendered to its own `index.html`, header/footer links are real `<a href>` elements, old `#/...` links redirect. No router library. Source files are ES modules under `src/`, bundled by Vite. Shared data (`AL`), the Brevo signup hook (`usePrivateViewSignup`), and chrome live in `src/ui.jsx`.
 
 ```
 atelierlimite/
-├── index.html        ← head (title/meta/OG/favicon) + production React + app.js
-├── app.js            ← built output (commit after `npm run build`)
-├── ui.jsx            ← AL data · Brevo signup hook · Header · EditionLine · Footer
-├── content.jsx       ← FAQ, about + work-with-us copy
-├── journal-data.jsx  ← journal articles
-├── motion.jsx        ← Reveal · parallax · pointer drift (reduced-motion aware)
-├── artwork.jsx       ← ART photo registry + framed-art/tee/hoodie mockups
-├── home.jsx / home-sections.jsx / product.jsx / collection.jsx
-├── artists.jsx / about.jsx / pages.jsx / article.jsx / journal.jsx
-├── app.jsx           ← top-level state + routing
-├── styles.css        ← single consolidated stylesheet (tokens, self-hosted fonts, all sections)
-├── assets/art-*.jpg  ← the seven studio studies (supplied 11 June 2026)
-├── assets/fonts/     ← self-hosted Cormorant Garamond · Jost · DM Sans (latin woff2)
-├── og.png · favicon.svg · apple-touch-icon.png
-└── CNAME             ← www.atelierlimite.com
+├── index.html             ← Vite entry: head + <!--app-html--> placeholder
+├── vite.config.mjs        ← outputs to docs/
+├── scripts/prerender.mjs  ← SSR-renders all routes + sitemap + 404
+├── src/
+│   ├── main.jsx           ← browser mount (hydrate) + legacy #/ redirect
+│   ├── entry-server.jsx   ← SSR entry for prerendering
+│   ├── routes.js          ← parsePath/pathFor/titleFor/descFor + route list
+│   ├── app.jsx            ← App root + route switch
+│   ├── ui.jsx             ← AL data · Brevo signup hook · Header · Footer
+│   ├── signature.jsx      ← SignatureScroll (artwork→garment) + JournalForward
+│   ├── artwork.jsx        ← ART photo registry + garment mockups
+│   └── …content, journal-data, motion, home, product, pages, etc.
+├── public/                ← copied verbatim into docs/
+│   ├── styles.css · og.png · favicon.svg · apple-touch-icon.png · CNAME
+│   └── assets/art-*.jpg · assets/fonts/*.woff2
+└── docs/                  ← BUILT OUTPUT, committed; GitHub Pages serves this
 ```
 
 ## Honesty rules (keep these)
