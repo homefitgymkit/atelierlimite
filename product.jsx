@@ -6,19 +6,33 @@
 
 function Product({ go, productId, joined, onJoin }) {
   const product = AL.products.find((p) => p.id === productId) || AL.products[0];
+  const artId = PRODUCT_ART[product.id] || "figure";
+  const art = ART[artId];
+  const Mock = product.id === "hoodie" ? HoodieMockup : TeeMockup;
   const [shot, setShot] = useState(0);
-  const shots = [product.tone, "#26241F", "#1C1C19"];
   const f = usePrivateViewSignup(onJoin);
 
   return (
     <main className="pdp">
       <div className="pdp-top">
         <div className="pdp-gallery">
-          <ImageWell className="pdp-gallery-main" tone={shots[shot]} mark={`Edition ${AL.edition.no} · ${product.name}`} />
+          {shot === 0 && (
+            <div className="pdp-gallery-main pdp-stage"><Mock id={artId} color="#E8E1D3" /></div>
+          )}
+          {shot === 1 && (
+            <div className="pdp-gallery-main pdp-art"><img src={art.src} alt={`${art.title} · studio study`} /></div>
+          )}
+          {shot === 2 && (
+            <ImageWell className="pdp-gallery-main" tone={product.tone} mark={`Edition ${AL.edition.no} · ${product.name} · detail to come`} />
+          )}
           <div className="pdp-thumbs">
-            {shots.map((t, i) => (
-              <button className="pdp-thumb hatch" key={i} data-active={shot === i} style={{ background: t }} onClick={() => setShot(i)}></button>
-            ))}
+            <button className="pdp-thumb pdp-thumb-stage" data-active={shot === 0} onClick={() => setShot(0)} aria-label="The garment">
+              <Mock id={artId} color="#E8E1D3" />
+            </button>
+            <button className="pdp-thumb" data-active={shot === 1} onClick={() => setShot(1)} aria-label="The artwork"
+              style={{ backgroundImage: `url(${art.src})`, backgroundSize: "cover", backgroundPosition: "center" }}></button>
+            <button className="pdp-thumb hatch" data-active={shot === 2} onClick={() => setShot(2)} aria-label="Detail, photography to come"
+              style={{ background: product.tone }}></button>
           </div>
         </div>
 

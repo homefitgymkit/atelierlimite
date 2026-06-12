@@ -6,14 +6,9 @@
    Pre-launch: no released works yet, so every frame is a study.
    ============================================================ */
 
-const COLLECTION_WORKS = [
-  { id: "figure", title: "Untitled I",       medium: "Spray & stencil" },
-  { id: "strata", title: "Strata II",        medium: "Pigment & wax" },
-  { id: "coast",  title: "Coastline",        medium: "Sumi-e & digital" },
-  { id: "grid",   title: "Lot 04",           medium: "Collage & ink" },
-  { id: "bloom",  title: "Bloom (Nocturne)", medium: "Ink on cotton" },
-  { id: "arc",    title: "Meridian",         medium: "Screenprint" },
-];
+/* All seven supplied studies, titles + notes come from the ART registry */
+const COLLECTION_WORKS = ["figure", "strata", "coast", "grid", "bloom", "arc", "field"]
+  .map((id) => ({ id, title: ART[id].title, note: ART[id].note }));
 
 function CollectionWork({ work, index, go }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +25,7 @@ function CollectionWork({ work, index, go }) {
         <div className="cg-plate">
           <div>
             <div className="cg-plate-title">{work.title}</div>
-            <div className="cg-plate-sub">Studio study · {work.medium}</div>
+            <div className="cg-plate-sub">Studio study · {work.note}</div>
           </div>
           <span className="cg-chevron" aria-hidden="true">{open ? "–" : "+"}</span>
         </div>

@@ -42,7 +42,7 @@ When the Edition 01 date is confirmed, set `AL_OPENS` at the top of `ui.jsx` (e.
 
 ## Architecture
 
-Plain `useState` routing in `app.jsx` (`route` string, `go(route, arg)`), no router. Each source file exposes its exports on `window`; `package.json`'s build script concatenates them in load order. Shared data (`AL`), the Brevo signup hook (`usePrivateViewSignup`), and chrome live in `ui.jsx`.
+Hash routing in `app.jsx` (`#/piece/tee` etc., shareable URLs, per-route document titles), no router library. Each source file exposes its exports on `window`; `package.json`'s build script concatenates them in load order. Shared data (`AL`), the Brevo signup hook (`usePrivateViewSignup`), and chrome live in `ui.jsx`.
 
 ```
 atelierlimite/
@@ -52,11 +52,13 @@ atelierlimite/
 ├── content.jsx       ← FAQ, about + work-with-us copy
 ├── journal-data.jsx  ← journal articles
 ├── motion.jsx        ← Reveal · parallax · pointer drift (reduced-motion aware)
-├── artwork.jsx       ← SVG studio studies + framed-art/tee/hoodie mockups
+├── artwork.jsx       ← ART photo registry + framed-art/tee/hoodie mockups
 ├── home.jsx / home-sections.jsx / product.jsx / collection.jsx
 ├── artists.jsx / about.jsx / pages.jsx / article.jsx / journal.jsx
 ├── app.jsx           ← top-level state + routing
-├── styles*.css       ← tokens + per-area styles (styles-updates.css loads last)
+├── styles.css        ← single consolidated stylesheet (tokens, self-hosted fonts, all sections)
+├── assets/art-*.jpg  ← the seven studio studies (supplied 11 June 2026)
+├── assets/fonts/     ← self-hosted Cormorant Garamond · Jost · DM Sans (latin woff2)
 ├── og.png · favicon.svg · apple-touch-icon.png
 └── CNAME             ← www.atelierlimite.com
 ```
@@ -67,4 +69,4 @@ atelierlimite/
 - Editions are never "sold out", they are **edition closed**. Nothing is "bought", it is **acquired**. The list is the **private view list**, not a newsletter.
 - Prices always state the currency: `$95 AUD`.
 - No em dashes in collector-facing copy. No urgency mechanics.
-- All imagery is a placeholder (`ImageWell` hatched wells / SVG studies) until real photography exists.
+- Artwork imagery is the supplied studio-study photography (`assets/art-*.jpg`), always labelled as studies. Garment-on-body, print-process, and unboxing photography is still to be shot; mockups and hatched wells hold those slots.

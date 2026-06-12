@@ -3,7 +3,7 @@
    Reads AL_JOURNAL (journal-data.jsx).
    ============================================================ */
 
-const JOURNAL_ART = ["strata", "figure", "arc", "grid", "coast", "bloom", "figure", "arc", "grid"];
+const JOURNAL_ART = ["strata", "figure", "arc", "grid", "coast", "bloom", "field", "arc", "grid"];
 
 function JournalIndex({ go }) {
   const feature = AL_JOURNAL[0];
@@ -86,7 +86,7 @@ function JournalArticle({ go, slug }) {
       <div className="article-body">
         <div className="article-figure">
           <FramedArt id={artId} className="on-dark" />
-          <p className="article-figure-cap">A studio study, {ART[artId].title}, {ART[artId].medium.toLowerCase()}.</p>
+          <p className="article-figure-cap">{ART[artId].title} · Studio study, artwork in preparation.</p>
         </div>
       </div>
 

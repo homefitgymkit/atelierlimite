@@ -31,14 +31,14 @@ All private-view forms (home section, private view page, product pages) submit t
 
 A **single-page React app with a build step but no bundler**. The build script in `package.json` concatenates the `.jsx` files in load order; each file exposes its exports on `window`, so order matters and there are no ES module imports.
 
-**Routing** is a `route` string in `app.jsx`'s top-level `useState`. Navigation calls `go(routeName, arg)` — no router library. The only other top-level state is `joined` (private-view membership, persisted to `localStorage` as `al_private_view`).
+**Routing** is hash-based (`parseHash`/`hashFor`/`titleFor` in `app.jsx`): `#/`, `#/piece/:id`, `#/collection`, `#/artists`, `#/journal`, `#/journal/:slug`, `#/editions`, `#/about`, `#/work`, `#/private`, `#/archive`. `go(route, arg)` writes `location.hash`; the `hashchange` listener updates state and every route sets `document.title`. The only other top-level state is `joined` (private-view membership, persisted to `localStorage` as `al_private_view`).
 
 **File responsibilities:**
 - `ui.jsx` — `AL` (all brand/edition data), `AL_OPENS`, `AL_BREVO_ACTION`, `alPrice`, `usePrivateViewSignup`, `Header`, `EditionLine` (static strip, replaced the marquee ticker), `Footer`, `ImageWell`, `Wordmark`
 - `content.jsx` — `AL_FAQ`, `AL_ABOUT`, `AL_WORK` (all static copy)
 - `journal-data.jsx` — `AL_JOURNAL` (evergreen model-explainer articles)
 - `motion.jsx` — `Reveal`, `useParallax`, `usePointerDrift` (reduced-motion aware; the cursor spotlight and magnetic buttons were removed deliberately — do not reintroduce)
-- `artwork.jsx` — SVG studio studies + framed-art/tee/hoodie mockup components
+- `artwork.jsx` — `ART` photo registry (`assets/art-*.jpg`, seven supplied studies) + framed-art/tee/hoodie mockup components; mockups print the real artwork via SVG `<image>`
 - `home.jsx` / `home-sections.jsx` — home screen and its sections
 - `product.jsx` — piece detail with register-interest form
 - `app.jsx` — mounts the React root; defines `go()` and routing
@@ -51,13 +51,9 @@ Defined as CSS custom properties in `styles.css`:
 - Dark hatched placeholders for images: `.hatch` class with `ImageWell` component
 - **Legibility floors:** minimum label font size is 10px; body text on dark surfaces uses at least `rgba(246,243,237,0.55)`. Don't go below either.
 
-## Stylesheets
+## Stylesheet
 
-- `styles.css` — tokens, chrome, hero, home grid, footer, edition line
-- `styles-pages.css` — product detail, journal article
-- `styles-site.css` — about/FAQ, work-with-us, private view
-- `styles-home.css` — home gallery hero + wall-to-wardrobe
-- `styles-updates.css` — loads last: header refresh, PDP register-interest styles, mobile pass, readability pass
+One consolidated `styles.css`, in cascade order: @font-face (self-hosted latin woff2 in `assets/fonts/`) → tokens/base → pages → site → home → updates → Phase 2 additions (full-bleed hero, garment beat, roster/archive, PDP gallery, mobile pass). Append new rules at the end so they win the cascade. Fonts are self-hosted — do not reintroduce the Google Fonts CDN @import.
 
 ## Content vs. data
 
@@ -69,7 +65,7 @@ When updating copy or brand data, edit those source files — not the screen com
 
 ## Imagery
 
-All images are placeholder `.hatch` wells or SVG studies. To replace with real photography, swap an `ImageWell` for an `<img>` or add `background-image` to the `.hatch` element.
+Artwork imagery is real photography (`assets/art-*.jpg`), registered in `ART` (artwork.jsx) and always presented as studio studies. The home hero is one full-bleed artwork with a single CTA — do not reintroduce the floating frame cluster. Garment-on-body, print-process, and unboxing photography is still to be shot; the SVG garment mockups and `.hatch` wells hold those slots until then.
 
 ## Head / social
 

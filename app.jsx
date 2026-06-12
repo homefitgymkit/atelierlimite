@@ -1,16 +1,72 @@
 /* ============================================================
    Atelier Limité, Storefront UI Kit · App root
-   Routes: home · product · article · collection · journal ·
-           artists · archive · about · work · private
+   Hash routing — every page is shareable:
+     #/  #/piece/tee  #/collection  #/artists  #/journal
+     #/journal/:slug  #/editions  #/about  #/work  #/private
+     #/archive
    ============================================================ */
 
+function parseHash() {
+  const parts = (location.hash || "#/").replace(/^#\/?/, "").split("/").filter(Boolean);
+  if (!parts.length) return { route: "home", arg: null };
+  switch (parts[0]) {
+    case "piece":      return { route: "product", arg: parts[1] || "tee" };
+    case "journal":    return parts[1] ? { route: "journal-article", arg: decodeURIComponent(parts[1]) } : { route: "journal", arg: null };
+    case "editions":   return { route: "article", arg: null };
+    case "collection": case "artists": case "archive":
+    case "about": case "work": case "private":
+      return { route: parts[0], arg: null };
+    default:           return { route: "home", arg: null };
+  }
+}
+
+function hashFor(route, arg) {
+  switch (route) {
+    case "home":            return "#/";
+    case "product":         return "#/piece/" + (arg || "tee");
+    case "journal-article": return "#/journal/" + encodeURIComponent(arg || AL_JOURNAL[0].slug);
+    case "article":         return "#/editions";
+    default:                return "#/" + route;
+  }
+}
+
+function titleFor(loc) {
+  const base = "Atelier Limité";
+  switch (loc.route) {
+    case "home":    return base + " · Numbered artist editions · Sydney";
+    case "product": {
+      const p = AL.products.find((x) => x.id === loc.arg) || AL.products[0];
+      return `${p.name} · Edition ${AL.edition.no} · ${base}`;
+    }
+    case "journal-article": {
+      const a = AL_JOURNAL.find((x) => x.slug === loc.arg) || AL_JOURNAL[0];
+      return `${a.title} · ${base}`;
+    }
+    case "article":    return "What are Artist Editions? · " + base;
+    case "journal":    return "Journal · " + base;
+    case "collection": return "The collection · " + base;
+    case "artists":    return "Artists · " + base;
+    case "archive":    return "The archive · " + base;
+    case "about":      return "About · " + base;
+    case "work":       return "Work with us · " + base;
+    case "private":    return "Private view list · " + base;
+    default:           return base;
+  }
+}
+
 function App() {
-  const [route, setRoute] = useState("home");
-  const [productId, setProductId] = useState("tee");
-  const [articleSlug, setArticleSlug] = useState(AL_JOURNAL[0].slug);
+  const [loc, setLoc] = useState(parseHash);
   const [joined, setJoined] = useState(() => {
     try { return localStorage.getItem("al_private_view") === "1"; } catch (e) { return false; }
   });
+
+  useEffect(() => {
+    const onHash = () => { setLoc(parseHash()); window.scrollTo({ top: 0, behavior: "auto" }); };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
+  useEffect(() => { document.title = titleFor(loc); }, [loc]);
 
   function onJoin() {
     setJoined(true);
@@ -18,11 +74,14 @@ function App() {
   }
 
   function go(r, arg) {
-    if (r === "product" && arg) setProductId(arg);
-    if (r === "journal-article") setArticleSlug(arg || AL_JOURNAL[0].slug);
-    setRoute(r);
-    window.scrollTo({ top: 0, behavior: "auto" });
+    const h = hashFor(r, arg);
+    if (location.hash === h) { window.scrollTo({ top: 0, behavior: "auto" }); return; }
+    location.hash = h; /* hashchange listener updates state */
   }
+
+  const route = loc.route;
+  const productId = route === "product" ? (loc.arg || "tee") : "tee";
+  const articleSlug = route === "journal-article" ? (loc.arg || AL_JOURNAL[0].slug) : AL_JOURNAL[0].slug;
 
   return (
     <div className="app-root grain">

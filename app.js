@@ -477,297 +477,67 @@ Object.assign(window, {
   usePointerDrift,
   REDUCED
 });
-const {
-  useState: useStateArt
-} = React;
-const ART_PALETTE = {
-  ink: "#171612",
-  cream: "#F4EFE6",
-  bone: "#E8E1D3",
-  terracotta: "#B0573B",
-  ochre: "#C39A4E",
-  sage: "#76836A",
-  slate: "#56697A",
-  bronze: "#B5A28E",
-  plum: "#6E4A52",
-  clay: "#C77E5E"
-};
 const ART = {
   figure: {
-    title: "Untitled I",
-    medium: "Spray & stencil",
-    bg: "#E7DFD0",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#E7DFD0"
-    }), React.createElement("rect", {
-      x: "8",
-      y: "8",
-      width: "84",
-      height: "104",
-      fill: "none",
-      stroke: "#171612",
-      strokeWidth: "0.4",
-      opacity: "0.25"
-    }), React.createElement("path", {
-      d: "M50 18 C58 18 62 26 60 34 C72 40 70 64 62 70 L66 104 L56 104 L52 78 L48 78 L44 104 L34 104 L38 70 C30 62 30 40 42 34 C39 26 42 18 50 18 Z",
-      fill: "#171612"
-    }), React.createElement("circle", {
-      cx: "50",
-      cy: "44",
-      r: "11",
-      fill: "#B0573B"
-    }), React.createElement("path", {
-      d: "M30 96 L70 96",
-      stroke: "#C39A4E",
-      strokeWidth: "1.4"
-    }), React.createElement("rect", {
-      x: "44",
-      y: "33",
-      width: "12",
-      height: "3",
-      fill: "#E7DFD0",
-      opacity: "0.9"
-    }))
+    title: "Study 01",
+    note: "Artwork in preparation",
+    src: "assets/art-01.jpg",
+    bg: "#DDD5C4"
   },
   strata: {
-    title: "Strata II",
-    medium: "Pigment & wax",
-    bg: "#EFE7D8",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#EFE7D8"
-    }), React.createElement("rect", {
-      y: "14",
-      width: "100",
-      height: "22",
-      fill: "#56697A"
-    }), React.createElement("rect", {
-      y: "36",
-      width: "100",
-      height: "14",
-      fill: "#C39A4E"
-    }), React.createElement("rect", {
-      y: "50",
-      width: "100",
-      height: "30",
-      fill: "#B0573B"
-    }), React.createElement("rect", {
-      y: "80",
-      width: "100",
-      height: "10",
-      fill: "#171612"
-    }), React.createElement("rect", {
-      y: "90",
-      width: "100",
-      height: "16",
-      fill: "#76836A"
-    }), React.createElement("rect", {
-      x: "0",
-      y: "0",
-      width: "100",
-      height: "120",
-      fill: "url(#grain-strata)",
-      opacity: "0.18"
-    }))
-  },
-  arc: {
-    title: "Meridian",
-    medium: "Screenprint",
-    bg: "#1C1B17",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#1C1B17"
-    }), React.createElement("circle", {
-      cx: "50",
-      cy: "58",
-      r: "34",
-      fill: "none",
-      stroke: "#C39A4E",
-      strokeWidth: "1.4"
-    }), React.createElement("path", {
-      d: "M16 58 A34 34 0 0 1 84 58",
-      fill: "none",
-      stroke: "#B0573B",
-      strokeWidth: "3"
-    }), React.createElement("circle", {
-      cx: "50",
-      cy: "58",
-      r: "13",
-      fill: "#F4EFE6"
-    }), React.createElement("circle", {
-      cx: "50",
-      cy: "58",
-      r: "13",
-      fill: "none",
-      stroke: "#B5A28E",
-      strokeWidth: "0.5"
-    }), React.createElement("line", {
-      x1: "50",
-      y1: "10",
-      x2: "50",
-      y2: "106",
-      stroke: "#B5A28E",
-      strokeWidth: "0.4",
-      opacity: "0.5"
-    }))
-  },
-  grid: {
-    title: "Lot 04",
-    medium: "Collage & ink",
-    bg: "#EDE6D6",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#EDE6D6"
-    }), React.createElement("rect", {
-      x: "12",
-      y: "16",
-      width: "34",
-      height: "44",
-      fill: "#56697A"
-    }), React.createElement("rect", {
-      x: "50",
-      y: "16",
-      width: "38",
-      height: "22",
-      fill: "#C39A4E"
-    }), React.createElement("rect", {
-      x: "50",
-      y: "42",
-      width: "38",
-      height: "18",
-      fill: "#171612"
-    }), React.createElement("rect", {
-      x: "12",
-      y: "64",
-      width: "20",
-      height: "40",
-      fill: "#B0573B"
-    }), React.createElement("rect", {
-      x: "36",
-      y: "64",
-      width: "52",
-      height: "40",
-      fill: "none",
-      stroke: "#171612",
-      strokeWidth: "0.8"
-    }), React.createElement("circle", {
-      cx: "62",
-      cy: "84",
-      r: "9",
-      fill: "#76836A"
-    }))
-  },
-  bloom: {
-    title: "Bloom (Nocturne)",
-    medium: "Ink on cotton",
-    bg: "#17181A",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#17181A"
-    }), React.createElement("path", {
-      d: "M50 30 C66 34 74 50 68 64 C80 70 78 92 62 92 C58 104 42 104 38 92 C22 92 20 70 32 64 C26 50 34 34 50 30 Z",
-      fill: "#6E4A52"
-    }), React.createElement("path", {
-      d: "M50 44 C60 46 64 58 58 68 C52 76 44 74 42 66 C38 56 42 46 50 44 Z",
-      fill: "#C77E5E"
-    }), React.createElement("circle", {
-      cx: "50",
-      cy: "60",
-      r: "5",
-      fill: "#F4EFE6"
-    }))
+    title: "Study 02",
+    note: "Artwork in preparation",
+    src: "assets/art-02.jpg",
+    bg: "#171614"
   },
   coast: {
-    title: "Coastline",
-    medium: "Sumi-e & digital",
-    bg: "#F1EADB",
-    render: p => React.createElement("g", null, React.createElement("rect", {
-      width: "100",
-      height: "120",
-      fill: "#F1EADB"
-    }), React.createElement("path", {
-      d: "M8 40 Q34 28 52 44 T92 44",
-      fill: "none",
-      stroke: "#171612",
-      strokeWidth: "4",
-      strokeLinecap: "round"
-    }), React.createElement("path", {
-      d: "M10 64 Q36 54 56 66 T90 62",
-      fill: "none",
-      stroke: "#56697A",
-      strokeWidth: "2.4",
-      strokeLinecap: "round"
-    }), React.createElement("circle", {
-      cx: "72",
-      cy: "30",
-      r: "8",
-      fill: "#B0573B"
-    }), React.createElement("path", {
-      d: "M14 88 Q40 80 60 90 T88 86",
-      fill: "none",
-      stroke: "#171612",
-      strokeWidth: "1.2",
-      opacity: "0.5"
-    }))
+    title: "Study 03",
+    note: "Artwork in preparation",
+    src: "assets/art-03.jpg",
+    bg: "#E8E2D4"
+  },
+  grid: {
+    title: "Study 04",
+    note: "Artwork in preparation",
+    src: "assets/art-04.jpg",
+    bg: "#1A1916"
+  },
+  bloom: {
+    title: "Study 05",
+    note: "Artwork in preparation",
+    src: "assets/art-05.jpg",
+    bg: "#D6CBB4"
+  },
+  arc: {
+    title: "Study 06",
+    note: "Artwork in preparation",
+    src: "assets/art-06.jpg",
+    bg: "#E5DECE"
+  },
+  field: {
+    title: "Study 07",
+    note: "Artwork in preparation",
+    src: "assets/art-07.jpg",
+    bg: "#DFD8C6"
   }
 };
-const ART_DEFS = React.createElement("defs", null, React.createElement("filter", {
-  id: "art-soft"
-}, React.createElement("feGaussianBlur", {
-  stdDeviation: "0.3"
-})), React.createElement("pattern", {
-  id: "grain-strata",
-  width: "4",
-  height: "4",
-  patternUnits: "userSpaceOnUse"
-}, React.createElement("rect", {
-  width: "4",
-  height: "4",
-  fill: "none"
-}), React.createElement("circle", {
-  cx: "1",
-  cy: "1",
-  r: "0.3",
-  fill: "#171612"
-})));
 function ArtComposition({
   id,
   style
 }) {
   const art = ART[id] || ART.figure;
-  return React.createElement("svg", {
-    viewBox: "0 0 100 120",
-    preserveAspectRatio: "xMidYMid slice",
+  return React.createElement("img", {
+    src: art.src,
+    alt: art.title + " · studio study",
+    loading: "lazy",
     style: {
       width: "100%",
       height: "100%",
+      objectFit: "cover",
       display: "block",
       ...style
     }
-  }, ART_DEFS, art.render(ART_PALETTE));
-}
-function ArtNode({
-  id,
-  x,
-  y,
-  width,
-  height
-}) {
-  const art = ART[id] || ART.figure;
-  return React.createElement("svg", {
-    x: x,
-    y: y,
-    width: width,
-    height: height,
-    viewBox: "0 0 100 120",
-    preserveAspectRatio: "xMidYMid slice"
-  }, ART_DEFS, art.render(ART_PALETTE));
+  });
 }
 function FramedArt({
   id,
@@ -795,7 +565,7 @@ function FramedArt({
     className: "fa-title"
   }, art.title), React.createElement("span", {
     className: "fa-medium"
-  }, art.medium)));
+  }, art.note)));
 }
 function hexLuminance(hex) {
   const h = (hex || "#000").replace("#", "");
@@ -812,9 +582,14 @@ function TeeMockup({
   style = {},
   printScale = 1
 }) {
+  const art = ART[id] || ART.figure;
   const isDark = hexLuminance(color) < 0.5;
   const seam = isDark ? "rgba(255,255,255,0.06)" : "rgba(0,0,0,0.08)";
   const shade = isDark ? "rgba(0,0,0,0.35)" : "rgba(0,0,0,0.06)";
+  const pw = 104 * printScale,
+    ph = 125 * printScale,
+    px = 150 - pw / 2,
+    py = 108;
   return React.createElement("div", {
     className: "tee-mockup " + className,
     style: style
@@ -829,10 +604,10 @@ function TeeMockup({
   }, React.createElement("defs", null, React.createElement("clipPath", {
     id: "tee-print-" + id
   }, React.createElement("rect", {
-    x: 150 - 52 * printScale,
-    y: 108,
-    width: 104 * printScale,
-    height: 125 * printScale,
+    x: px,
+    y: py,
+    width: pw,
+    height: ph,
     rx: "2"
   })), React.createElement("linearGradient", {
     id: "tee-fold-" + id,
@@ -873,17 +648,25 @@ function TeeMockup({
     fill: `url(#tee-fold-${id})`
   }), React.createElement("g", {
     clipPath: `url(#tee-print-${id})`
-  }, React.createElement(ArtNode, {
-    id: id,
-    x: 150 - 52 * printScale,
-    y: 108,
-    width: 104 * printScale,
-    height: 125 * printScale
+  }, React.createElement("image", {
+    href: art.src,
+    x: px,
+    y: py,
+    width: pw,
+    height: ph,
+    preserveAspectRatio: "xMidYMid slice"
+  }), React.createElement("rect", {
+    x: px,
+    y: py,
+    width: pw,
+    height: ph,
+    fill: `url(#tee-fold-${id})`,
+    opacity: "0.6"
   })), React.createElement("rect", {
-    x: 150 - 52 * printScale,
-    y: 108,
-    width: 104 * printScale,
-    height: 125 * printScale,
+    x: px,
+    y: py,
+    width: pw,
+    height: ph,
     rx: "2",
     fill: "none",
     stroke: isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.05)",
@@ -897,6 +680,7 @@ function HoodieMockup({
   style = {},
   printScale = 1
 }) {
+  const art = ART[id] || ART.figure;
   const isDark = hexLuminance(color) < 0.5;
   const seam = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.09)";
   const shade = isDark ? "rgba(0,0,0,0.4)" : "rgba(0,0,0,0.08)";
@@ -981,12 +765,20 @@ function HoodieMockup({
     fill: `url(#hood-fold-${id})`
   }), React.createElement("g", {
     clipPath: `url(#hood-print-${id})`
-  }, React.createElement(ArtNode, {
-    id: id,
+  }, React.createElement("image", {
+    href: art.src,
     x: px,
     y: py,
     width: pw,
-    height: ph
+    height: ph,
+    preserveAspectRatio: "xMidYMid slice"
+  }), React.createElement("rect", {
+    x: px,
+    y: py,
+    width: pw,
+    height: ph,
+    fill: `url(#hood-fold-${id})`,
+    opacity: "0.6"
   })), React.createElement("rect", {
     x: px,
     y: py,
@@ -1504,49 +1296,24 @@ Object.assign(window, {
   PrivateView,
   PRODUCT_ART
 });
-const HERO_FRAMES = [{
-  slot: "fs1",
-  id: "strata",
-  plate: true
-}, {
-  slot: "fs2",
-  id: "coast",
-  plate: true
-}, {
-  slot: "fs3",
-  id: "grid",
-  plate: true
-}, {
-  slot: "fs4",
-  id: "figure",
-  plate: false
-}];
-const ALL_ARTWORKS = ["strata", "coast", "grid", "figure"];
 function Hero({
   go
 }) {
   const e = AL.edition;
-  const d1 = usePointerDrift(20),
-    d2 = usePointerDrift(15),
-    d3 = usePointerDrift(17),
-    d4 = usePointerDrift(12);
-  const driftRefs = [d1, d2, d3, d4];
-  const teeRef = usePointerDrift(8);
-  const [selectedArt, setSelectedArt] = useState("figure");
-  const [teeFading, setTeeFading] = useState(false);
-  function pickArt(id) {
-    if (id === selectedArt) return;
-    setTeeFading(true);
-    setTimeout(() => {
-      setSelectedArt(id);
-      setTeeFading(false);
-    }, 180);
-  }
+  const art = ART.figure;
   return React.createElement("section", {
-    className: "hero-gallery",
-    "data-drift-host": true
+    className: "hero-bleed"
   }, React.createElement("div", {
-    className: "hg-copy"
+    className: "hero-bleed-art",
+    "aria-hidden": "true"
+  }, React.createElement("img", {
+    src: art.src,
+    alt: ""
+  })), React.createElement("div", {
+    className: "hero-bleed-scrim",
+    "aria-hidden": "true"
+  }), React.createElement("div", {
+    className: "hero-bleed-copy"
   }, React.createElement("span", {
     className: "hg-eyebrow"
   }, React.createElement("span", {
@@ -1557,13 +1324,10 @@ function Hero({
     className: "hg-title"
   }, "Artists turn their work into ", React.createElement("em", null, "limited editions"), " you can wear."), React.createElement("p", {
     className: "hg-sub"
-  }, "One artist. A numbered run. A certificate in every box, and half of every sale paid back to the maker. The first edition is on its way."), React.createElement("div", {
+  }, "One artist. A numbered run. A certificate in every box, and half of every sale paid back to the maker."), React.createElement("div", {
     className: "hg-actions"
   }, React.createElement("button", {
     className: "btn-primary",
-    onClick: () => go("product")
-  }, "See Edition 01"), React.createElement("button", {
-    className: "btn-ghost",
     onClick: () => go("private")
   }, "Join the private view")), React.createElement("div", {
     className: "hg-meta"
@@ -1590,54 +1354,32 @@ function Hero({
   }, "4"), React.createElement("span", {
     className: "hg-meta-l"
   }, "Editions a year")))), React.createElement("div", {
-    className: "hg-stage"
-  }, React.createElement("div", {
-    className: "hg-pedestal"
-  }), HERO_FRAMES.map(({
-    slot,
-    id,
-    plate
-  }, i) => React.createElement("div", {
-    key: id,
-    className: "float-slot " + slot + (selectedArt === id ? " is-active" : "")
-  }, React.createElement("div", {
-    ref: driftRefs[i],
-    className: "float-inner"
-  }, React.createElement(FramedArt, {
-    id: id,
-    plate: plate,
-    className: "on-dark hg-frame-btn",
-    onClick: () => pickArt(id)
-  })))), React.createElement("div", {
-    className: "hg-tee"
-  }, React.createElement("span", {
-    className: "tee-spot"
-  }), React.createElement("div", {
-    ref: teeRef,
-    style: {
-      opacity: teeFading ? 0 : 1,
-      transition: "opacity .18s ease"
-    }
+    className: "hero-bleed-caption"
+  }, art.title, " \xB7 ", art.note));
+}
+function HeroGarment({
+  go
+}) {
+  return React.createElement("section", {
+    className: "hero-garment"
+  }, React.createElement(Reveal, {
+    className: "hero-garment-stage"
   }, React.createElement(TeeMockup, {
-    id: selectedArt,
-    color: ART[selectedArt] ? ART[selectedArt].bg : "#E7DFD0"
-  }))), React.createElement("div", {
-    className: "hg-art-sel"
-  }, ALL_ARTWORKS.map(id => React.createElement("button", {
-    key: id,
-    className: "hgas-btn" + (selectedArt === id ? " is-active" : ""),
-    onClick: () => pickArt(id),
-    "aria-pressed": selectedArt === id,
-    title: ART[id].title
-  }, React.createElement("span", {
-    className: "hgas-f"
-  }, React.createElement("span", {
-    className: "hgas-m"
-  }, React.createElement("span", {
-    className: "hgas-w"
-  }, React.createElement(ArtComposition, {
-    id: id
-  })))))))));
+    id: "figure",
+    color: "#E8E1D3"
+  })), React.createElement(Reveal, {
+    className: "hero-garment-copy",
+    delay: 120
+  }, React.createElement("p", {
+    className: "label"
+  }, "The same work, worn"), React.createElement("h2", {
+    className: "hero-garment-title"
+  }, "From the studio ", React.createElement("em", null, "to the street.")), React.createElement("p", {
+    className: "hero-garment-desc"
+  }, "Hand screen-printed on GOTS-certified organic cotton, numbered piece by piece. The Heavyweight Tee opens with Edition 01 at ", alPrice(AL.products[0].price), "."), React.createElement("button", {
+    className: "section-see-all",
+    onClick: () => go("product", "tee")
+  }, "View the piece")));
 }
 function WallToWardrobe() {
   return React.createElement("section", {
@@ -1661,7 +1403,7 @@ function WallToWardrobe() {
   }, React.createElement("div", {
     className: "w2w-stage"
   }, React.createElement(FramedArt, {
-    id: "figure",
+    id: "arc",
     plate: false,
     className: "on-dark"
   })), React.createElement("div", {
@@ -1679,7 +1421,7 @@ function WallToWardrobe() {
   }, React.createElement("div", {
     className: "w2w-stage w2w-tee-stage"
   }, React.createElement(TeeMockup, {
-    id: "figure",
+    id: "arc",
     color: "#E7DFD0"
   })), React.createElement("div", {
     className: "w2w-num"
@@ -1726,11 +1468,13 @@ function Home({
 }) {
   return React.createElement("main", null, React.createElement(Hero, {
     go: go
-  }), React.createElement(WallToWardrobe, null), React.createElement(Collection, {
+  }), React.createElement(HeroGarment, {
+    go: go
+  }), React.createElement(Collection, {
     go: go
   }), React.createElement(FirstArtist, {
     go: go
-  }), React.createElement(HowItWorks, null), React.createElement(PrivateView, {
+  }), React.createElement(WallToWardrobe, null), React.createElement(HowItWorks, null), React.createElement(PrivateView, {
     joined: joined,
     onJoin: onJoin
   }));
@@ -1738,6 +1482,7 @@ function Home({
 Object.assign(window, {
   Home,
   Hero,
+  HeroGarment,
   WallToWardrobe
 });
 function Product({
@@ -1747,8 +1492,10 @@ function Product({
   onJoin
 }) {
   const product = AL.products.find(p => p.id === productId) || AL.products[0];
+  const artId = PRODUCT_ART[product.id] || "figure";
+  const art = ART[artId];
+  const Mock = product.id === "hoodie" ? HoodieMockup : TeeMockup;
   const [shot, setShot] = useState(0);
-  const shots = [product.tone, "#26241F", "#1C1C19"];
   const f = usePrivateViewSignup(onJoin);
   return React.createElement("main", {
     className: "pdp"
@@ -1756,21 +1503,49 @@ function Product({
     className: "pdp-top"
   }, React.createElement("div", {
     className: "pdp-gallery"
-  }, React.createElement(ImageWell, {
+  }, shot === 0 && React.createElement("div", {
+    className: "pdp-gallery-main pdp-stage"
+  }, React.createElement(Mock, {
+    id: artId,
+    color: "#E8E1D3"
+  })), shot === 1 && React.createElement("div", {
+    className: "pdp-gallery-main pdp-art"
+  }, React.createElement("img", {
+    src: art.src,
+    alt: `${art.title} · studio study`
+  })), shot === 2 && React.createElement(ImageWell, {
     className: "pdp-gallery-main",
-    tone: shots[shot],
-    mark: `Edition ${AL.edition.no} · ${product.name}`
+    tone: product.tone,
+    mark: `Edition ${AL.edition.no} · ${product.name} · detail to come`
   }), React.createElement("div", {
     className: "pdp-thumbs"
-  }, shots.map((t, i) => React.createElement("button", {
-    className: "pdp-thumb hatch",
-    key: i,
-    "data-active": shot === i,
+  }, React.createElement("button", {
+    className: "pdp-thumb pdp-thumb-stage",
+    "data-active": shot === 0,
+    onClick: () => setShot(0),
+    "aria-label": "The garment"
+  }, React.createElement(Mock, {
+    id: artId,
+    color: "#E8E1D3"
+  })), React.createElement("button", {
+    className: "pdp-thumb",
+    "data-active": shot === 1,
+    onClick: () => setShot(1),
+    "aria-label": "The artwork",
     style: {
-      background: t
-    },
-    onClick: () => setShot(i)
-  })))), React.createElement("div", {
+      backgroundImage: `url(${art.src})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center"
+    }
+  }), React.createElement("button", {
+    className: "pdp-thumb hatch",
+    "data-active": shot === 2,
+    onClick: () => setShot(2),
+    "aria-label": "Detail, photography to come",
+    style: {
+      background: product.tone
+    }
+  }))), React.createElement("div", {
     className: "pdp-detail"
   }, React.createElement("div", {
     className: "pdp-eyebrow"
@@ -2044,46 +1819,18 @@ function ArtistsScreen({
       alignSelf: "flex-end"
     }
   }, "The roster begins with Edition 01")), React.createElement("section", {
-    style: {
-      borderTop: "0.5px solid var(--rule)",
-      padding: "96px 48px",
-      textAlign: "center"
-    }
+    className: "roster-hero"
   }, React.createElement("p", {
     className: "label",
     style: {
       marginBottom: 18
     }
   }, "Edition 01"), React.createElement("h1", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontWeight: 300,
-      fontSize: "clamp(34px,5vw,56px)",
-      color: "var(--ink)",
-      lineHeight: 1.1,
-      maxWidth: "18ch",
-      margin: "0 auto"
-    }
-  }, "The first name is ", React.createElement("em", {
-    style: {
-      color: "var(--bronze)"
-    }
-  }, "announced at the opening.")), React.createElement("p", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontSize: 17,
-      color: "var(--dust)",
-      maxWidth: 460,
-      margin: "24px auto 0",
-      lineHeight: 1.7
-    }
+    className: "roster-title"
+  }, "The first name is ", React.createElement("em", null, "announced at the opening.")), React.createElement("p", {
+    className: "roster-lead"
   }, "One artist opens the roster with Edition 01: their work, their name on every label, and half of every sale. The private view list hears first."), React.createElement("div", {
-    style: {
-      display: "flex",
-      gap: 20,
-      justifyContent: "center",
-      marginTop: 40
-    }
+    className: "roster-actions"
   }, React.createElement("button", {
     className: "btn-primary dark",
     onClick: () => go("private")
@@ -2091,34 +1838,16 @@ function ArtistsScreen({
     className: "btn-ghost ink",
     onClick: () => go("journal-article", "artist-selection")
   }, "How we choose artists"))), React.createElement("section", {
-    style: {
-      background: "var(--surface)",
-      padding: "72px 48px",
-      textAlign: "center"
-    }
+    className: "artist-call"
   }, React.createElement("p", {
     className: "label label--light",
     style: {
       marginBottom: 16
     }
   }, "Are you an artist?"), React.createElement("h2", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontWeight: 300,
-      fontStyle: "italic",
-      fontSize: 38,
-      color: "var(--ivory)",
-      marginBottom: 14
-    }
+    className: "artist-call-title"
   }, "We split everything, 50/50."), React.createElement("p", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontSize: 16,
-      color: "rgba(246,243,237,0.55)",
-      maxWidth: 420,
-      margin: "0 auto 32px",
-      lineHeight: 1.7
-    }
+    className: "artist-call-lead"
   }, "You keep your IP. We handle production, fulfilment, and the gallery. The work reaches a wider audience and you're paid every quarter."), React.createElement("button", {
     className: "btn-primary",
     onClick: () => go("work")
@@ -2149,33 +1878,11 @@ function ArchiveScreen({
       lineHeight: 1.8
     }
   }, "Once closed, an edition is never reprinted")), React.createElement("section", {
-    style: {
-      padding: "96px 48px 110px",
-      textAlign: "center"
-    }
+    className: "archive-hero"
   }, React.createElement("h1", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontWeight: 300,
-      fontSize: "clamp(32px,4.5vw,52px)",
-      color: "var(--ink)",
-      lineHeight: 1.12,
-      maxWidth: "20ch",
-      margin: "0 auto"
-    }
-  }, "The archive is empty, ", React.createElement("em", {
-    style: {
-      color: "var(--bronze)"
-    }
-  }, "deliberately.")), React.createElement("p", {
-    style: {
-      fontFamily: "var(--serif)",
-      fontSize: 17,
-      color: "var(--dust)",
-      maxWidth: 470,
-      margin: "26px auto 0",
-      lineHeight: 1.7
-    }
+    className: "archive-title"
+  }, "The archive is empty, ", React.createElement("em", null, "deliberately.")), React.createElement("p", {
+    className: "archive-lead"
   }, "Editions move here when they close, permanently: never reprinted, never restocked, never reopened. Nothing has closed yet. Edition 01 will be the first to hang here."), React.createElement("div", {
     style: {
       marginTop: 40
@@ -2571,31 +2278,11 @@ Object.assign(window, {
   WorkPage,
   PrivateViewPage
 });
-const COLLECTION_WORKS = [{
-  id: "figure",
-  title: "Untitled I",
-  medium: "Spray & stencil"
-}, {
-  id: "strata",
-  title: "Strata II",
-  medium: "Pigment & wax"
-}, {
-  id: "coast",
-  title: "Coastline",
-  medium: "Sumi-e & digital"
-}, {
-  id: "grid",
-  title: "Lot 04",
-  medium: "Collage & ink"
-}, {
-  id: "bloom",
-  title: "Bloom (Nocturne)",
-  medium: "Ink on cotton"
-}, {
-  id: "arc",
-  title: "Meridian",
-  medium: "Screenprint"
-}];
+const COLLECTION_WORKS = ["figure", "strata", "coast", "grid", "bloom", "arc", "field"].map(id => ({
+  id,
+  title: ART[id].title,
+  note: ART[id].note
+}));
 function CollectionWork({
   work,
   index,
@@ -2629,7 +2316,7 @@ function CollectionWork({
     className: "cg-plate-title"
   }, work.title), React.createElement("div", {
     className: "cg-plate-sub"
-  }, "Studio study \xB7 ", work.medium)), React.createElement("span", {
+  }, "Studio study \xB7 ", work.note)), React.createElement("span", {
     className: "cg-chevron",
     "aria-hidden": "true"
   }, open ? "–" : "+")), React.createElement("div", {
@@ -2712,7 +2399,7 @@ Object.assign(window, {
   CollectionGallery,
   CollectionWork
 });
-const JOURNAL_ART = ["strata", "figure", "arc", "grid", "coast", "bloom", "figure", "arc", "grid"];
+const JOURNAL_ART = ["strata", "figure", "arc", "grid", "coast", "bloom", "field", "arc", "grid"];
 function JournalIndex({
   go
 }) {
@@ -2846,7 +2533,7 @@ function JournalArticle({
     className: "on-dark"
   }), React.createElement("p", {
     className: "article-figure-cap"
-  }, "A studio study, ", ART[artId].title, ", ", ART[artId].medium.toLowerCase(), "."))), React.createElement("div", {
+  }, ART[artId].title, " \xB7 Studio study, artwork in preparation."))), React.createElement("div", {
     className: "article-body"
   }, React.createElement("article", {
     className: "article-content"
@@ -2882,10 +2569,99 @@ Object.assign(window, {
   JournalIndex,
   JournalArticle
 });
+function parseHash() {
+  const parts = (location.hash || "#/").replace(/^#\/?/, "").split("/").filter(Boolean);
+  if (!parts.length) return {
+    route: "home",
+    arg: null
+  };
+  switch (parts[0]) {
+    case "piece":
+      return {
+        route: "product",
+        arg: parts[1] || "tee"
+      };
+    case "journal":
+      return parts[1] ? {
+        route: "journal-article",
+        arg: decodeURIComponent(parts[1])
+      } : {
+        route: "journal",
+        arg: null
+      };
+    case "editions":
+      return {
+        route: "article",
+        arg: null
+      };
+    case "collection":
+    case "artists":
+    case "archive":
+    case "about":
+    case "work":
+    case "private":
+      return {
+        route: parts[0],
+        arg: null
+      };
+    default:
+      return {
+        route: "home",
+        arg: null
+      };
+  }
+}
+function hashFor(route, arg) {
+  switch (route) {
+    case "home":
+      return "#/";
+    case "product":
+      return "#/piece/" + (arg || "tee");
+    case "journal-article":
+      return "#/journal/" + encodeURIComponent(arg || AL_JOURNAL[0].slug);
+    case "article":
+      return "#/editions";
+    default:
+      return "#/" + route;
+  }
+}
+function titleFor(loc) {
+  const base = "Atelier Limité";
+  switch (loc.route) {
+    case "home":
+      return base + " · Numbered artist editions · Sydney";
+    case "product":
+      {
+        const p = AL.products.find(x => x.id === loc.arg) || AL.products[0];
+        return `${p.name} · Edition ${AL.edition.no} · ${base}`;
+      }
+    case "journal-article":
+      {
+        const a = AL_JOURNAL.find(x => x.slug === loc.arg) || AL_JOURNAL[0];
+        return `${a.title} · ${base}`;
+      }
+    case "article":
+      return "What are Artist Editions? · " + base;
+    case "journal":
+      return "Journal · " + base;
+    case "collection":
+      return "The collection · " + base;
+    case "artists":
+      return "Artists · " + base;
+    case "archive":
+      return "The archive · " + base;
+    case "about":
+      return "About · " + base;
+    case "work":
+      return "Work with us · " + base;
+    case "private":
+      return "Private view list · " + base;
+    default:
+      return base;
+  }
+}
 function App() {
-  const [route, setRoute] = useState("home");
-  const [productId, setProductId] = useState("tee");
-  const [articleSlug, setArticleSlug] = useState(AL_JOURNAL[0].slug);
+  const [loc, setLoc] = useState(parseHash);
   const [joined, setJoined] = useState(() => {
     try {
       return localStorage.getItem("al_private_view") === "1";
@@ -2893,6 +2669,20 @@ function App() {
       return false;
     }
   });
+  useEffect(() => {
+    const onHash = () => {
+      setLoc(parseHash());
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
+    };
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+  useEffect(() => {
+    document.title = titleFor(loc);
+  }, [loc]);
   function onJoin() {
     setJoined(true);
     try {
@@ -2900,14 +2690,19 @@ function App() {
     } catch (e) {}
   }
   function go(r, arg) {
-    if (r === "product" && arg) setProductId(arg);
-    if (r === "journal-article") setArticleSlug(arg || AL_JOURNAL[0].slug);
-    setRoute(r);
-    window.scrollTo({
-      top: 0,
-      behavior: "auto"
-    });
+    const h = hashFor(r, arg);
+    if (location.hash === h) {
+      window.scrollTo({
+        top: 0,
+        behavior: "auto"
+      });
+      return;
+    }
+    location.hash = h;
   }
+  const route = loc.route;
+  const productId = route === "product" ? loc.arg || "tee" : "tee";
+  const articleSlug = route === "journal-article" ? loc.arg || AL_JOURNAL[0].slug : AL_JOURNAL[0].slug;
   return React.createElement("div", {
     className: "app-root grain"
   }, React.createElement(Header, {
