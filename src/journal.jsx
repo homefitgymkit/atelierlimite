@@ -16,7 +16,6 @@ function JournalIndex({ go }) {
   return (
     <main className="artist-detail">
       <section className="page-hero">
-        <div className="page-hero-bigchar" aria-hidden="true">¶</div>
         <div className="page-hero-inner">
           <div className="page-eyebrow"><span className="l"></span><span className="t">The journal</span></div>
           <h1 className="page-title">Notes on the <em>model.</em></h1>
@@ -121,7 +120,7 @@ function JournalArticle({ go, slug }) {
         <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
         <h2 className="cta-title">Be on the <em>founding list.</em></h2>
         <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
-        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
+        <button className="btn-cta" onClick={() => go("list")}>Join the private view</button>
       </section>
     </main>
   );

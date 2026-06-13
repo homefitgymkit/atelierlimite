@@ -103,7 +103,7 @@ function Article({ go }) {
         <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
         <h2 className="cta-title">Be on the <em>founding list.</em></h2>
         <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
-        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
+        <button className="btn-cta" onClick={() => go("list")}>Join the private view</button>
       </section>
     </main>
   );

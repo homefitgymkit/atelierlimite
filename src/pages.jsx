@@ -1,132 +1,51 @@
 /* ============================================================
-   Atelier Limité, Work with us + Private view (full pages)
+   Atelier Limité · The list (the private view list)
+   What membership means, the 48-hour head start as the planned
+   model, and the signup. Pre-launch and honest throughout.
    ============================================================ */
 import React from "react";
-import { AL_WORK } from "./content.jsx";
 import { usePrivateViewSignup } from "./ui.jsx";
+import { Reveal } from "./motion.jsx";
 
-function WorkPage({ go }) {
-  const w = AL_WORK;
-  return (
-    <main className="artist-detail">
-      <section className="page-hero">
-        <div className="page-hero-bigchar" aria-hidden="true">50</div>
-        <div className="page-hero-inner">
-          <div className="page-eyebrow"><span className="l"></span><span className="t">For artists</span></div>
-          <h1 className="page-title">We split <em>everything,</em> fifty-fifty.</h1>
-          <p className="page-lead">{w.lead}</p>
-          <div style={{ marginTop: 40 }}>
-            <a className="btn-primary" href="mailto:artists@atelierlimite.com" style={{ textDecoration: "none", display: "inline-block" }}>artists@atelierlimite.com</a>
-          </div>
-        </div>
-      </section>
+const MEANS = [
+  ["The studies", "Follow the early studies and garment tests as the first edition takes shape."],
+  ["The artist", "Hear who the first artist is, and see the first work, before anyone else."],
+  ["The head start", "When an edition opens, members are intended to get a 48-hour head start before the public."],
+];
 
-      {/* criteria */}
-      <section className="work-criteria">
-        <div className="work-criteria-head">
-          <span className="faq-group-label">What we look for</span>
-          <span className="faq-group-line"></span>
-        </div>
-        <div className="work-grid">
-          {w.criteria.map((c) => (
-            <article className="work-crit" key={c.t}>
-              <h3 className="wc-t">{c.t}</h3>
-              <p className="wc-b">{c.b}</p>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      {/* steps */}
-      <section className="work-steps">
-        <div className="work-steps-inner">
-          <div className="page-eyebrow"><span className="l"></span><span className="t">How a collaboration works</span></div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 40, color: "var(--ivory)", maxWidth: "18ch" }}>From a first email to a quarterly cheque.</h2>
-          <div className="work-steps-grid">
-            {w.steps.map((s) => (
-              <article className="work-step" key={s.n}>
-                <div className="ws-n">{s.n}</div>
-                <h3 className="ws-t">{s.t}</h3>
-                <p className="ws-b">{s.b}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* promises */}
-      <section className="work-promises">
-        <div>
-          <div className="page-eyebrow"><span className="l" style={{ background: "var(--bronze)" }}></span><span className="t">Our commitments</span></div>
-          <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: 34, color: "var(--ink)", lineHeight: 1.15, marginTop: 8 }}>The terms are the same for everyone, by design.</h2>
-        </div>
-        <div>
-          {w.promises.map((p, i) => (
-            <div className="work-promise-row" key={i}>
-              <span className="wp-mark">·</span>
-              <span className="wp-t">{p}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* cta */}
-      <section className="work-cta">
-        <div className="page-eyebrow" style={{ justifyContent: "center" }}>
-          <span className="l"></span><span className="t">Express interest</span><span className="l"></span>
-        </div>
-        <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: "var(--ivory)", lineHeight: 1.1, marginTop: 14 }}>Show us the work.</h2>
-        <p style={{ fontFamily: "var(--serif)", fontStyle: "italic", fontSize: 17, color: "rgba(246,243,237,0.55)", marginTop: 14 }}>Every submission gets a genuine response within two weeks.</p>
-        <div className="work-cta-mail">artists@atelierlimite.com</div>
-      </section>
-    </main>
-  );
-}
-
-function PrivateViewPage({ go, joined, onJoin }) {
+export function TheList({ joined, onJoin }) {
   const f = usePrivateViewSignup(onJoin);
-  const promises = [
-    { num: "01", t: "Follow the studies\nand garment tests" },
-    { num: "02", t: "Hear the artist\nconversations first" },
-    { num: "03", t: "Early access when\neditions are confirmed" },
-  ];
   return (
-    <main className="pv-page" id="private">
-      <section className="pv-hero">
-        <div className="page-hero-bigchar" aria-hidden="true" style={{ right: "auto", left: "50%", transform: "translate(-50%,-50%)" }}>·</div>
-        <div className="page-eyebrow" style={{ justifyContent: "center" }}>
-          <span className="l"></span><span className="t">The private view list</span><span className="l"></span>
-        </div>
-        <h1 className="pv-title">{joined ? <>You're on <em>the founding list.</em></> : <>Join the <em>first private view.</em></>}</h1>
-        <p className="pv-lead">{joined
-          ? "We'll write as the studies, the artist conversations, and the first edition take shape. Welcome to the founding list."
-          : "The founding list for Atelier Limité, in the tradition of a gallery private view. Be first to follow the studies, artist conversations, and future wearable editions."}</p>
-
-        {!joined ? (
-          <React.Fragment>
-            <form className="pv-form" onSubmit={f.submit}>
-              <input className="pv-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
-              <button className="pv-submit" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Requesting…" : "Request access"}</button>
+    <main className="list-room">
+      <section className="list-hero">
+        <Reveal className="list-hero-inner">
+          <p className="fh-eyebrow">The list</p>
+          <h1 className="list-h">{joined ? "You are on the founding list." : "The private view list."}</h1>
+          <p className="list-sub">
+            {joined
+              ? "Welcome. We will write as the studies, the artist conversations, and the first edition take shape."
+              : "A founding list, before Edition 01 exists. Be first to follow the studies, the artist conversations, and the first edition."}
+          </p>
+          {!joined && (
+            <form className="list-form" onSubmit={f.submit}>
+              <input className="list-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
+              <button className="list-submit" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Joining…" : "Join the private view"}</button>
             </form>
-            {f.error && <p className="form-error-line" role="alert">{f.error}</p>}
-          </React.Fragment>
-        ) : (
-          <div style={{ marginTop: 48 }}>
-            <button className="btn-primary" onClick={() => go("product")}>See the future edition preview</button>
-          </div>
-        )}
+          )}
+          {!joined && f.error && <p className="form-error-line" role="alert">{f.error}</p>}
+          <p className="list-note">Private view members will be first to hear about future editions and early-access windows when editions are confirmed. No spam, no list-sharing.</p>
+        </Reveal>
+      </section>
 
-        <div className="pv-promises">
-          {promises.map((p) => (
-            <div className="pv-promise" key={p.num}>
-              <div className="pv-promise-num">{p.num}</div>
-              <div className="pv-promise-t">{p.t.split("\n").map((l, i) => <React.Fragment key={i}>{l}<br/></React.Fragment>)}</div>
-            </div>
-          ))}
-        </div>
+      <section className="list-means">
+        {MEANS.map(([t, b], i) => (
+          <Reveal as="article" className="list-mean" key={t} delay={i * 80}>
+            <span className="list-mean-no">{String(i + 1).padStart(2, "0")}</span>
+            <h2 className="list-mean-t">{t}</h2>
+            <p className="list-mean-b">{b}</p>
+          </Reveal>
+        ))}
       </section>
     </main>
   );
 }
-
-export { WorkPage, PrivateViewPage };

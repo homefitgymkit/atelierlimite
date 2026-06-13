@@ -55,31 +55,6 @@ function useParallax(speed = 0.12) {
   return ref;
 }
 
-/* Pointer drift, element floats slightly toward the cursor (for hero panels) */
-function usePointerDrift(strength = 14) {
-  const ref = useRefM(null);
-  useEffectM(() => {
-    if (REDUCED) return;
-    const el = ref.current; if (!el) return;
-    const host = el.closest("[data-drift-host]") || el.parentElement;
-    let raf = 0, tx = 0, ty = 0, cx = 0, cy = 0;
-    const onMove = (e) => {
-      const r = host.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      tx = px * strength; ty = py * strength;
-      if (!raf) raf = requestAnimationFrame(loop);
-    };
-    const loop = () => {
-      raf = 0;
-      cx += (tx - cx) * 0.08; cy += (ty - cy) * 0.08;
-      el.style.transform = `translate3d(${cx.toFixed(2)}px, ${cy.toFixed(2)}px, 0)`;
-      if (Math.abs(tx - cx) > 0.1 || Math.abs(ty - cy) > 0.1) raf = requestAnimationFrame(loop);
-    };
-    host.addEventListener("mousemove", onMove);
-    return () => host.removeEventListener("mousemove", onMove);
-  }, [strength]);
-  return ref;
-}
+/* Pointer-drift removed in the gallery revamp (it read as a webstore gimmick). */
 
-export { Reveal, useParallax, usePointerDrift, REDUCED };
+export { Reveal, useParallax, REDUCED };

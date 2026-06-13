@@ -1,86 +1,52 @@
 /* ============================================================
-   Atelier Limité, The Collection (gallery)
-   A gallery wall of framed studio studies. Tap a frame and the
-   work "flicks" out of the frame onto the two garments it would
-   be printed on; tap again and it flicks back in.
-   Pre-launch: no released works yet, so every frame is a study.
+   Atelier Limité · The wall (the studies, walked)
+   A full-bleed vertical sequence: one study per viewport, large
+   and centred on a textured, lit, dark gallery ground, with a
+   wall label beneath. Scrolling reads as walking the wall.
+   No grid, no garment.
    ============================================================ */
-import { useState } from "react";
-import { ART, FramedArt, TeeMockup, HoodieMockup } from "./artwork.jsx";
+import { ART } from "./artwork.jsx";
 import { Reveal } from "./motion.jsx";
-import { AL } from "./ui.jsx";
 
-/* All seven supplied studies, titles + notes come from the ART registry */
-const COLLECTION_WORKS = ["figure", "strata", "coast", "grid", "bloom", "arc", "field"]
-  .map((id) => ({ id, title: ART[id].title, note: ART[id].note }));
+const WORKS = ["figure", "strata", "coast", "grid", "bloom", "arc", "field"];
 
-function CollectionWork({ work, index, go }) {
-  const [open, setOpen] = useState(false);
+function WallRoom({ id, index }) {
+  const art = ART[id];
+  const no = String(index + 1).padStart(2, "0");
   return (
-    <Reveal className="cg-item" delay={(index % 3) * 90} style={{}}>
-      <div className={"cg-card" + (open ? " is-open" : "")}>
-        <button className="cg-frame" onClick={() => setOpen((v) => !v)} aria-expanded={open}
-          aria-label={open ? "Return the artwork to its frame" : "See the artwork worn"}>
-          <span className="cg-tag">Study</span>
-          <div className="cg-art-layer"><FramedArt id={work.id} plate={false} className="on-dark" /></div>
-          <span className="cg-hint">{open ? "Tap to reframe" : "Tap to wear"}</span>
-        </button>
-
-        <div className="cg-plate">
-          <div>
-            <div className="cg-plate-title">{work.title}</div>
-            <div className="cg-plate-sub">Studio study · {work.note}</div>
-          </div>
-          <span className="cg-chevron" aria-hidden="true">{open ? "–" : "+"}</span>
-        </div>
-
-        <div className="cg-drop" data-open={open}>
-          <div className="cg-drop-inner">
-            <p className="cg-drop-label">A garment test, how a study could wear</p>
-            <div className="cg-garments">
-              <div className="cg-garment">
-                <div className="cg-garment-stage"><TeeMockup id={work.id} color="#1A1A18" /></div>
-                <span className="cg-garment-name">Heavyweight Tee</span>
-              </div>
-              <div className="cg-garment">
-                <div className="cg-garment-stage"><HoodieMockup id={work.id} color="#1A1A18" /></div>
-                <span className="cg-garment-name">Heavyweight Hoodie</span>
-              </div>
+    <section className="sw-room">
+      <Reveal className="sw-item" y={28}>
+        <figure className="fh-frame sw-frame">
+          <div className="fh-mat">
+            <div className="fh-window">
+              <img src={art.src} alt={art.title + ", a studio study"} loading="lazy" />
+              <span className="fh-glass" aria-hidden="true"></span>
             </div>
-            <button className="cg-view" onClick={() => go("product", "tee")}>See the future edition preview</button>
           </div>
-        </div>
-      </div>
-    </Reveal>
+        </figure>
+        <figcaption className="sw-label">
+          <span className="sw-title">{art.title}</span>
+          <span className="sw-meta">Studio study · No. {no}</span>
+        </figcaption>
+      </Reveal>
+    </section>
   );
 }
 
-function CollectionGallery({ go }) {
+/* The wall: an opener, then the studies one per screen. */
+function StudyWall() {
   return (
-    <main className="artist-detail">
-      <section className="page-hero">
-        <div className="page-hero-bigchar" aria-hidden="true">◈</div>
-        <div className="page-hero-inner">
-          <div className="page-eyebrow"><span className="l"></span><span className="t">The study wall</span></div>
-          <h1 className="page-title">The <em>first wall.</em></h1>
-          <p className="page-lead">No edition is open yet. This wall is where early studies, garment tests, and visual references live before they become wearable editions. Tap any frame to see how a study could wear.</p>
-        </div>
+    <div className="sw">
+      <section className="sw-open">
+        <Reveal className="sw-open-inner">
+          <p className="fh-eyebrow">The wall</p>
+          <h2 className="sw-open-h">Early studies, before the first edition.</h2>
+          <p className="sw-open-sub">Working studies and garment tests. When the first artist is confirmed, their work takes its place on this wall.</p>
+        </Reveal>
       </section>
-
-      <section className="cg-wall">
-        <div className="cg-grid">
-          {COLLECTION_WORKS.map((w, i) => <CollectionWork key={w.id} work={w} index={i} go={go} />)}
-        </div>
-      </section>
-
-      <section className="cta-block">
-        <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
-        <h2 className="cta-title">Follow the wall as <em>it grows.</em></h2>
-        <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
-        <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
-      </section>
-    </main>
+      {WORKS.map((id, i) => <WallRoom key={id} id={id} index={i} />)}
+    </div>
   );
 }
 
-export { CollectionGallery, CollectionWork };
+export { StudyWall };

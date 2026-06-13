@@ -1,105 +1,58 @@
 /* ============================================================
-   Atelier Limité · Future Edition Preview
-   PRE-LAUNCH: this is a clearly-labelled concept preview, not a
-   live product. No price, no confirmed artist / size / stock.
-   It shows how an edition will be presented once the first
-   collaboration is confirmed, and invites the private view.
+   Atelier Limité · Future edition preview (concept)
+   Clearly conceptual: a framed study, the way an edition will be
+   presented once the first artist is confirmed. No garment, no
+   price, no confirmed numbers. Private view CTA.
    ============================================================ */
-import { useState } from "react";
-import { AL, usePrivateViewSignup, ImageWell } from "./ui.jsx";
-import { ART, TeeMockup, HoodieMockup } from "./artwork.jsx";
-import { PRODUCT_ART } from "./home-sections.jsx";
+import { ART } from "./artwork.jsx";
+import { usePrivateViewSignup } from "./ui.jsx";
 
-function Product({ go, productId, joined, onJoin }) {
-  const product = AL.products.find((p) => p.id === productId) || AL.products[0];
-  const artId = PRODUCT_ART[product.id] || "figure";
-  const art = ART[artId];
-  const Mock = product.id === "hoodie" ? HoodieMockup : TeeMockup;
-  const [shot, setShot] = useState(0);
+const PREVIEW_ART = "figure";
+
+export function Product({ go, joined, onJoin }) {
+  const art = ART[PREVIEW_ART];
   const f = usePrivateViewSignup(onJoin);
-
   return (
-    <main className="pdp">
-      {/* clearly-labelled concept banner */}
-      <div className="pdp-concept-banner">
-        <span className="pdp-concept-tag">Concept preview</span>
-        <span className="pdp-concept-text">A look at how Atelier Limité editions will be presented once the first artist collaboration is confirmed. Nothing here is for sale yet.</span>
-      </div>
-
-      <div className="pdp-top">
-        <div className="pdp-gallery">
-          {shot === 0 && (
-            <div className="pdp-gallery-main pdp-stage"><Mock id={artId} color="#F5F2EC" /></div>
-          )}
-          {shot === 1 && (
-            <div className="pdp-gallery-main pdp-art"><img src={art.src} alt={`${art.title}, studio study`} /></div>
-          )}
-          {shot === 2 && (
-            <ImageWell className="pdp-gallery-main" tone={product.tone} mark="Garment photography to come" />
-          )}
-          <div className="pdp-thumbs">
-            <button className="pdp-thumb pdp-thumb-stage" data-active={shot === 0} onClick={() => setShot(0)} aria-label="Garment mockup">
-              <Mock id={artId} color="#F5F2EC" />
-            </button>
-            <button className="pdp-thumb" data-active={shot === 1} onClick={() => setShot(1)} aria-label="The studio study"
-              style={{ backgroundImage: `url(${art.src})`, backgroundSize: "cover", backgroundPosition: "center" }}></button>
-            <button className="pdp-thumb hatch" data-active={shot === 2} onClick={() => setShot(2)} aria-label="Photography to come"
-              style={{ background: product.tone }}></button>
-          </div>
-        </div>
-
-        <div className="pdp-detail">
-          <div className="pdp-eyebrow">
-            <span className="pdp-eyebrow-line"></span>
-            <span className="pdp-eyebrow-text">Future wearable edition</span>
-          </div>
-          <div className="pdp-artist">Artist to be announced</div>
-          <h1 className="pdp-title">{product.name}</h1>
-
-          <div className="pdp-concept-rows">
-            <div className="pdp-cr"><span className="pdp-cr-k">Artist</span><span className="pdp-cr-v">To be announced</span></div>
-            <div className="pdp-cr"><span className="pdp-cr-k">Edition size</span><span className="pdp-cr-v">To be confirmed</span></div>
-            <div className="pdp-cr"><span className="pdp-cr-k">Garment</span><span className="pdp-cr-v">{product.gsm}, planned</span></div>
-            <div className="pdp-cr"><span className="pdp-cr-k">Artwork</span><span className="pdp-cr-v">Studio study, in preparation</span></div>
-          </div>
-
-          <div className="pdp-opt-label">Planned colourways</div>
-          <div className="pdp-opt-row" aria-hidden="true">
-            {AL.colourways.map((c) => (
-              <span key={c.id} className="pdp-swatch" style={{ background: c.hex, cursor: "default" }} title={c.name}></span>
-            ))}
-          </div>
-
-          <div className="pdp-actions" style={{ flexDirection: "column", alignItems: "stretch", gap: 14 }}>
-            {joined ? (
-              <p className="pdp-joined-note">You're on the founding private list. We'll write the moment the first edition, artist, and details are confirmed.</p>
-            ) : (
-              <form className="pdp-interest-form" onSubmit={f.submit}>
-                <input className="pdp-interest-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
-                <button className="btn-primary dark" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Joining…" : "Join the private view"}</button>
-              </form>
-            )}
-            {!joined && f.error && <p className="form-error-line ink" role="alert">{f.error}</p>}
-            <p className="pdp-honest-note">Private view members will be first to hear when the first edition is confirmed. Nothing is for sale, and no artist, size, or price is set yet.</p>
-            <button className="btn-ghost ink" onClick={() => go("article")} style={{ alignSelf: "flex-start" }}>How editions are intended to work</button>
-          </div>
-        </div>
-      </div>
-
-      <section className="pdp-included">
-        <p className="pdp-included-intro">Intended to ship with every future edition</p>
-        <div className="pdp-included-grid">
-          {AL.included.map((it) => (
-            <div className="pdp-inc-cell" key={it.n}>
-              <div className="pdp-inc-num">{it.n}</div>
-              <div className="pdp-inc-title">{it.t}</div>
-              <div className="pdp-inc-body">{it.b}</div>
+    <main className="fep">
+      <section className="fep-top">
+        <div className="fep-stage">
+          <div className="fh-wall" aria-hidden="true"></div>
+          <figure className="fh-frame fep-frame">
+            <div className="fh-mat">
+              <div className="fh-window">
+                <img src={art.src} alt="A studio study, shown as a concept preview" />
+                <span className="fh-glass" aria-hidden="true"></span>
+              </div>
             </div>
-          ))}
+          </figure>
+          <div className="fep-stamp" aria-hidden="true">Concept preview</div>
+        </div>
+
+        <div className="fep-detail">
+          <p className="fh-eyebrow">Concept preview</p>
+          <h1 className="fep-h">Future wearable edition</h1>
+          <p className="fep-lead">A look at how an Atelier Limité edition will be presented, once the first artist collaboration is confirmed. Nothing here is for sale yet.</p>
+
+          <dl className="fep-rows">
+            <div><dt>Artist</dt><dd>To be announced</dd></div>
+            <div><dt>Edition</dt><dd>Numbered, size to be confirmed</dd></div>
+            <div><dt>Garment</dt><dd>Heavyweight organic cotton, planned</dd></div>
+            <div><dt>Includes</dt><dd>Certificate of edition, intended</dd></div>
+          </dl>
+
+          {joined ? (
+            <p className="fep-joined">You are on the founding list. We will write when the first edition is confirmed.</p>
+          ) : (
+            <form className="list-form fep-form" onSubmit={f.submit}>
+              <input className="list-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
+              <button className="list-submit" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Joining…" : "Join the private view"}</button>
+            </form>
+          )}
+          {!joined && f.error && <p className="form-error-line ink" role="alert">{f.error}</p>}
+          <p className="fep-note">Private view members will be first to hear when the first edition is confirmed.</p>
+          <button className="path-link" onClick={() => go("practice")}>Read the practice</button>
         </div>
       </section>
     </main>
   );
 }
-
-export { Product };

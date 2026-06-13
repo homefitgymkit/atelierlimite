@@ -95,53 +95,48 @@ function ImageWell({ tone = "#1E1E1B", mark, style, className = "" }) {
 }
 
 /* ---------- HEADER ---------- */
+/* Three rooms, the wordmark, one action. Everything else lives in a
+   quiet full-screen menu behind the trigger. Almost no chrome. */
 function Header({ route, go }) {
-  // Archive is intentionally hidden from primary nav (reachable via footer).
   const [menuOpen, setMenuOpen] = useState(false);
-  const nav = [
-    ["home", "Home"], ["product", "Edition 01"], ["collection", "Collection"],
-    ["artists", "Artists"], ["journal", "Journal"], ["about", "About"], ["work", "Work with us"],
-  ];
+  const rooms = [["home", "The wall"], ["practice", "The practice"], ["list", "The list"]];
+  const more = [["journal", "Journal"], ["artists", "Artists"], ["archive", "Archive"], ["product", "Future edition preview"]];
   const isCurrent = (r) =>
-    route === r || (r === "product" && (route === "product" || route === "edition")) ||
+    route === r ||
+    (r === "practice" && (route === "practice")) ||
     (r === "journal" && route === "journal-article");
   const navTo = (r) => (e) => { e.preventDefault(); setMenuOpen(false); go(r); };
   return (
-    <header className="site-header" data-menu-open={menuOpen}>
-      <Wordmark onClick={() => { setMenuOpen(false); go("home"); }} />
-      <nav className="site-nav">
-        {nav.map(([r, label]) => (
-          <a key={r} href={pathFor(r)} data-current={isCurrent(r)} onClick={navTo(r)}>{label}</a>
-        ))}
-      </nav>
-      <div className="nav-actions">
-        <a className="nav-action-btn" href={pathFor("private")} onClick={navTo("private")}>Private view</a>
-        <button className="nav-burger" aria-label="Menu" aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
-          <span></span><span></span><span></span>
-        </button>
-      </div>
-      <nav className="site-nav-mobile" data-open={menuOpen}>
-        {nav.map(([r, label]) => (
-          <a key={r} href={pathFor(r)} data-current={isCurrent(r)} onClick={navTo(r)}>{label}</a>
-        ))}
-        <a className="snm-extra" href={pathFor("private")} onClick={navTo("private")}>Private view</a>
-      </nav>
-    </header>
-  );
-}
+    <React.Fragment>
+      <header className="site-header" data-menu-open={menuOpen}>
+        <Wordmark onClick={() => { setMenuOpen(false); go("home"); }} />
+        <nav className="site-nav">
+          {rooms.map(([r, label]) => (
+            <a key={r} href={pathFor(r)} data-current={isCurrent(r)} onClick={navTo(r)}>{label}</a>
+          ))}
+        </nav>
+        <div className="nav-actions">
+          <a className="nav-action-btn" href={pathFor("list")} onClick={navTo("list")}>Private view</a>
+          <button className="nav-burger" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </header>
 
-/* ---------- EDITION LINE (static, replaces the marquee ticker) ---------- */
-function EditionLine() {
-  const items = ["A pre-launch gallery for wearable art", "Before Edition 01 exists", "Wear the artwork"];
-  return (
-    <div className="edition-line">
-      {items.map((t, i) => (
-        <React.Fragment key={i}>
-          {i > 0 && <span className="edition-line-sep">·</span>}
-          <span className="edition-line-item">{t}</span>
-        </React.Fragment>
-      ))}
-    </div>
+      <div className="site-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
+        <nav className="site-menu-rooms">
+          {rooms.map(([r, label]) => (
+            <a key={r} href={pathFor(r)} onClick={navTo(r)}>{label}</a>
+          ))}
+        </nav>
+        <nav className="site-menu-more">
+          {more.map(([r, label]) => (
+            <a key={r} href={pathFor(r)} onClick={navTo(r)}>{label}</a>
+          ))}
+        </nav>
+        <a className="site-menu-contact" href="mailto:hello@atelierlimite.com">hello@atelierlimite.com</a>
+      </div>
+    </React.Fragment>
   );
 }
 
@@ -156,21 +151,20 @@ function Footer({ go }) {
         <div>
           <div className="footer-brand-logo">Atelier <em>Limité</em></div>
           <p className="footer-brand-tagline">Wear the artwork.</p>
-          <p className="footer-brand-detail">Sydney, New South Wales<br/>Australia · Founded 2025<br/>B Corp certification targeted, year three</p>
+          <p className="footer-brand-detail">Sydney, New South Wales<br/>Australia · Pre-launch, founded 2025<br/>B Corp certification targeted, year three</p>
         </div>
         <div>
-          <p className="footer-col-label">Studio</p>
-          {link("about", "About")}
+          <p className="footer-col-label">Rooms</p>
+          {link("home", "The wall")}
+          {link("practice", "The practice")}
+          {link("list", "The list")}
+        </div>
+        <div>
+          <p className="footer-col-label">More</p>
           {link("journal", "Journal")}
           {link("artists", "Artists")}
           {link("archive", "Archive")}
-          {link("work", "Work with us")}
-        </div>
-        <div>
-          <p className="footer-col-label">Collect</p>
-          {link("product", "Edition 01")}
-          {link("private", "Private view list")}
-          {link("about", "FAQ")}
+          {link("product", "Future edition preview")}
         </div>
         <div>
           <p className="footer-col-label">Contact</p>
@@ -188,4 +182,4 @@ function Footer({ go }) {
   );
 }
 
-export { AL, AL_OPENS, alPrice, usePrivateViewSignup, Wordmark, ImageWell, Header, EditionLine, Footer };
+export { AL, AL_OPENS, alPrice, usePrivateViewSignup, Wordmark, ImageWell, Header, Footer };

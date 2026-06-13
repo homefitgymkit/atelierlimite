@@ -1,19 +1,19 @@
 /* ============================================================
-   Atelier Limité, Storefront · App root
-   Path routing (see routes.js); SSR-safe — main.jsx mounts in
-   the browser, entry-server.jsx renders per-route for prerender.
+   Atelier Limité · App root
+   Three rooms: the wall (home) · the practice · the list.
+   Path routing (routes.js); legacy paths soft-redirect to their
+   room. SSR-safe: main.jsx hydrates, entry-server prerenders.
    ============================================================ */
 import { useState, useEffect } from "react";
-import { parsePath, pathFor, titleFor } from "./routes.js";
-import { Header, EditionLine, Footer } from "./ui.jsx";
+import { parsePath, canonicalFor, titleFor } from "./routes.js";
+import { Header, Footer } from "./ui.jsx";
 import { AL_JOURNAL } from "./journal-data.jsx";
 import { Home } from "./home.jsx";
+import { Practice } from "./practice.jsx";
+import { TheList } from "./pages.jsx";
 import { Product } from "./product.jsx";
 import { Article } from "./article.jsx";
-import { AboutPage } from "./about.jsx";
-import { WorkPage, PrivateViewPage } from "./pages.jsx";
 import { JournalIndex, JournalArticle } from "./journal.jsx";
-import { CollectionGallery } from "./collection.jsx";
 import { ArtistsScreen, ArchiveScreen } from "./artists.jsx";
 
 export function App({ ssrPath }) {
@@ -25,6 +25,14 @@ export function App({ ssrPath }) {
   useEffect(() => {
     try { if (localStorage.getItem("al_private_view") === "1") setJoined(true); } catch (e) {}
   }, []);
+
+  /* legacy path → rewrite the URL to the room's canonical path (no reload) */
+  useEffect(() => {
+    if (loc.redirect) {
+      const c = canonicalFor(loc);
+      if (location.pathname !== c) history.replaceState(null, "", c);
+    }
+  }, [loc]);
 
   useEffect(() => {
     const onPop = () => { setLoc(parsePath(location.pathname)); window.scrollTo({ top: 0, behavior: "auto" }); };
@@ -40,7 +48,7 @@ export function App({ ssrPath }) {
   }
 
   function go(r, arg) {
-    const p = pathFor(r, arg);
+    const p = canonicalFor({ route: r, arg });
     if (location.pathname === p) { window.scrollTo({ top: 0, behavior: "auto" }); return; }
     history.pushState(null, "", p);
     setLoc(parsePath(p));
@@ -54,17 +62,14 @@ export function App({ ssrPath }) {
   return (
     <div className="app-root grain">
       <Header route={route} go={go} />
-      {route === "home" && <EditionLine />}
 
       {route === "home" && <Home go={go} joined={joined} onJoin={onJoin} />}
-      {route === "product" && <Product go={go} productId={productId} joined={joined} onJoin={onJoin} />}
+      {route === "practice" && <Practice go={go} />}
+      {route === "list" && <TheList go={go} joined={joined} onJoin={onJoin} />}
+      {route === "product" && <Product go={go} joined={joined} onJoin={onJoin} />}
       {route === "article" && <Article go={go} />}
-      {route === "about" && <AboutPage go={go} />}
-      {route === "work" && <WorkPage go={go} />}
       {route === "journal" && <JournalIndex go={go} />}
-      {route === "collection" && <CollectionGallery go={go} />}
       {route === "journal-article" && <JournalArticle go={go} slug={articleSlug} />}
-      {route === "private" && <PrivateViewPage go={go} joined={joined} onJoin={onJoin} />}
       {route === "artists" && <ArtistsScreen go={go} />}
       {route === "archive" && <ArchiveScreen go={go} />}
 
