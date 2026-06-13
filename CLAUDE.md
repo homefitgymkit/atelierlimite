@@ -26,27 +26,26 @@ All private-view forms (home section, private view page, product pages) submit t
 
 Standard ES modules under `src/`, bundled by Vite. `src/main.jsx` mounts in the browser (hydrates prerendered HTML; falls back to client render after a legacy `#/` redirect); `src/entry-server.jsx` renders per-route for the prerender step. Components must stay SSR-safe: touch `window`/`localStorage` only inside effects or behind guards.
 
-**Routing** is hash-based (`parseHash`/`hashFor`/`titleFor` in `app.jsx`): `#/`, `#/piece/:id`, `#/collection`, `#/artists`, `#/journal`, `#/journal/:slug`, `#/editions`, `#/about`, `#/work`, `#/private`, `#/archive`. `go(route, arg)` writes `location.hash`; the `hashchange` listener updates state and every route sets `document.title`. The only other top-level state is `joined` (private-view membership, persisted to `localStorage` as `al_private_view`).
+**Routing** is path-based (`parsePath`/`pathFor`/`titleFor` in `src/routes.js`): `/`, `/piece/:id/`, `/collection/`, `/artists/`, `/journal/`, `/journal/:slug/`, `/editions/`, `/about/`, `/work/`, `/private/`, `/archive/`. `go(route, arg)` pushes history state; a `popstate` listener updates state and every route sets `document.title`. Header/footer use real `<a href>` (crawlable) that preventDefault into `go()`. Legacy `#/…` links are redirected in `main.jsx`. Other top-level state: `joined` (read from `localStorage` after mount).
 
 **File responsibilities:**
-- `ui.jsx` — `AL` (all brand/edition data), `AL_OPENS`, `AL_BREVO_ACTION`, `alPrice`, `usePrivateViewSignup`, `Header`, `EditionLine` (static strip, replaced the marquee ticker), `Footer`, `ImageWell`, `Wordmark`
-- `content.jsx` — `AL_FAQ`, `AL_ABOUT`, `AL_WORK` (all static copy)
-- `journal-data.jsx` — `AL_JOURNAL` (evergreen model-explainer articles)
-- `motion.jsx` — `Reveal`, `useParallax`, `usePointerDrift` (reduced-motion aware; the cursor spotlight and magnetic buttons were removed deliberately — do not reintroduce)
-- `artwork.jsx` — `ART` photo registry (`assets/art-*.jpg`, seven supplied studies) + framed-art/tee/hoodie mockup components; mockups print the real artwork via SVG `<image>`
-- `home.jsx` / `home-sections.jsx` — home screen and its sections
-- `product.jsx` — piece detail with register-interest form
-- `app.jsx` — App root + route switch; `routes.js` — path/title/description helpers + `PRERENDER_PATHS`
-- `signature.jsx` — `SignatureScroll` (the one scroll-driven artwork→garment moment; reduced-motion gets a static fallback) + `JournalForward` (journal on home)
-- NOTE: `position: sticky` is load-bearing in SignatureScroll — `.app-root` uses `overflow-x: clip`, never `hidden`
+- `ui.jsx` — `AL` (all brand/edition data, incl. `edition.claimed`), `AL_OPENS`, `AL_BREVO_ACTION`, `alPrice`, `usePrivateViewSignup`, `Header`, `EditionLine`, `Footer`, `ImageWell`, `Wordmark`
+- `content.jsx` — `AL_FAQ`, `AL_ABOUT`, `AL_WORK`; `journal-data.jsx` — `AL_JOURNAL`
+- `motion.jsx` — `Reveal`, `useParallax`, `usePointerDrift`, `REDUCED` (cursor spotlight + magnetic buttons removed deliberately — do not reintroduce)
+- `artwork.jsx` — `ART` registry + `FramedArt`, `TeeMockup`, `HoodieMockup`. Mockups: real SVG silhouettes (the hoodie has hood/pocket/drawstrings/ribbed cuffs+hem, distinct from the tee), a `Stage` (Raw-canvas backdrop behind dark fabric so black reads) + contact shadow, and a `PrintZone` that prints the artwork with an inset shadow and NO floating frame. `PRINTS_READY` flag at the top: flip to `true` once transparent `assets/print-01.png…07.png` exist; until then the JPG study is the stand-in and the single `AL.0n` mark is suppressed.
+- `home.jsx` — **Hero is the signature scroll-morph** (framed numbered 047/080 artwork lifts off the wall onto the garment, load+scroll, reduced-motion static fallback). Do NOT reintroduce the old `.hero-bleed` static hero or the 01/50/50/4 stat row. Also: `ScarcityLine` (`Edition 01 · 0 of 80 claimed · opening soon`, reads `AL.edition.claimed`), `DisciplineMarquee` (paused offscreen), `WaxDivider`.
+- `home-sections.jsx` — `Collection`, `UpcomingEditions` (programme table), `StudiesMosaic`, `FirstArtist`, `HowItWorks`, `PrivateView`
+- `product.jsx` — piece detail with register-interest form; `app.jsx` — route switch; `routes.js` — path/title/desc + `PRERENDER_PATHS`
+- `signature.jsx` — `JournalForward` (on home). `SignatureScroll` still exported but UNUSED (the hero morph supersedes it).
+- NOTE: `position: sticky` is load-bearing in the hero morph — `.app-root` uses `overflow-x: clip`, never `hidden`.
 
 ## Design tokens
 
-Defined as CSS custom properties in `styles.css`:
-- **Storefront palette:** `--ink` (`#131310`), `--ivory` (`#F6F3ED`), `--surface` (`#1A1A17`), `--bronze` (`#B5A28E`)
-- **Fonts:** `--serif` (Cormorant Garamond 300), `--sans` (Jost), `--mono` (DM Sans)
-- Dark hatched placeholders for images: `.hatch` class with `ImageWell` component
-- **Legibility floors:** minimum label font size is 10px; body text on dark surfaces uses at least `rgba(246,243,237,0.55)`. Don't go below either.
+CSS custom properties in `public/styles.css`. **Palette is the five brand hues only — no bronze:**
+- `--studio-black #1A1A18` · `--white #F5F2EC` (Atelier white) · `--canvas #C8B89A` (Raw canvas) · `--dust #8C7B6B` (Studio dust) · `--ink #2C2C2A`
+- `--bronze` is RETIRED: the token still exists (≈100 usages) but resolves to `--dust`. Don't reintroduce the bronze hue `#B5A28E`. Reserve `--canvas` (Raw canvas) for warm signature accents on dark grounds (the AL seal, the 047/080 plate, the now-pip).
+- **Fonts:** `--serif` (Cormorant Garamond 300, *Limité* always italic), `--sans` (Jost), `--mono` (DM Sans)
+- **Legibility floors:** min label font size 10px; dark-surface body text ≥ `rgba(245,242,236,0.55)`.
 
 ## Stylesheet
 
