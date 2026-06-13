@@ -19,6 +19,7 @@ export function TheList({ joined, onJoin }) {
     <main className="list-room">
       <section className="list-hero">
         <Reveal className="list-hero-inner">
+          {joined && <div className="wax-stamp" aria-hidden="true">AL</div>}
           <p className="fh-eyebrow">The list</p>
           <h1 className="list-h">{joined ? "You are on the founding list." : "The private view list."}</h1>
           <p className="list-sub">

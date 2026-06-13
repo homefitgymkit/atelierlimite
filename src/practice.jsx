@@ -33,9 +33,10 @@ function FaqRow({ q, a }) {
 export function Practice({ go }) {
   return (
     <main className="practice">
-      {/* 1 · the manifesto */}
-      <section className="manifesto">
+      {/* 1 · the manifesto, a warm light room */}
+      <section className="manifesto manifesto--light">
         <Reveal className="manifesto-inner">
+          <div className="manifesto-seal" aria-hidden="true">AL</div>
           <p className="fh-eyebrow">The practice</p>
           <h1 className="manifesto-h">Half of every sale, <em>to the artist.</em></h1>
           <div className="manifesto-stat" aria-hidden="true">50 / 50</div>

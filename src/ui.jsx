@@ -79,9 +79,13 @@ function usePrivateViewSignup(onJoin) {
 }
 
 /* ---------- WORDMARK ---------- */
+/* The AL monogram seal sits beside the wordmark, the recurring stamp. */
 function Wordmark({ className = "site-logo", onClick }) {
   return (
-    <a className={className} href="/" onClick={(e) => { e.preventDefault(); onClick && onClick(); }}>Atelier <em>Limité</em></a>
+    <a className={className} href="/" onClick={(e) => { e.preventDefault(); onClick && onClick(); }}>
+      <span className="logo-seal" aria-hidden="true">AL</span>
+      <span className="logo-text">Atelier <em>Limité</em></span>
+    </a>
   );
 }
 
@@ -99,7 +103,7 @@ function ImageWell({ tone = "#1E1E1B", mark, style, className = "" }) {
    quiet full-screen menu behind the trigger. Almost no chrome. */
 function Header({ route, go }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const rooms = [["home", "The wall"], ["practice", "The practice"], ["list", "The list"]];
+  const rooms = [["home", "The wall", "I"], ["practice", "The practice", "II"], ["list", "The list", "III"]];
   const more = [["journal", "Journal"], ["artists", "Artists"], ["archive", "Archive"], ["product", "Future edition preview"]];
   const isCurrent = (r) =>
     route === r ||
@@ -111,8 +115,10 @@ function Header({ route, go }) {
       <header className="site-header" data-menu-open={menuOpen}>
         <Wordmark onClick={() => { setMenuOpen(false); go("home"); }} />
         <nav className="site-nav">
-          {rooms.map(([r, label]) => (
-            <a key={r} href={pathFor(r)} data-current={isCurrent(r)} onClick={navTo(r)}>{label}</a>
+          {rooms.map(([r, label, num]) => (
+            <a key={r} href={pathFor(r)} data-current={isCurrent(r)} onClick={navTo(r)}>
+              <span className="nav-num" aria-hidden="true">{num}</span>{label}
+            </a>
           ))}
         </nav>
         <div className="nav-actions">

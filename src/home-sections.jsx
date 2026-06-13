@@ -7,6 +7,7 @@ function PrivateView({ joined, onJoin }) {
   const f = usePrivateViewSignup(onJoin);
   return (
     <section className="pvl-section" id="private">
+      {joined && <div className="wax-stamp" aria-hidden="true">AL</div>}
       <div className="pvl-eyebrow"><span className="pvl-eyebrow-line"></span><span className="pvl-eyebrow-label">Private view list</span><span className="pvl-eyebrow-line"></span></div>
       <h2 className="pvl-title">{joined ? "You're on the founding list." : "Join the first private view."}</h2>
       <p className="pvl-sub">{joined ? "We'll write as the studies, the artist conversations, and the first edition take shape. Welcome to the founding list." : "Be first to follow the studies, the artist conversations, and the future wearable editions."}</p>
