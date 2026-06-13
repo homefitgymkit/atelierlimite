@@ -1238,3 +1238,7 @@ body {
 
 /* About FAQ pre-launch framing note */
 .faq-prelaunch-note { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--dust); max-width: 60ch; line-height: 1.6; margin-bottom: 40px; }
+
+/* About hero pre-launch framing line (quiet, on the dark hero) */
+.page-prelaunch { margin-top: 20px; font-family: var(--sans); font-size: 11px; font-weight: 300;
+  letter-spacing: 0.14em; text-transform: uppercase; color: var(--canvas); max-width: 54ch; line-height: 1.7; }

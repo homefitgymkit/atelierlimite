@@ -27,6 +27,7 @@ function AboutPage({ go }) {
           <div className="page-eyebrow"><span className="l"></span><span className="t">About · Atelier Limité</span></div>
           <h1 className="page-title">A wearable gallery, <em>built around the artist.</em></h1>
           <p className="page-lead">{AL_ABOUT.lead}</p>
+          <p className="page-prelaunch">Atelier Limité is pre-launch. What follows is the model we intend to build, before Edition 01 exists, not a live service yet.</p>
         </div>
       </section>
 
