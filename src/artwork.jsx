@@ -7,10 +7,11 @@
    Exposes: ART, ArtComposition, FramedArt, TeeMockup, HoodieMockup
    ============================================================ */
 
-/* Flip to true once the transparent print PNGs are in public/assets
-   (print-01.png … print-07.png). Until then the mockups print the
-   JPG study as a stand-in. */
-const PRINTS_READY = false;
+/* Transparent screen-print PNGs (print-01…07.png) are in public/assets.
+   Interim: keyed from the on-disk studies (paper → transparent so the
+   print sits on the fabric); regenerate from the clean supplied art to
+   sharpen. The single AL.01 edition mark is drawn by the mockup. */
+const PRINTS_READY = true;
 
 /* Artwork registry, id → { title, note, src, print, bg }.
    bg is the painting's dominant ground, used to choose garment
@@ -100,17 +101,14 @@ function PrintZone({ id, art, color, isDark, x, y, w, h }) {
     <g>
       <clipPath id={"pz-" + id}><rect x={x} y={y} width={w} height={h}/></clipPath>
       <g clipPath={`url(#pz-${id})`}>
-        {/* PNG is transparent so the fabric reads through; JPG fills */}
+        {/* transparent PNG: only the ink prints, paper reads as bare fabric.
+           No overlay rects here, or they'd draw a box on the bare fabric. */}
         <image href={printSrc(art)} x={x} y={y} width={w} height={h} preserveAspectRatio="xMidYMid meet"/>
-        {/* fabric fold falloff across the print */}
-        <rect x={x} y={y} width={w} height={h} fill={`url(#fold-${id})`} opacity="0.5"/>
-        {/* inset shadow: edges sink into the cloth */}
-        <rect x={x} y={y} width={w} height={h} fill={`url(#printInset-${id})`}/>
       </g>
       {PRINTS_READY && (
         <text x={x + w - 3} y={y + h - 3} textAnchor="end"
           fontFamily="Georgia, serif" fontStyle="italic" fontSize="6"
-          fill={isDark ? "rgba(245,242,236,0.5)" : "rgba(26,26,24,0.45)"}>AL.{art.n}</text>
+          fill={isDark ? "rgba(245,242,236,0.5)" : "rgba(26,26,24,0.45)"}>AL.01</text>
       )}
     </g>
   );
