@@ -86,9 +86,9 @@ function WorkPage({ go }) {
 function PrivateViewPage({ go, joined, onJoin }) {
   const f = usePrivateViewSignup(onJoin);
   const promises = [
-    { num: "48h", t: "Early access before\nevery public opening" },
-    { num: "01", t: "First pick of the\nlowest edition numbers" },
-    { num: "New", t: "Edition openings and\nstudio news, first" },
+    { num: "01", t: "Follow the studies\nand garment tests" },
+    { num: "02", t: "Hear the artist\nconversations first" },
+    { num: "03", t: "Early access when\neditions are confirmed" },
   ];
   return (
     <main className="pv-page" id="private">
@@ -97,10 +97,10 @@ function PrivateViewPage({ go, joined, onJoin }) {
         <div className="page-eyebrow" style={{ justifyContent: "center" }}>
           <span className="l"></span><span className="t">The private view list</span><span className="l"></span>
         </div>
-        <h1 className="pv-title">{joined ? <>You're on <em>the list.</em></> : <>48 hours before <em>the public.</em></>}</h1>
+        <h1 className="pv-title">{joined ? <>You're on <em>the founding list.</em></> : <>Join the <em>first private view.</em></>}</h1>
         <p className="pv-lead">{joined
-          ? "We'll write when Edition 01 opens, with the occasional studio note. The first opening is yours to see first."
-          : "An invitation-only preview of every edition, in the tradition of a gallery private view. Early access before the public, plus the occasional studio note."}</p>
+          ? "We'll write as the studies, the artist conversations, and the first edition take shape. Welcome to the founding list."
+          : "The founding list for Atelier Limité, in the tradition of a gallery private view. Be first to follow the studies, artist conversations, and future wearable editions."}</p>
 
         {!joined ? (
           <React.Fragment>
@@ -112,7 +112,7 @@ function PrivateViewPage({ go, joined, onJoin }) {
           </React.Fragment>
         ) : (
           <div style={{ marginTop: 48 }}>
-            <button className="btn-primary" onClick={() => go("product")}>See Edition 01</button>
+            <button className="btn-primary" onClick={() => go("product")}>See the future edition preview</button>
           </div>
         )}
 

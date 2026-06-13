@@ -97,20 +97,20 @@ function HeroTee() {
   );
 }
 
-/* ---------- product card ---------- */
+/* ---------- future edition preview card (clearly conceptual) ---------- */
 function ProductCard({ go }) {
   return (
     <aside className="hm-card">
-      <div className="hm-card-eyebrow">Edition {AL.edition.no} · Artist series</div>
-      <h3 className="hm-card-title">Artist Edition Tee</h3>
+      <div className="hm-card-eyebrow">Concept preview</div>
+      <h3 className="hm-card-title">Future wearable edition</h3>
       <dl className="hm-card-rows">
-        <div><dt>Fabric</dt><dd>Heavyweight cotton</dd></div>
-        <div><dt>Fit</dt><dd>Oversized</dd></div>
-        <div><dt>Edition</dt><dd>Limited to 80 pieces</dd></div>
-        <div><dt>Price</dt><dd>$95 AUD</dd></div>
+        <div><dt>Artist</dt><dd>To be announced</dd></div>
+        <div><dt>Edition</dt><dd>Size to be confirmed</dd></div>
+        <div><dt>Garment</dt><dd>Heavyweight cotton, planned</dd></div>
+        <div><dt>Format</dt><dd>Numbered, artist-first</dd></div>
       </dl>
-      <p className="hm-card-note">Artwork printed as a wearable edition.</p>
-      <button className="hm-card-link" onClick={() => go("product", "tee")}>View Edition 01 →</button>
+      <p className="hm-card-note">How an edition will be presented, once the first artist collaboration is confirmed.</p>
+      <button className="hm-card-link" onClick={() => go("product", "tee")}>See the future edition preview →</button>
     </aside>
   );
 }
@@ -202,9 +202,9 @@ export function HeroMorph({ go }) {
             <img className="hm-static-print" src={art.print} alt="" />
           </div>
           <div className="hm-static-copy">
-            <div className="hm-plate-line">047 / 080 · Edition {AL.edition.no}</div>
+            <div className="hm-plate-line">Concept preview · Before Edition 01 exists</div>
             <h1 className="hm-h">A wall that walks.</h1>
-            <p className="hm-sub">Limited wearable editions created with artists.</p>
+            <p className="hm-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
             <button className="btn-primary" onClick={() => go("private")}>Join the private view</button>
           </div>
           <ProductCard go={go} />
@@ -224,9 +224,9 @@ export function HeroMorph({ go }) {
 
         {/* 3 typography — phase A (on the wall) */}
         <div className="hm-a" ref={set("a")}>
-          <div className="hm-eyebrow">Edition {AL.edition.no} · Artist series</div>
+          <div className="hm-eyebrow">Before Edition 01 exists</div>
           <h1 className="hm-h">The artwork leaves the wall.</h1>
-          <p className="hm-sub">Limited wearable editions created with artists.</p>
+          <p className="hm-sub">Limited wearable editions, created with artists. Join the first private view.</p>
         </div>
 
         {/* 4 frame + 5 glass (glass sits over the work, as real museum glass does) */}
@@ -237,8 +237,8 @@ export function HeroMorph({ go }) {
           <div className="hm-glass" ref={set("glass")}></div>
         </figure>
 
-        {/* edition plate */}
-        <div className="hm-plate" ref={set("plate")} aria-hidden="true">047 / 080 · Edition {AL.edition.no}</div>
+        {/* edition plate — example numbering, clearly a concept */}
+        <div className="hm-plate" ref={set("plate")} aria-hidden="true">047 / 080 · example edition number</div>
 
         {/* 7 tee (under the art) */}
         <div className="hm-tee" ref={set("tee")} aria-hidden="true"><HeroTee /></div>
@@ -255,9 +255,9 @@ export function HeroMorph({ go }) {
         {/* 9 final headline · CTA · product card — phase D */}
         <div className="hm-d" ref={set("d")}>
           <div className="hm-d-copy">
-            <div className="hm-plate-line">047 / 080 · Edition {AL.edition.no}</div>
+            <div className="hm-plate-line">Concept preview · Future edition</div>
             <h2 className="hm-h hm-h--final">A wall that walks.</h2>
-            <p className="hm-sub">Be first to access limited, artist-led wearable editions.</p>
+            <p className="hm-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
             <button className="btn-primary hm-cta" onClick={() => go("private")}>Join the private view</button>
           </div>
           <ProductCard go={go} />

@@ -132,7 +132,7 @@ function Header({ route, go }) {
 
 /* ---------- EDITION LINE (static, replaces the marquee ticker) ---------- */
 function EditionLine() {
-  const items = [`Edition ${AL.edition.no}`, AL.edition.opens, "Wear the artwork"];
+  const items = ["A pre-launch gallery for wearable art", "Before Edition 01 exists", "Wear the artwork"];
   return (
     <div className="edition-line">
       {items.map((t, i) => (

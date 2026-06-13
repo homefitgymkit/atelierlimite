@@ -35,10 +35,10 @@ export function pathFor(route, arg) {
 export function titleFor(loc) {
   const base = "Atelier Limité";
   switch (loc.route) {
-    case "home":    return base + " · Numbered artist editions · Sydney";
+    case "home":    return base + " · A pre-launch gallery for wearable art · Sydney";
     case "product": {
       const p = AL.products.find((x) => x.id === loc.arg) || AL.products[0];
-      return `${p.name} · Edition ${AL.edition.no} · ${base}`;
+      return `${p.name} · Future edition preview · ${base}`;
     }
     case "journal-article": {
       const a = AL_JOURNAL.find((x) => x.slug === loc.arg) || AL_JOURNAL[0];
@@ -60,7 +60,7 @@ export function descFor(loc) {
   switch (loc.route) {
     case "product": {
       const p = AL.products.find((x) => x.id === loc.arg) || AL.products[0];
-      return `${p.name}, ${p.gsm}, GOTS-certified. Edition of ${p.editionSize}, numbered, with a certificate of edition. Opens with Edition 01; register interest to see it 48 hours before the public.`;
+      return `A concept preview of a future Atelier Limité wearable edition (${p.name}). Artist, edition size and price to be confirmed. Join the private view to hear first.`;
     }
     case "journal-article": {
       const a = AL_JOURNAL.find((x) => x.slug === loc.arg) || AL_JOURNAL[0];
@@ -68,13 +68,13 @@ export function descFor(loc) {
     }
     case "article":    return "An Artist Edition is a fixed, numbered run of garments made with a single artist: a unique number, the artist's name on the label, and a certificate of edition.";
     case "journal":    return "How the editions actually work: the model, the numbering, the certificate, the way artists are chosen. No marketing, just the record.";
-    case "collection": return "A gallery wall of studio studies, and how a work wears on the two garments. Edition 01's artwork takes its place at the opening.";
+    case "collection": return "The study wall: early studies, garment tests, and visual references, before they become wearable editions. Atelier Limité is pre-launch.";
     case "artists":    return "The roster begins with Edition 01. One artist opens it: their work, their name on every label, and half of every sale.";
     case "archive":    return "Editions move here when they close, permanently. Nothing has closed yet; Edition 01 will be the first.";
     case "about":      return "A wearable gallery built around the artist: 50/50 net profit split, full IP retention, numbered editions, permanent closure. The full FAQ.";
     case "work":       return "For artists: we split net profit 50/50, you keep your IP, we handle production, fulfilment and the gallery. Every submission gets a genuine response.";
-    case "private":    return "The private view list: 48-hour early access to every edition before its public opening, plus the occasional studio note.";
-    default:           return "A Sydney capsule apparel brand. One artist per edition, a numbered run on organic cotton, and half of net profit paid to the artist. Edition 01 opens soon; join the private view list.";
+    case "private":    return "The founding private view list. Be first to follow the studies, artist conversations, and future wearable editions, before Edition 01 exists.";
+    default:           return "A pre-launch Sydney gallery for artist-led wearable editions, building its first private audience before Edition 01 exists. One artist per edition, half of net profit to the artist. Join the private view.";
   }
 }
 

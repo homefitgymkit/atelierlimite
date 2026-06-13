@@ -51,8 +51,6 @@ function Article({ go }) {
           <span className="article-meta-item">Sydney, NSW · Australia</span>
           <div className="article-meta-sep"></div>
           <span className="article-meta-item">June 2026</span>
-          <div className="article-meta-sep"></div>
-          <span className="article-meta-item">10 min read</span>
         </div>
       </div>
 
@@ -102,9 +100,9 @@ function Article({ go }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
-        <h2 className="cta-title">Be first through <em>the door.</em></h2>
-        <p className="cta-sub">Numbered. Named. Worn.</p>
+        <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
+        <h2 className="cta-title">Be on the <em>founding list.</em></h2>
+        <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
         <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>

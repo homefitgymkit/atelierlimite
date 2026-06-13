@@ -19,8 +19,8 @@ function JournalIndex({ go }) {
         <div className="page-hero-bigchar" aria-hidden="true">¶</div>
         <div className="page-hero-inner">
           <div className="page-eyebrow"><span className="l"></span><span className="t">The journal</span></div>
-          <h1 className="page-title">How the <em>editions</em> actually work.</h1>
-          <p className="page-lead">Everything we believe, written plainly, the model, the numbering, the certificate, the way we choose artists. No marketing. Just the record.</p>
+          <h1 className="page-title">Notes on the <em>model.</em></h1>
+          <p className="page-lead">How the editions are intended to work, written plainly: the model, the numbering, the way we choose artists. No marketing, just the record.</p>
         </div>
       </section>
 
@@ -33,7 +33,7 @@ function JournalIndex({ go }) {
               <div className="jf-tag">{feature.tag}</div>
               <h2 className="jf-title">{feature.title}</h2>
               <p className="jf-lead">{feature.lead}</p>
-              <div className="jf-more"><span>Read the article</span><span className="jf-arrow">→</span><span className="jf-rt">{feature.readtime}</span></div>
+              <div className="jf-more"><span>Read the article</span><span className="jf-arrow">→</span></div>
             </div>
           </button>
         </Reveal>
@@ -48,7 +48,7 @@ function JournalIndex({ go }) {
                 <div className="jc-cat">{a.category}</div>
                 <h3 className="jc-title">{a.title}</h3>
                 <p className="jc-excerpt">{a.lead.slice(0, 132)}…</p>
-                <div className="jc-foot"><span className="jc-rt">{a.readtime}</span><span className="jc-arrow">→</span></div>
+                <div className="jc-foot"><span className="jc-rt">Read</span><span className="jc-arrow">→</span></div>
               </button>
             </Reveal>
           ))}
@@ -76,8 +76,7 @@ function JournalArticle({ go, slug }) {
         <h1 className="article-title">{a.title}</h1>
         <div className="article-meta">
           <span className="article-meta-item">Atelier Limité</span><div className="article-meta-sep"></div>
-          <span className="article-meta-item">Sydney, NSW</span><div className="article-meta-sep"></div>
-          <span className="article-meta-item">{a.readtime}</span>
+          <span className="article-meta-item">Sydney, NSW</span>
         </div>
       </div>
 
@@ -119,9 +118,9 @@ function JournalArticle({ go, slug }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
-        <h2 className="cta-title">Be first through <em>the door.</em></h2>
-        <p className="cta-sub">Numbered. Named. Worn.</p>
+        <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
+        <h2 className="cta-title">Be on the <em>founding list.</em></h2>
+        <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
         <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>

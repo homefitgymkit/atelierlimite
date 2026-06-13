@@ -106,7 +106,7 @@ export function JournalForward({ go }) {
           {more.map((a) => (
             <button key={a.slug} className="jfwd-item" onClick={() => go("journal-article", a.slug)}>
               <span className="jfwd-i-title">{a.title}</span>
-              <span className="jfwd-i-rt">{a.readtime}</span>
+              <span className="jfwd-i-rt" aria-hidden="true">→</span>
             </button>
           ))}
           <button className="jfwd-all" onClick={() => go("journal")}>All journal entries →</button>

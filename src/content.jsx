@@ -50,7 +50,7 @@ const AL_FAQ = [
 
 /* About / brand story (from what-is + what-makes-different) */
 const AL_ABOUT = {
-  lead: "Extraordinary artists exist everywhere. Most never reach the audience their work deserves. Atelier Limité exists to close that gap, pairing one artist's work with premium organic cotton, in numbered editions that pay the artist half of everything.",
+  lead: "Extraordinary artists exist everywhere. Most never reach the audience their work deserves. Atelier Limité exists to close that gap, pairing one artist's work with premium organic cotton, in numbered editions that pay the artist half of everything. We are pre-launch: what follows is the model we are building, before Edition 01 exists.",
   principles: [
     { n: "01", t: "Artist-led, structurally", b: "The artist's name leads on every surface; our wordmark is subordinate to it. Not a logo on a blank, a body of work, credited and worn." },
     { n: "02", t: "Fifty / fifty, always", b: "50% of net profit to every artist, every quarter, with a transparent statement. Non-negotiable, identical for everyone. The artist keeps full IP." },

@@ -36,7 +36,7 @@ function CollectionWork({ work, index, go }) {
 
         <div className="cg-drop" data-open={open}>
           <div className="cg-drop-inner">
-            <p className="cg-drop-label">How a work wears on the two garments</p>
+            <p className="cg-drop-label">A garment test, how a study could wear</p>
             <div className="cg-garments">
               <div className="cg-garment">
                 <div className="cg-garment-stage"><TeeMockup id={work.id} color="#1A1A18" /></div>
@@ -47,7 +47,7 @@ function CollectionWork({ work, index, go }) {
                 <span className="cg-garment-name">Heavyweight Hoodie</span>
               </div>
             </div>
-            <button className="cg-view" onClick={() => go("product", "tee")}>View the pieces</button>
+            <button className="cg-view" onClick={() => go("product", "tee")}>See the future edition preview</button>
           </div>
         </div>
       </div>
@@ -61,9 +61,9 @@ function CollectionGallery({ go }) {
       <section className="page-hero">
         <div className="page-hero-bigchar" aria-hidden="true">◈</div>
         <div className="page-hero-inner">
-          <div className="page-eyebrow"><span className="l"></span><span className="t">The collection</span></div>
-          <h1 className="page-title">How an <em>artwork</em> becomes an edition.</h1>
-          <p className="page-lead">No edition has opened yet, so this wall hangs studio studies: tap any frame and the work lifts out, onto the garments it would be printed on. Edition 01's artwork takes its place at the opening.</p>
+          <div className="page-eyebrow"><span className="l"></span><span className="t">The study wall</span></div>
+          <h1 className="page-title">The <em>first wall.</em></h1>
+          <p className="page-lead">No edition is open yet. This wall is where early studies, garment tests, and visual references live before they become wearable editions. Tap any frame to see how a study could wear.</p>
         </div>
       </section>
 
@@ -74,9 +74,9 @@ function CollectionGallery({ go }) {
       </section>
 
       <section className="cta-block">
-        <div className="cta-eyebrow">Edition {AL.edition.no} · {AL.edition.opens}</div>
-        <h2 className="cta-title">Be first through <em>the door.</em></h2>
-        <p className="cta-sub">Numbered. Named. Worn.</p>
+        <div className="cta-eyebrow">Before Edition {AL.edition.no} exists</div>
+        <h2 className="cta-title">Follow the wall as <em>it grows.</em></h2>
+        <p className="cta-sub">Be first to follow the studies, artist conversations, and future wearable editions.</p>
         <button className="btn-cta" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>

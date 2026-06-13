@@ -73,19 +73,19 @@ function Collection({ go }) {
 /* Upcoming editions — a gallery exhibitions programme. Honest:
    one edition opening soon, the rest a forward programme. */
 const AL_PROGRAMME = [
-  { no: "01", when: "Opening soon",      artist: "Announced at the opening", title: "The first edition", status: "now" },
-  { no: "02", when: "Edition two",       artist: "To be announced",          title: "Announced at the opening" },
-  { no: "03", when: "Edition three",     artist: "To be announced",          title: "Announced at the opening" },
-  { no: "04", when: "Edition four",      artist: "To be announced",          title: "Announced at the opening" },
+  { no: "01", when: "In development",  artist: "To be announced", title: "The first edition", status: "now" },
+  { no: "02", when: "Planned",         artist: "To be announced", title: "To be announced" },
+  { no: "03", when: "Planned",         artist: "To be announced", title: "To be announced" },
+  { no: "04", when: "Planned",         artist: "To be announced", title: "To be announced" },
 ];
 
 function UpcomingEditions({ go }) {
   return (
     <section className="prog">
       <div className="prog-head">
-        <p className="label">The programme</p>
-        <h2 className="prog-title">Upcoming <em>editions</em></h2>
-        <p className="prog-note">Four editions a year, each built around one artist. The first opens to the private view list before anyone else.</p>
+        <p className="label">The planned programme</p>
+        <h2 className="prog-title">Future <em>editions</em></h2>
+        <p className="prog-note">The intended rhythm: artist-led editions, each built around one artist. The first will open to the private view list before anyone else.</p>
       </div>
       <div className="prog-table" role="table" aria-label="Upcoming editions">
         <div className="prog-row prog-row--head" role="row">
@@ -103,7 +103,7 @@ function UpcomingEditions({ go }) {
           </div>
         ))}
       </div>
-      <button className="prog-cta" onClick={() => go("private")}>Be first to the opening →</button>
+      <button className="prog-cta" onClick={() => go("private")}>Join the private view →</button>
     </section>
   );
 }
@@ -123,8 +123,8 @@ function StudiesMosaic() {
     <section className="mosaic">
       <Reveal className="mosaic-head">
         <p className="label label--light">From the studio</p>
-        <h2 className="mosaic-title">Studies, <em>in preparation.</em></h2>
-        <p className="mosaic-note">A wall of working studies. Edition 01's artwork takes its place at the opening.</p>
+        <h2 className="mosaic-title">Early <em>studies.</em></h2>
+        <p className="mosaic-note">Working studies and garment tests, before the first wearable edition exists.</p>
       </Reveal>
       <div className="mosaic-grid">
         {MOSAIC.map((m, i) => (
@@ -149,9 +149,9 @@ function FirstArtist({ go }) {
         <div ref={driftRef} style={{ width: "62%" }}><FramedArt id="figure" className="on-dark" /></div>
       </div>
       <div className="af-content">
-        <p className="label label--light">Edition {AL.edition.no} · The first artist</p>
-        <h2 className="af-name">Announced at the opening.</h2>
-        <blockquote className="af-quote">Edition 01's artist is announced to the private view list first, with the artwork, the pieces, and the opening date.</blockquote>
+        <p className="label label--light">The first artist</p>
+        <h2 className="af-name">In conversation.</h2>
+        <blockquote className="af-quote">We are speaking with the first artists to shape Atelier Limité. Private view members hear who, and see the first work, before anyone else.</blockquote>
         <div className="af-meta">
           <span className="af-meta-line"></span>
           <button className="af-link" onClick={() => go("private")}>Join the private view</button>
@@ -189,8 +189,8 @@ function PrivateView({ joined, onJoin }) {
   return (
     <section className="pvl-section" id="private">
       <div className="pvl-eyebrow"><span className="pvl-eyebrow-line"></span><span className="label label--light">Private view list</span><span className="pvl-eyebrow-line"></span></div>
-      <h2 className="pvl-title">{joined ? "You're on the list." : "48 hours before the public."}</h2>
-      <p className="pvl-sub">{joined ? "We'll write when Edition 01 opens, with the occasional studio note. See you at the opening." : "Early access to every edition before it opens to the public, plus studio news straight to your inbox."}</p>
+      <h2 className="pvl-title">{joined ? "You're on the founding list." : "Join the first private view."}</h2>
+      <p className="pvl-sub">{joined ? "We'll write as the studies, the artist conversations, and the first edition take shape. Welcome to the founding list." : "Be first to follow the studies, artist conversations, and future wearable editions."}</p>
       {!joined && (
         <form className="pvl-form" onSubmit={f.submit}>
           <input className="pvl-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
@@ -198,7 +198,7 @@ function PrivateView({ joined, onJoin }) {
         </form>
       )}
       {!joined && f.error && <p className="form-error-line" role="alert">{f.error}</p>}
-      <p className="pvl-note">Early access, studio news, and the occasional offer.</p>
+      <p className="pvl-note">Private view members will be first to hear about future editions and early-access windows when editions are confirmed.</p>
     </section>
   );
 }

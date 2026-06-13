@@ -1212,3 +1212,29 @@ body {
   .hm-card-after .hm-card { width: 100%; max-width: 380px; margin: 0 auto; }
   .hm-static-inner { grid-template-columns: 1fr; }
 }
+
+/* ════════ Future Edition Preview (concept) ════════ */
+.pdp-concept-banner { display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  background: var(--surface-2); border-bottom: 0.5px solid var(--rule-inv);
+  padding: 14px 56px; }
+.pdp-concept-tag { font-family: var(--sans); font-size: 10px; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--studio-black); background: var(--canvas); padding: 5px 12px; white-space: nowrap; }
+.pdp-concept-text { font-family: var(--serif); font-style: italic; font-size: 15px; color: rgba(245,242,236,0.66); }
+/* concept detail rows replace the old price row */
+.pdp-concept-rows { display: flex; flex-direction: column; margin: 24px 0 30px; }
+.pdp-cr { display: flex; justify-content: space-between; gap: 18px; padding: 11px 0; border-top: 0.5px solid var(--rule); }
+.pdp-cr-k { font-family: var(--sans); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dust); }
+.pdp-cr-v { font-family: var(--serif); font-size: 16px; color: var(--ink); text-align: right; }
+/* intended-to-ship band */
+.pdp-included-intro { font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--canvas); margin-bottom: 28px; }
+.pdp-included-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; }
+.pdp-included { display: block; } /* override the old 4-col grid; grid now lives on the inner wrapper */
+
+@media (max-width: 768px) {
+  .pdp-concept-banner { padding: 12px 22px; }
+  .pdp-included-grid { grid-template-columns: 1fr 1fr; gap: 26px 1px; }
+}
+
+/* About FAQ pre-launch framing note */
+.faq-prelaunch-note { font-family: var(--serif); font-style: italic; font-size: 16px; color: var(--dust); max-width: 60ch; line-height: 1.6; margin-bottom: 40px; }

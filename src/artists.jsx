@@ -9,27 +9,27 @@ function ArtistsScreen({ go }) {
     <main style={{ background: "var(--ivory)" }}>
       <div className="section-header" style={{ borderBottom: "0.5px solid var(--rule)" }}>
         <div>
-          <p className="label">The roster</p>
+          <p className="label">The first collaborations</p>
           <h2 className="section-h2">Artists</h2>
         </div>
-        <span className="label" style={{ alignSelf: "flex-end" }}>The roster begins with Edition 01</span>
+        <span className="label" style={{ alignSelf: "flex-end" }}>Artist conversations open now</span>
       </div>
 
       <section className="roster-hero">
-        <p className="label" style={{ marginBottom: 18 }}>Edition 01</p>
-        <h1 className="roster-title">The first name is <em>announced at the opening.</em></h1>
-        <p className="roster-lead">One artist opens the roster with Edition 01: their work, their name on every label, and half of every sale. The private view list hears first.</p>
+        <p className="label" style={{ marginBottom: 18 }}>For artists</p>
+        <h1 className="roster-title">We're looking for the first artists to <em>shape Atelier Limité.</em></h1>
+        <p className="roster-lead">Your work stays yours. We handle production, the edition page, fulfilment, and the collector experience. Profit is shared 50/50, with a transparent statement. We're starting the first conversations now, before Edition 01 exists.</p>
         <div className="roster-actions">
-          <button className="btn-primary dark" onClick={() => go("private")}>Join the private view</button>
-          <button className="btn-ghost ink" onClick={() => go("journal-article", "artist-selection")}>How we choose artists</button>
+          <a className="btn-primary dark" href="mailto:artists@atelierlimite.com" style={{ textDecoration: "none", display: "inline-block" }}>Start a conversation</a>
+          <button className="btn-ghost ink" onClick={() => go("work")}>How the model works</button>
         </div>
       </section>
 
       <section className="artist-call">
-        <p className="label label--light" style={{ marginBottom: 16 }}>Are you an artist?</p>
-        <h2 className="artist-call-title">We split everything, 50/50.</h2>
-        <p className="artist-call-lead">You keep your IP. We handle production, fulfilment, and the gallery. The work reaches a wider audience and you're paid every quarter.</p>
-        <button className="btn-primary" onClick={() => go("work")}>How the model works</button>
+        <p className="label label--light" style={{ marginBottom: 16 }}>Following along?</p>
+        <h2 className="artist-call-title">Be on the founding list.</h2>
+        <p className="artist-call-lead">Be first to follow the studies, artist conversations, and future wearable editions as Atelier Limité takes shape.</p>
+        <button className="btn-primary" onClick={() => go("private")}>Join the private view</button>
       </section>
     </main>
   );
@@ -50,7 +50,7 @@ function ArchiveScreen({ go }) {
         <h1 className="archive-title">The archive is empty, <em>deliberately.</em></h1>
         <p className="archive-lead">Editions move here when they close, permanently: never reprinted, never restocked, never reopened. Nothing has closed yet. Edition 01 will be the first to hang here.</p>
         <div style={{ marginTop: 40 }}>
-          <button className="btn-primary dark" onClick={() => go("product")}>See Edition 01</button>
+          <button className="btn-primary dark" onClick={() => go("collection")}>See the study wall</button>
         </div>
       </section>
     </main>

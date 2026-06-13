@@ -60,10 +60,11 @@ function AboutPage({ go }) {
       {/* FAQ */}
       <section className="faq-page">
         <div className="faq-page-inner">
-          <div className="page-eyebrow" style={{ marginBottom: 40 }}>
+          <div className="page-eyebrow" style={{ marginBottom: 18 }}>
             <span className="l" style={{ background: "var(--bronze)" }}></span>
             <span className="t">Frequently asked</span>
           </div>
+          <p className="faq-prelaunch-note">Atelier Limité is pre-launch. The answers below describe the model we are building, before Edition 01 exists, not a service running today.</p>
           {AL_FAQ.map((grp) => (
             <div className="faq-group" key={grp.group}>
               <div className="faq-group-head">
@@ -81,9 +82,9 @@ function AboutPage({ go }) {
         <div className="page-eyebrow" style={{ justifyContent: "center" }}>
           <span className="l"></span><span className="t">Still curious?</span><span className="l"></span>
         </div>
-        <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: "var(--ivory)", lineHeight: 1.1, marginTop: 14 }}>Every edition tells the rest.</h2>
+        <h2 style={{ fontFamily: "var(--serif)", fontWeight: 300, fontSize: "clamp(30px,4vw,52px)", color: "var(--ivory)", lineHeight: 1.1, marginTop: 14 }}>Be there before the first edition.</h2>
         <div style={{ display: "flex", gap: 20, justifyContent: "center", marginTop: 36 }}>
-          <button className="btn-primary" onClick={() => go("product")}>See Edition 01</button>
+          <button className="btn-primary" onClick={() => go("product")}>Future edition preview</button>
           <button className="btn-ghost" onClick={() => go("private")}>Join the private view</button>
         </div>
       </section>

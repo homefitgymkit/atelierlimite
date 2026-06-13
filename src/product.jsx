@@ -1,10 +1,12 @@
 /* ============================================================
-   Atelier Limité, Storefront UI Kit · Piece detail
-   Pre-launch: no checkout. Each piece page invites the visitor
-   to register interest (the private view list, Brevo-backed).
+   Atelier Limité · Future Edition Preview
+   PRE-LAUNCH: this is a clearly-labelled concept preview, not a
+   live product. No price, no confirmed artist / size / stock.
+   It shows how an edition will be presented once the first
+   collaboration is confirmed, and invites the private view.
    ============================================================ */
 import { useState } from "react";
-import { AL, alPrice, usePrivateViewSignup, ImageWell } from "./ui.jsx";
+import { AL, usePrivateViewSignup, ImageWell } from "./ui.jsx";
 import { ART, TeeMockup, HoodieMockup } from "./artwork.jsx";
 import { PRODUCT_ART } from "./home-sections.jsx";
 
@@ -18,24 +20,30 @@ function Product({ go, productId, joined, onJoin }) {
 
   return (
     <main className="pdp">
+      {/* clearly-labelled concept banner */}
+      <div className="pdp-concept-banner">
+        <span className="pdp-concept-tag">Concept preview</span>
+        <span className="pdp-concept-text">A look at how Atelier Limité editions will be presented once the first artist collaboration is confirmed. Nothing here is for sale yet.</span>
+      </div>
+
       <div className="pdp-top">
         <div className="pdp-gallery">
           {shot === 0 && (
             <div className="pdp-gallery-main pdp-stage"><Mock id={artId} color="#F5F2EC" /></div>
           )}
           {shot === 1 && (
-            <div className="pdp-gallery-main pdp-art"><img src={art.src} alt={`${art.title} · studio study`} /></div>
+            <div className="pdp-gallery-main pdp-art"><img src={art.src} alt={`${art.title}, studio study`} /></div>
           )}
           {shot === 2 && (
-            <ImageWell className="pdp-gallery-main" tone={product.tone} mark={`Edition ${AL.edition.no} · ${product.name} · detail to come`} />
+            <ImageWell className="pdp-gallery-main" tone={product.tone} mark="Garment photography to come" />
           )}
           <div className="pdp-thumbs">
-            <button className="pdp-thumb pdp-thumb-stage" data-active={shot === 0} onClick={() => setShot(0)} aria-label="The garment">
+            <button className="pdp-thumb pdp-thumb-stage" data-active={shot === 0} onClick={() => setShot(0)} aria-label="Garment mockup">
               <Mock id={artId} color="#F5F2EC" />
             </button>
-            <button className="pdp-thumb" data-active={shot === 1} onClick={() => setShot(1)} aria-label="The artwork"
+            <button className="pdp-thumb" data-active={shot === 1} onClick={() => setShot(1)} aria-label="The studio study"
               style={{ backgroundImage: `url(${art.src})`, backgroundSize: "cover", backgroundPosition: "center" }}></button>
-            <button className="pdp-thumb hatch" data-active={shot === 2} onClick={() => setShot(2)} aria-label="Detail, photography to come"
+            <button className="pdp-thumb hatch" data-active={shot === 2} onClick={() => setShot(2)} aria-label="Photography to come"
               style={{ background: product.tone }}></button>
           </div>
         </div>
@@ -43,56 +51,52 @@ function Product({ go, productId, joined, onJoin }) {
         <div className="pdp-detail">
           <div className="pdp-eyebrow">
             <span className="pdp-eyebrow-line"></span>
-            <span className="pdp-eyebrow-text">Edition {AL.edition.no} · {AL.edition.opens}</span>
+            <span className="pdp-eyebrow-text">Future wearable edition</span>
           </div>
-          <div className="pdp-artist">Artist {AL.edition.artist.toLowerCase()}</div>
+          <div className="pdp-artist">Artist to be announced</div>
           <h1 className="pdp-title">{product.name}</h1>
 
-          <div className="pdp-price-row">
-            <span className="pdp-price">{alPrice(product.price)}</span>
-            <span className="pdp-edition-no">/{String(product.editionSize || AL.edition.size).padStart(3, "0")} edition</span>
-            <span className="pdp-remaining">Opens with Edition {AL.edition.no}</span>
+          <div className="pdp-concept-rows">
+            <div className="pdp-cr"><span className="pdp-cr-k">Artist</span><span className="pdp-cr-v">To be announced</span></div>
+            <div className="pdp-cr"><span className="pdp-cr-k">Edition size</span><span className="pdp-cr-v">To be confirmed</span></div>
+            <div className="pdp-cr"><span className="pdp-cr-k">Garment</span><span className="pdp-cr-v">{product.gsm}, planned</span></div>
+            <div className="pdp-cr"><span className="pdp-cr-k">Artwork</span><span className="pdp-cr-v">Studio study, in preparation</span></div>
           </div>
 
-          <div className="pdp-opt-label">Colourways, all three at the opening</div>
+          <div className="pdp-opt-label">Planned colourways</div>
           <div className="pdp-opt-row" aria-hidden="true">
             {AL.colourways.map((c) => (
               <span key={c.id} className="pdp-swatch" style={{ background: c.hex, cursor: "default" }} title={c.name}></span>
             ))}
           </div>
-          <div className="pdp-opt-label" style={{ marginTop: 18 }}>Sizes {AL.sizes[0]} to {AL.sizes[AL.sizes.length - 1]}</div>
 
           <div className="pdp-actions" style={{ flexDirection: "column", alignItems: "stretch", gap: 14 }}>
             {joined ? (
-              <p className="pdp-joined-note">You're on the private view list. We'll write when Edition {AL.edition.no} opens, 48 hours before the public.</p>
+              <p className="pdp-joined-note">You're on the founding private list. We'll write the moment the first edition, artist, and details are confirmed.</p>
             ) : (
               <form className="pdp-interest-form" onSubmit={f.submit}>
                 <input className="pdp-interest-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
-                <button className="btn-primary dark" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Registering…" : "Register interest"}</button>
+                <button className="btn-primary dark" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Joining…" : "Join the private view"}</button>
               </form>
             )}
             {!joined && f.error && <p className="form-error-line ink" role="alert">{f.error}</p>}
-            <p className="pdp-honest-note">Nothing is sold before the opening. Registering joins the private view list: you see the edition 48 hours before the public.</p>
-            <button className="btn-ghost ink" onClick={() => go("article")} style={{ alignSelf: "flex-start" }}>How editions work</button>
-          </div>
-
-          <div className="pdp-meta-list">
-            <div className="pdp-meta-item"><span className="pdp-meta-k">Artwork</span><span className="pdp-meta-v">{AL.edition.artist}</span></div>
-            <div className="pdp-meta-item"><span className="pdp-meta-k">Blank</span><span className="pdp-meta-v">{product.gsm}, GOTS-certified</span></div>
-            <div className="pdp-meta-item"><span className="pdp-meta-k">Print</span><span className="pdp-meta-v">Water-based / discharge, no plastisol</span></div>
-            <div className="pdp-meta-item"><span className="pdp-meta-k">Number assigned</span><span className="pdp-meta-v">At point of order</span></div>
+            <p className="pdp-honest-note">Private view members will be first to hear when the first edition is confirmed. Nothing is for sale, and no artist, size, or price is set yet.</p>
+            <button className="btn-ghost ink" onClick={() => go("article")} style={{ alignSelf: "flex-start" }}>How editions are intended to work</button>
           </div>
         </div>
       </div>
 
       <section className="pdp-included">
-        {AL.included.map((it) => (
-          <div className="pdp-inc-cell" key={it.n}>
-            <div className="pdp-inc-num">{it.n}</div>
-            <div className="pdp-inc-title">{it.t}</div>
-            <div className="pdp-inc-body">{it.b}</div>
-          </div>
-        ))}
+        <p className="pdp-included-intro">Intended to ship with every future edition</p>
+        <div className="pdp-included-grid">
+          {AL.included.map((it) => (
+            <div className="pdp-inc-cell" key={it.n}>
+              <div className="pdp-inc-num">{it.n}</div>
+              <div className="pdp-inc-title">{it.t}</div>
+              <div className="pdp-inc-body">{it.b}</div>
+            </div>
+          ))}
+        </div>
       </section>
     </main>
   );
