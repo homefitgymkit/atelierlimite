@@ -26,18 +26,23 @@ All private-view forms (home section, private view page, product pages) submit t
 
 Standard ES modules under `src/`, bundled by Vite. `src/main.jsx` mounts in the browser (hydrates prerendered HTML; falls back to client render after a legacy `#/` redirect); `src/entry-server.jsx` renders per-route for the prerender step. Components must stay SSR-safe: touch `window`/`localStorage` only inside effects or behind guards.
 
-**Routing** is path-based (`parsePath`/`pathFor`/`titleFor` in `src/routes.js`): `/`, `/piece/:id/`, `/collection/`, `/artists/`, `/journal/`, `/journal/:slug/`, `/editions/`, `/about/`, `/work/`, `/private/`, `/archive/`. `go(route, arg)` pushes history state; a `popstate` listener updates state and every route sets `document.title`. Header/footer use real `<a href>` (crawlable) that preventDefault into `go()`. Legacy `#/…` links are redirected in `main.jsx`. Other top-level state: `joined` (read from `localStorage` after mount).
+**Three rooms.** The IA is collapsed to three: **the wall** (home, `/`), **the practice** (`/practice/`), **the list** (`/list/`). Primary nav is the wordmark + those three + one "Private view" action; everything else (Journal, Artists, Archive, Future edition preview) lives in a quiet full-screen menu and the footer. Legacy paths still resolve: `/about/` `/work/` `/artists/` → the practice, `/private/` → the list, `/collection/` → the wall. `parsePath` marks these `redirect:true` and `app.jsx` rewrites the URL to `canonicalFor(loc)`. Do not re-expand the primary nav.
+
+**Routing** is path-based (`parsePath`/`pathFor`/`canonicalFor`/`titleFor` in `src/routes.js`). `go(route, arg)` pushes history state; a `popstate` listener updates state and every route sets `document.title`. Header/footer use real `<a href>` (crawlable) that preventDefault into `go()`. Other top-level state: `joined` (read from `localStorage` after mount).
 
 **File responsibilities:**
-- `ui.jsx` — `AL` (all brand/edition data, incl. `edition.claimed`), `AL_OPENS`, `AL_BREVO_ACTION`, `alPrice`, `usePrivateViewSignup`, `Header`, `EditionLine`, `Footer`, `ImageWell`, `Wordmark`
+- `ui.jsx` — `AL` (brand/edition data), `alPrice`, `usePrivateViewSignup`, `Header` (3 rooms + action + full-screen `.site-menu`), `Footer`, `ImageWell`, `Wordmark`. (No `EditionLine` — removed.)
 - `content.jsx` — `AL_FAQ`, `AL_ABOUT`, `AL_WORK`; `journal-data.jsx` — `AL_JOURNAL`
-- `motion.jsx` — `Reveal`, `useParallax`, `usePointerDrift`, `REDUCED` (cursor spotlight + magnetic buttons removed deliberately — do not reintroduce)
-- `artwork.jsx` — `ART` registry + `FramedArt`, `TeeMockup`, `HoodieMockup`. Mockups: real SVG silhouettes (the hoodie has hood/pocket/drawstrings/ribbed cuffs+hem, distinct from the tee), a `Stage` (Raw-canvas backdrop behind dark fabric so black reads) + contact shadow, and a `PrintZone` that prints the transparent PNG directly on the fabric — NO overlay rects, NO floating frame. `PRINTS_READY=true`: the print uses `assets/print-01…07.png` (transparent; paper keyed out so the print body matches the sleeves), and a single italic `AL.01` edition mark is drawn by the mockup. The current PNGs are an INTERIM keyed from the on-disk studies (`art-0X.jpg`) via the pipeline in `/tmp/al-assets` (per-image paper threshold → luminance→alpha ramp → snap faint wash → erase baked-label corner → edge feather → trim). To sharpen: drop the clean supplied artwork on white into `public/assets/`, rerun that keying, rebuild.
-- `home.jsx` — **Hero is the signature scroll-morph** (framed numbered 047/080 artwork lifts off the wall onto the garment, load+scroll, reduced-motion static fallback). Do NOT reintroduce the old `.hero-bleed` static hero or the 01/50/50/4 stat row. Also: `ScarcityLine` (`Edition 01 · 0 of 80 claimed · opening soon`, reads `AL.edition.claimed`), `DisciplineMarquee` (paused offscreen), `WaxDivider`.
-- `home-sections.jsx` — `Collection`, `UpcomingEditions` (programme table), `StudiesMosaic`, `FirstArtist`, `HowItWorks`, `PrivateView`
-- `product.jsx` — piece detail with register-interest form; `app.jsx` — route switch; `routes.js` — path/title/desc + `PRERENDER_PATHS`
-- `signature.jsx` — `JournalForward` (on home). `SignatureScroll` still exported but UNUSED (the hero morph supersedes it).
-- NOTE: `position: sticky` is load-bearing in the hero morph — `.app-root` uses `overflow-x: clip`, never `hidden`.
+- `motion.jsx` — `Reveal`, `useParallax`, `REDUCED`. Cursor spotlight, magnetic buttons, and **pointer-drift** were removed deliberately — do not reintroduce.
+- `hero-morph.jsx` — **the frame hero** (`HeroMorph`): one museum-lit framed work on a textured dark wall; on scroll the wall recedes (`.fh-wall` scale + `.fh-scrim`), the work fills, and the wall label (`.fh-resolve`) resolves. **No garment** — the SVG tee was retired. Reduced-motion → static `.fh-static`. `position: sticky` is load-bearing; `.app-root` uses `overflow-x: clip`, never `hidden`.
+- `collection.jsx` — `StudyWall`: the studies walked one per viewport on the dark gallery ground (`.sw`), wall label beneath. No grid, no garment.
+- `practice.jsx` — `Practice`: the 50/50 manifesto, principles, how an edition works, what ships, the case to artists, an honestly-empty artist module, the work-with-us invitation, then the FAQ.
+- `pages.jsx` — `TheList` (the private view list room).
+- `home.jsx` — composes the wall: `HeroMorph` + `StudyWall` + `WaxDivider` + a `PracticePath` + `PrivateView`.
+- `home-sections.jsx` — `PrivateView` only (the list capture, shared by the wall + the list).
+- `product.jsx` — `Product`: the future-edition preview, a framed study + concept labels (no garment, no price).
+- `artwork.jsx` — `ART` registry + `FramedArt`. `TeeMockup`/`HoodieMockup` still exist but are UNUSED; do not map prints onto vector garments anywhere. The shared frame markup is `.fh-frame / .fh-mat / .fh-window / .fh-glass`.
+- `app.jsx` — route switch; `routes.js` — path/title/desc/canonical + `PRERENDER_PATHS`. (`signature.jsx`, the duplicate morph, was deleted; `about.jsx` is unused, folded into the practice.)
 
 ## Design tokens
 
