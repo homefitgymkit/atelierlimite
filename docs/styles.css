@@ -1305,9 +1305,11 @@ body {
 .fh-scrim { position: absolute; inset: 0; z-index: 2; pointer-events: none; background: #0c0c0b; opacity: 0; }
 
 /* ── frame hero (the signature gesture) ── */
-.fh { position: relative; height: 240vh; background: var(--studio-black); }
+.fh { position: relative; height: 200vh; background: var(--studio-black); }
 .fh-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
-.fh-frame-wrap { position: absolute; left: 50%; top: 54%; transform: translate(-50%, -50%); z-index: 3; width: min(330px, 56vw);
+/* frame sized off viewport height so it always fits between the
+   headline band (top) and the label band (bottom) — no overlap. */
+.fh-frame-wrap { position: absolute; left: 50%; top: 49%; transform: translate(-50%, -50%); z-index: 3; width: min(300px, 32vh);
   display: flex; flex-direction: column; align-items: center; gap: 22px; will-change: transform; }
 .fh-plate { font-family: var(--sans); font-weight: 500; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--canvas); }
 .fh-frame-wrap .fh-frame { width: 100%; }
@@ -1315,8 +1317,8 @@ body {
 .fh-h { font-size: clamp(34px, 5vw, 66px); line-height: 1.0; letter-spacing: -0.01em; text-shadow: 0 2px 44px rgba(0,0,0,0.55); }
 .fh-h em { font-style: italic; color: #E9DECB; }
 .fh-head .fh-sub { max-width: 46ch; margin: 16px auto 0; }
-.fh-resolve { position: absolute; left: 0; right: 0; bottom: 8vh; z-index: 4; padding: 0 24px;
-  display: flex; flex-direction: column; align-items: center; gap: 20px; opacity: 0; }
+.fh-resolve { position: absolute; left: 0; right: 0; bottom: 5vh; z-index: 4; padding: 0 24px;
+  display: flex; flex-direction: column; align-items: center; gap: 16px; opacity: 0; }
 .fh-label { display: flex; gap: 30px; flex-wrap: wrap; justify-content: center; margin: 0; }
 .fh-label > div { display: flex; flex-direction: column; gap: 4px; text-align: center; }
 .fh-label dt { font-family: var(--sans); font-weight: 500; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dust); }
@@ -1454,9 +1456,11 @@ body {
   .fep-stamp { top: 5vh; left: 24px; }
 }
 @media (max-width: 600px) {
-  .fh { height: 200vh; }
-  .fh-frame-wrap { top: 56%; width: min(300px, 64vw); }
-  .fh-head { top: 7vh; }
+  .fh { height: 180vh; }
+  .fh-frame-wrap { top: 46%; width: min(240px, 26vh); }
+  .fh-head { top: 6vh; }
+  .fh-resolve { bottom: 5vh; gap: 12px; }
+  .fh-label { display: none; } /* the wide label wraps tall on phones; keep CTA + note */
   .ships-grid { grid-template-columns: 1fr; }
   .list-means { grid-template-columns: 1fr; gap: 0; }
   .list-mean { padding: 24px 0; }

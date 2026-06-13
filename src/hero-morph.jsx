@@ -71,11 +71,12 @@ export function HeroMorph({ go }) {
       const p = Math.min(1, Math.max(0, -r.top / total));
 
       /* the wall recedes: a slow push-in + a darkening scrim */
-      if (wallRef.current) wallRef.current.style.transform = `scale(${f3(smooth(p, 1.06, 1.0, 0, 1))})`;
-      if (scrimRef.current) scrimRef.current.style.opacity = f3(smooth(p, 0, 0.55, 0.25, 1));
-      /* the frame eases forward; the work fills it */
-      if (frameRef.current) frameRef.current.style.transform = `translateY(${f3(smooth(p, 0, -3, 0, 1))}vh) scale(${f3(smooth(p, 1, 1.12, 0, 0.9))})`;
-      if (artRef.current) artRef.current.style.transform = `scale(${f3(smooth(p, 1, 1.16, 0, 0.9))})`;
+      if (wallRef.current) wallRef.current.style.transform = `scale(${f3(smooth(p, 1.05, 1.0, 0, 1))})`;
+      if (scrimRef.current) scrimRef.current.style.opacity = f3(smooth(p, 0, 0.45, 0.3, 1));
+      /* the frame eases forward; the work fills it. NOTE: keep the
+         centring translate(-50%,-50%) — never clobber it. */
+      if (frameRef.current) frameRef.current.style.transform = `translate(-50%, -50%) translateY(${f3(smooth(p, 0, -2, 0, 1))}vh) scale(${f3(smooth(p, 1, 1.05, 0, 0.9))})`;
+      if (artRef.current) artRef.current.style.transform = `scale(${f3(smooth(p, 1, 1.07, 0, 0.9))})`;
       /* the museum glass clears as we move in */
       if (glassRef.current) glassRef.current.style.opacity = f3(smooth(p, 0.9, 0, 0.1, 0.5));
       /* the opening line gives way to the wall label + call */
