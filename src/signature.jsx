@@ -48,7 +48,7 @@ export function SignatureScroll() {
       <section className="sig sig-static">
         <div className="sig-static-grid">
           <img className="sig-static-art" src={art.src} alt={art.title + " · studio study"} />
-          <div className="sig-static-tee"><TeeMockup id={SIG_ART} color="#E8E1D3" /></div>
+          <div className="sig-static-tee"><TeeMockup id={SIG_ART} color="#F5F2EC" /></div>
         </div>
         <p className="sig-cap is-on" style={{ position: "static", marginTop: 28 }}>A wall that walks.</p>
       </section>
@@ -66,7 +66,7 @@ export function SignatureScroll() {
     <section className="sig" ref={wrapRef}>
       <div className="sig-sticky">
         <div className="sig-tee" style={{ opacity: teeOpacity, transform: `scale(${teeScale.toFixed(3)})` }}>
-          <TeeMockup id={SIG_ART} color="#E8E1D3" />
+          <TeeMockup id={SIG_ART} color="#F5F2EC" />
         </div>
         <div className="sig-art" style={{ transform: `translate(-50%, -50%) scale(${artScale.toFixed(3)})`, opacity: artOpacity }}>
           <img src={art.src} alt={art.title + " · studio study"} />

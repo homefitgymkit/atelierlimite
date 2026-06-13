@@ -15,6 +15,7 @@ const AL = {
     opens: AL_OPENS,
     artist: "Announced at the opening",
     size: 80, /* planned run, split across two garments */
+    claimed: 0, /* pre-launch: nothing claimed yet. Wire to real data at launch. */
   },
   colourways: [
     { id: "black", name: "Studio Black", hex: "#1A1A18" },

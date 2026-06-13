@@ -39,11 +39,11 @@ function CollectionWork({ work, index, go }) {
             <p className="cg-drop-label">How a work wears on the two garments</p>
             <div className="cg-garments">
               <div className="cg-garment">
-                <div className="cg-garment-stage"><TeeMockup id={work.id} color="#1b1813" /></div>
+                <div className="cg-garment-stage"><TeeMockup id={work.id} color="#1A1A18" /></div>
                 <span className="cg-garment-name">Heavyweight Tee</span>
               </div>
               <div className="cg-garment">
-                <div className="cg-garment-stage"><HoodieMockup id={work.id} color="#1b1813" /></div>
+                <div className="cg-garment-stage"><HoodieMockup id={work.id} color="#1A1A18" /></div>
                 <span className="cg-garment-name">Heavyweight Hoodie</span>
               </div>
             </div>

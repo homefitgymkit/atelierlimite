@@ -21,7 +21,7 @@ function Product({ go, productId, joined, onJoin }) {
       <div className="pdp-top">
         <div className="pdp-gallery">
           {shot === 0 && (
-            <div className="pdp-gallery-main pdp-stage"><Mock id={artId} color="#E8E1D3" /></div>
+            <div className="pdp-gallery-main pdp-stage"><Mock id={artId} color="#F5F2EC" /></div>
           )}
           {shot === 1 && (
             <div className="pdp-gallery-main pdp-art"><img src={art.src} alt={`${art.title} · studio study`} /></div>
@@ -31,7 +31,7 @@ function Product({ go, productId, joined, onJoin }) {
           )}
           <div className="pdp-thumbs">
             <button className="pdp-thumb pdp-thumb-stage" data-active={shot === 0} onClick={() => setShot(0)} aria-label="The garment">
-              <Mock id={artId} color="#E8E1D3" />
+              <Mock id={artId} color="#F5F2EC" />
             </button>
             <button className="pdp-thumb" data-active={shot === 1} onClick={() => setShot(1)} aria-label="The artwork"
               style={{ backgroundImage: `url(${art.src})`, backgroundSize: "cover", backgroundPosition: "center" }}></button>

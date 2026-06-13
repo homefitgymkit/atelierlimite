@@ -17,8 +17,9 @@ function _artLum(hex) {
 
 function WallLabelCard({ go, product, index }) {
   const artId = PRODUCT_ART[product.id] || "figure";
-  const artBg = (ART[artId] && ART[artId].bg) || "#E7DFD0";
-  const teeColor = _artLum(artBg) > 0.35 ? artBg : "#E8E1D3";
+  const artBg = (ART[artId] && ART[artId].bg) || "#DDD5C4";
+  /* light study → Atelier white fabric; dark study → Studio black (staged on canvas) */
+  const teeColor = _artLum(artBg) > 0.35 ? "#F5F2EC" : "#1A1A18";
   const [worn, setWorn] = useState(false);
   const size = product.editionSize || AL.edition.size;
   return (
@@ -64,6 +65,77 @@ function Collection({ go }) {
       </div>
       <div className="coll-grid">
         {AL.products.map((p, i) => <WallLabelCard key={p.id} go={go} product={p} index={i} />)}
+      </div>
+    </section>
+  );
+}
+
+/* Upcoming editions — a gallery exhibitions programme. Honest:
+   one edition opening soon, the rest a forward programme. */
+const AL_PROGRAMME = [
+  { no: "01", when: "Opening soon",      artist: "Announced at the opening", title: "The first edition", status: "now" },
+  { no: "02", when: "Edition two",       artist: "To be announced",          title: "Announced at the opening" },
+  { no: "03", when: "Edition three",     artist: "To be announced",          title: "Announced at the opening" },
+  { no: "04", when: "Edition four",      artist: "To be announced",          title: "Announced at the opening" },
+];
+
+function UpcomingEditions({ go }) {
+  return (
+    <section className="prog">
+      <div className="prog-head">
+        <p className="label">The programme</p>
+        <h2 className="prog-title">Upcoming <em>editions</em></h2>
+        <p className="prog-note">Four editions a year, each built around one artist. The first opens to the private view list before anyone else.</p>
+      </div>
+      <div className="prog-table" role="table" aria-label="Upcoming editions">
+        <div className="prog-row prog-row--head" role="row">
+          <span role="columnheader">Edition</span>
+          <span role="columnheader">When</span>
+          <span role="columnheader">Artist</span>
+          <span role="columnheader">Title</span>
+        </div>
+        {AL_PROGRAMME.map((r) => (
+          <div key={r.no} className={"prog-row" + (r.status === "now" ? " is-now" : "")} role="row">
+            <span className="prog-no" role="cell"><span className="prog-no-k">Edition</span>{r.no}{r.status === "now" && <span className="prog-pip" aria-hidden="true"></span>}</span>
+            <span className="prog-when" role="cell"><span className="prog-k">When</span>{r.when}</span>
+            <span className="prog-artist" role="cell"><span className="prog-k">Artist</span>{r.artist}</span>
+            <span className="prog-titlecell" role="cell"><span className="prog-k">Title</span>{r.title}</span>
+          </div>
+        ))}
+      </div>
+      <button className="prog-cta" onClick={() => go("private")}>Be first to the opening →</button>
+    </section>
+  );
+}
+
+/* Studies mosaic — an asymmetric, off-grid wall of the studies with
+   generous negative space. Collapses to a clean stack on mobile. */
+const MOSAIC = [
+  { id: "figure", cls: "m-a" },
+  { id: "arc",    cls: "m-b" },
+  { id: "field",  cls: "m-c" },
+  { id: "bloom",  cls: "m-d" },
+  { id: "coast",  cls: "m-e" },
+];
+
+function StudiesMosaic() {
+  return (
+    <section className="mosaic">
+      <Reveal className="mosaic-head">
+        <p className="label label--light">From the studio</p>
+        <h2 className="mosaic-title">Studies, <em>in preparation.</em></h2>
+        <p className="mosaic-note">A wall of working studies. Edition 01's artwork takes its place at the opening.</p>
+      </Reveal>
+      <div className="mosaic-grid">
+        {MOSAIC.map((m, i) => (
+          <Reveal key={m.id} className={"mosaic-cell " + m.cls} delay={(i % 3) * 90}>
+            <figure className="mosaic-fig">
+              <img src={ART[m.id].src} alt={ART[m.id].title + " · studio study"} loading="lazy" />
+              <figcaption>{ART[m.id].title}</figcaption>
+            </figure>
+          </Reveal>
+        ))}
+        <div className="mosaic-void" aria-hidden="true"></div>
       </div>
     </section>
   );
@@ -131,4 +203,4 @@ function PrivateView({ joined, onJoin }) {
   );
 }
 
-export { Collection, WallLabelCard, FirstArtist, HowItWorks, PrivateView, PRODUCT_ART };
+export { Collection, WallLabelCard, FirstArtist, HowItWorks, PrivateView, PRODUCT_ART, UpcomingEditions, StudiesMosaic };
