@@ -2,14 +2,17 @@
   "name": "atelier-limite-storefront",
   "version": "1.0.0",
   "private": true,
-  "description": "Atelier Limit\u00e9 storefront. JSX sources are prebuilt to app.js; no in-browser Babel.",
+  "description": "Atelier Limité storefront. JSX sources are prebuilt to app.js; no in-browser Babel.",
   "scripts": {
     "dev": "vite",
     "build": "vite build && vite build --ssr src/entry-server.jsx --outDir dist-ssr && node scripts/prerender.mjs",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "check": "vite build --outDir node_modules/.cache/al-build-check --emptyOutDir",
+    "test:hero-screenshots": "node scripts/hero-screenshots.mjs"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.0.2",
+    "playwright-core": "^1.60.0",
     "vite": "^8.0.16"
   },
   "dependencies": {

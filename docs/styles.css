@@ -1094,3 +1094,121 @@ body {
   .mosaic-grid { grid-template-columns: 1fr; }
   .mosaic-cell.m-a { grid-column: 1 / 2 !important; }
 }
+
+/* ════════════════════ HERO MORPH — cinematic artwork → tee ════════════════════
+   Layer order (z): 1 wall · 2 spotlight/grain · 3 phase-A type · 4 frame ·
+   5 glass + tee · 6 artwork (the print, travels) · 9 final copy/CTA/card.
+   The component (src/hero-morph.jsx) drives transform/opacity per scroll;
+   these rules supply the look + the p=0 first-paint state. */
+.hm { position: relative; height: 250vh; background: var(--studio-black); }
+.hm-sticky { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+
+/* 1 · wall */
+.hm-wall { position: absolute; inset: -6%; z-index: 1; will-change: transform;
+  background: radial-gradient(116% 78% at 50% 38%, #26241f 0%, #1a1a18 46%, #121210 100%); }
+.hm-wall::after { content: ""; position: absolute; left: 0; right: 0; top: 15%; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(200,184,154,0.16), transparent); }
+
+/* 2 · spotlight + film grain */
+.hm-spot { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(44% 38% at 50% 42%, rgba(245,242,236,0.11), rgba(245,242,236,0) 72%); }
+.hm-grain { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 0.5; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 220px; }
+
+/* 3 · phase-A typography (on the wall) */
+.hm-a { position: absolute; z-index: 3; left: 0; right: 0; bottom: 13vh; text-align: center; padding: 0 24px; will-change: opacity; }
+.hm-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.34em; text-transform: uppercase; color: var(--canvas); }
+.hm-h { font-family: var(--serif); font-weight: 300; font-size: clamp(34px, 5vw, 68px); line-height: 1.04; letter-spacing: -0.01em; color: var(--white); margin-top: 16px; text-shadow: 0 2px 40px rgba(0,0,0,0.5); }
+.hm-h em { font-style: italic; color: #E9DECB; }
+.hm-sub { font-family: var(--serif); font-style: italic; font-size: clamp(15px, 1.6vw, 20px); color: rgba(245,242,236,0.62); margin-top: 14px; }
+
+/* edition plate (museum label) */
+.hm-plate { position: absolute; z-index: 6; left: 50%; top: 63%; transform: translateX(-50%); will-change: opacity;
+  font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--canvas); white-space: nowrap; }
+
+/* 4 · frame (premium depth) */
+.hm-frame { position: absolute; z-index: 4; left: 50%; top: 40%; transform: translate(-50%, -50%);
+  width: min(340px, 62vw); will-change: transform, opacity, filter; }
+.hm-frame-mat { position: relative; background: var(--white); padding: 9%; border: 15px solid #15130f;
+  box-shadow: 0 0 0 1px rgba(200,184,154,0.18) inset, 0 1px 0 rgba(255,255,255,0.05) inset,
+    0 46px 90px -34px rgba(0,0,0,0.85), 0 14px 34px -14px rgba(0,0,0,0.6); }
+.hm-frame-window { aspect-ratio: 5 / 6; background: var(--white);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.18) inset; }
+/* 5 · museum glass sheen over the work */
+.hm-glass { position: absolute; inset: 0; z-index: 5; pointer-events: none; will-change: opacity;
+  background: linear-gradient(122deg, rgba(255,255,255,0.20) 0%, rgba(255,255,255,0.04) 26%, rgba(255,255,255,0) 52%, rgba(255,255,255,0.05) 86%, rgba(255,255,255,0.14) 100%); }
+
+/* 7 · the tee (under the artwork) */
+.hm-tee { position: absolute; z-index: 5; left: 50%; top: 54%; transform: translate(-50%, -50%);
+  width: min(440px, 86vw); will-change: transform, opacity; }
+.hm-tee-svg { width: 100%; height: auto; display: block; }
+
+/* 6 · the travelling artwork = the print.
+   Positioned by JS via measured frame→chest transform (left/top 0 base).
+   The default transform is a sensible first-paint guess before JS runs. */
+.hm-art { position: absolute; z-index: 6; left: 0; top: 0; width: min(248px, 46vw);
+  transform-origin: center center; transform: translate(50vw, 40vh) translate(-50%, -50%);
+  will-change: transform; }
+.hm-art img { width: 100%; height: auto; display: block; }
+.hm-art-fabric { position: absolute; inset: 0; pointer-events: none; mix-blend-mode: multiply;
+  opacity: calc(var(--embed, 0) * 0.55);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23f)'/%3E%3C/svg%3E");
+  background-size: 130px; }
+.hm-art.is-embedded img { mix-blend-mode: multiply; opacity: 0.94; filter: contrast(1.03); }
+
+/* transition line — phase C */
+.hm-c { position: absolute; z-index: 6; left: 0; right: 0; top: 18vh; text-align: center; padding: 0 24px; will-change: opacity;
+  font-family: var(--serif); font-style: italic; font-weight: 300; font-size: clamp(22px, 2.8vw, 34px); color: var(--white); }
+
+/* 9 · final copy · CTA · product card — phase D */
+.hm-d { position: absolute; z-index: 9; inset: 0; display: flex; align-items: center; justify-content: space-between;
+  gap: 24px; padding: 0 6vw; will-change: opacity; }
+.hm-d-copy { max-width: 300px; }
+.hm-plate-line { font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.3em; text-transform: uppercase; color: var(--canvas); }
+.hm-h--final { font-size: clamp(30px, 3.6vw, 52px); margin-top: 12px; }
+.hm-d-copy .hm-sub { color: rgba(245,242,236,0.6); max-width: 30ch; }
+.hm-cta { margin-top: 26px; }
+
+/* product card */
+.hm-card { width: 300px; max-width: 38vw; background: rgba(26,26,24,0.6); backdrop-filter: blur(6px);
+  border: 0.5px solid rgba(245,242,236,0.14); padding: 30px 28px; text-align: left; }
+.hm-card-eyebrow { font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.26em; text-transform: uppercase; color: var(--canvas); }
+.hm-card-title { font-family: var(--serif); font-weight: 300; font-size: 28px; color: var(--white); margin: 12px 0 18px; }
+.hm-card-rows { display: flex; flex-direction: column; }
+.hm-card-rows > div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-top: 0.5px solid rgba(245,242,236,0.1); }
+.hm-card-rows dt { font-family: var(--sans); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(245,242,236,0.5); }
+.hm-card-rows dd { font-family: var(--serif); font-size: 15px; color: rgba(245,242,236,0.9); text-align: right; }
+.hm-card-note { font-family: var(--serif); font-style: italic; font-size: 14px; color: rgba(245,242,236,0.55); margin: 18px 0 16px; line-height: 1.5; }
+.hm-card-link { background: none; border: none; cursor: pointer; padding: 0; font-family: var(--sans); font-size: 10px; font-weight: 300; letter-spacing: 0.26em; text-transform: uppercase; color: var(--canvas); }
+
+/* reduced-motion / no-scroll static composition */
+.hm-static { height: auto; background: var(--studio-black); padding: 80px 0; }
+.hm-static-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+.hm-static-stage { position: relative; }
+.hm-static-stage .hm-tee-svg { width: 100%; }
+.hm-static-print { position: absolute; left: 50%; top: 47%; transform: translate(-50%, -50%); width: 42%; mix-blend-mode: multiply; }
+.hm-static-copy { grid-column: 1 / -1; text-align: center; }
+.hm-static .hm-card { margin: 8px auto 0; }
+
+/* mobile-only trailing product card (hidden on desktop) */
+.hm-card-after { display: none; }
+
+/* ── mobile ── */
+@media (max-width: 768px) {
+  .hm { height: 190vh; }
+  .hm-frame { width: min(58vw, 270px); top: 38%; }
+  .hm-art { width: min(42vw, 200px); transform: translate(50vw, 38vh) translate(-50%, -50%); }
+  .hm-tee { width: min(74vw, 320px); top: 46%; }
+  .hm-a { bottom: 9vh; }
+  .hm-plate { top: 60%; }
+  /* final state: copy + CTA only, anchored to the bottom, clear of the tee */
+  .hm-d { flex-direction: column; justify-content: flex-end; gap: 14px; padding: 0 24px 7vh; text-align: center; }
+  .hm-d-copy { max-width: 32ch; margin: 0 auto; }
+  .hm-d-copy .hm-sub { margin-left: auto; margin-right: auto; }
+  .hm-d .hm-card { display: none; } /* card moves below the hero on mobile */
+  /* the product card as its own block under the hero */
+  .hm-card-after { display: block; background: var(--studio-black); padding: 8vh 24px 10vh; }
+  .hm-card-after .hm-card { width: 100%; max-width: 380px; margin: 0 auto; }
+  .hm-static-inner { grid-template-columns: 1fr; }
+}

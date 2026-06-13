@@ -9,6 +9,7 @@ import { ART, TeeMockup, FramedArt } from "./artwork.jsx";
 import { Reveal, REDUCED } from "./motion.jsx";
 import { Collection, FirstArtist, HowItWorks, PrivateView, UpcomingEditions, StudiesMosaic } from "./home-sections.jsx";
 import { JournalForward } from "./signature.jsx";
+import { HeroMorph } from "./hero-morph.jsx";
 
 const HERO_ART = "figure";
 
@@ -214,7 +215,7 @@ function WallToWardrobe() {
 function Home({ go, joined, onJoin }) {
   return (
     <main>
-      <Hero go={go} />
+      <HeroMorph go={go} />
       <DisciplineMarquee />
       <UpcomingEditions go={go} />
       <Collection go={go} />

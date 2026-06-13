@@ -2,3 +2,8 @@ node_modules/
 package-lock.json
 .DS_Store
 dist-ssr/
+test-results/
+.playwright-mcp/
+*.png
+!public/**/*.png
+!docs/**/*.png
