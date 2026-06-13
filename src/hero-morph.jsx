@@ -12,8 +12,27 @@
 import { useEffect, useRef } from "react";
 import { ART } from "./artwork.jsx";
 import { REDUCED } from "./motion.jsx";
+import { usePrivateViewSignup } from "./ui.jsx";
 
 const HERO_ART = "figure"; /* the boldest study */
+
+/* inline private-view capture, used at rest (head) and resolved (bottom) */
+function HeroSignup({ joined, onJoin, note }) {
+  const f = usePrivateViewSignup(onJoin);
+  if (joined) {
+    return <p className="fh-joined">You're on the founding list. We'll write as the first edition takes shape.</p>;
+  }
+  return (
+    <div className="fh-signup">
+      <form className="fh-form" onSubmit={f.submit}>
+        <input className="fh-input" type="email" placeholder="your@email.com" value={f.email} onChange={f.onChange} required aria-label="Your email" />
+        <button className="fh-submit" type="submit" disabled={f.busy} aria-busy={f.busy}>{f.busy ? "Joining…" : "Join the private view"}</button>
+      </form>
+      {f.error && <p className="form-error-line" role="alert">{f.error}</p>}
+      {note && <p className="fh-cta-note">{note}</p>}
+    </div>
+  );
+}
 
 function smooth(p, a, b, t0, t1) {
   const t = Math.min(1, Math.max(0, (p - t0) / (t1 - t0)));
@@ -49,7 +68,7 @@ function WallLabel() {
   );
 }
 
-export function HeroMorph({ go }) {
+export function HeroMorph({ go, joined, onJoin }) {
   const sectionRef = useRef(null);
   const wallRef = useRef(null);
   const scrimRef = useRef(null);
@@ -79,12 +98,16 @@ export function HeroMorph({ go }) {
       if (artRef.current) artRef.current.style.transform = `scale(${f3(smooth(p, 1, 1.07, 0, 0.9))})`;
       /* the museum glass clears as we move in */
       if (glassRef.current) glassRef.current.style.opacity = f3(smooth(p, 0.9, 0, 0.1, 0.5));
-      /* the opening line gives way to the wall label + call */
-      if (headRef.current) headRef.current.style.opacity = f3(smooth(p, 1, 0, 0.04, 0.34));
+      /* the opening line gives way to the wall label + call. `inert`
+         keeps the faded form out of the tab order at each end. */
+      if (headRef.current) {
+        headRef.current.style.opacity = f3(smooth(p, 1, 0, 0.04, 0.34));
+        headRef.current.inert = p > 0.3;
+      }
       if (resolveRef.current) {
         resolveRef.current.style.opacity = f3(smooth(p, 0, 1, 0.5, 0.82));
         resolveRef.current.style.transform = `translateY(${f3(smooth(p, 14, 0, 0.5, 0.9))}px)`;
-        resolveRef.current.style.pointerEvents = p > 0.62 ? "auto" : "none";
+        resolveRef.current.inert = p < 0.55;
       }
     };
     const onScroll = () => { if (!raf) raf = requestAnimationFrame(apply); };
@@ -106,7 +129,7 @@ export function HeroMorph({ go }) {
           <p className="fh-eyebrow">Atelier Limité · pre-launch</p>
           <h1 className="fh-h">Wear the artwork.</h1>
           <p className="fh-sub">Artist-led editions, numbered and limited. The first private view is forming, before Edition 01 exists.</p>
-          <button className="btn-primary" onClick={() => go("list")}>Join the private view</button>
+          <HeroSignup joined={joined} onJoin={onJoin} note="Be first to follow the studies, the artist conversations, and the first edition." />
         </div>
       </section>
     );
@@ -128,13 +151,12 @@ export function HeroMorph({ go }) {
         <div className="fh-head" ref={headRef}>
           <p className="fh-eyebrow">Atelier Limité · pre-launch</p>
           <h1 className="fh-h">Wear the artwork.</h1>
-          <p className="fh-sub">Artist-led editions, numbered and limited. The first private view is forming, before Edition 01 exists.</p>
+          <HeroSignup joined={joined} onJoin={onJoin} note="Artist-led editions, before Edition 01 exists." />
         </div>
 
         <div className="fh-resolve" ref={resolveRef}>
           <WallLabel />
-          <button className="btn-primary fh-cta" onClick={() => go("list")}>Join the private view</button>
-          <p className="fh-cta-note">Be first to follow the studies, the artist conversations, and the first edition.</p>
+          <HeroSignup joined={joined} onJoin={onJoin} note="Be first to follow the studies, the artist conversations, and the first edition." />
         </div>
       </div>
     </section>

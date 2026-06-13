@@ -37,7 +37,7 @@ function PracticePath({ go }) {
 function Home({ go, joined, onJoin }) {
   return (
     <main>
-      <HeroMorph go={go} />
+      <HeroMorph go={go} joined={joined} onJoin={onJoin} />
       <StudyWall go={go} />
       <WaxDivider />
       <PracticePath go={go} />

@@ -1,7 +1,7 @@
 /* ============================================================
    Atelier Limité, Storefront UI Kit · shared UI + chrome + data
    ============================================================ */
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { pathFor } from "./routes.js";
 
 /* ---------- DATA ---------- */
@@ -103,6 +103,8 @@ function ImageWell({ tone = "#1E1E1B", mark, style, className = "" }) {
    quiet full-screen menu behind the trigger. Almost no chrome. */
 function Header({ route, go }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const menuRef = useRef(null);
+  const burgerRef = useRef(null);
   const rooms = [["home", "The wall", "I"], ["practice", "The practice", "II"], ["list", "The list", "III"]];
   const more = [["journal", "Journal"], ["artists", "Artists"], ["archive", "Archive"], ["product", "Future edition preview"]];
   const isCurrent = (r) =>
@@ -110,6 +112,19 @@ function Header({ route, go }) {
     (r === "practice" && (route === "practice")) ||
     (r === "journal" && route === "journal-article");
   const navTo = (r) => (e) => { e.preventDefault(); setMenuOpen(false); go(r); };
+
+  /* keep the closed menu out of the tab order */
+  useEffect(() => { if (menuRef.current) menuRef.current.inert = !menuOpen; }, [menuOpen]);
+  /* open: focus the menu; Escape closes and returns focus to the trigger */
+  useEffect(() => {
+    if (!menuOpen) return;
+    const first = menuRef.current && menuRef.current.querySelector("a");
+    if (first) first.focus();
+    const onKey = (e) => { if (e.key === "Escape") { setMenuOpen(false); if (burgerRef.current) burgerRef.current.focus(); } };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [menuOpen]);
+
   return (
     <React.Fragment>
       <header className="site-header" data-menu-open={menuOpen}>
@@ -123,13 +138,14 @@ function Header({ route, go }) {
         </nav>
         <div className="nav-actions">
           <a className="nav-action-btn" href={pathFor("list")} onClick={navTo("list")}>Private view</a>
-          <button className="nav-burger" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
+          <button ref={burgerRef} className="nav-burger" aria-label={menuOpen ? "Close menu" : "Open menu"} aria-expanded={menuOpen} onClick={() => setMenuOpen((v) => !v)}>
             <span></span><span></span><span></span>
           </button>
         </div>
       </header>
 
-      <div className="site-menu" data-open={menuOpen} aria-hidden={!menuOpen}>
+      <div className="site-menu" data-open={menuOpen} aria-hidden={!menuOpen} ref={menuRef}>
+        <button className="site-menu-close" aria-label="Close menu" onClick={() => { setMenuOpen(false); if (burgerRef.current) burgerRef.current.focus(); }}>Close</button>
         <nav className="site-menu-rooms">
           {rooms.map(([r, label]) => (
             <a key={r} href={pathFor(r)} onClick={navTo(r)}>{label}</a>

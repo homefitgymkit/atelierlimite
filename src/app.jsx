@@ -16,6 +16,25 @@ import { Article } from "./article.jsx";
 import { JournalIndex, JournalArticle } from "./journal.jsx";
 import { ArtistsScreen, ArchiveScreen } from "./artists.jsx";
 
+/* a quiet, persistent way back to the list once you've scrolled past
+   the hero (hidden on the list itself) */
+function PrivateViewTab({ route, go }) {
+  const [show, setShow] = useState(false);
+  useEffect(() => {
+    const on = () => setShow(window.scrollY > window.innerHeight * 1.2);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    window.addEventListener("resize", on);
+    return () => { window.removeEventListener("scroll", on); window.removeEventListener("resize", on); };
+  }, []);
+  if (route === "list") return null;
+  return (
+    <button className={"pv-tab" + (show ? " is-on" : "")} onClick={() => go("list")} tabIndex={show ? 0 : -1} aria-hidden={!show}>
+      Private view
+    </button>
+  );
+}
+
 export function App({ ssrPath }) {
   const [loc, setLoc] = useState(() =>
     parsePath(typeof window !== "undefined" ? window.location.pathname : (ssrPath || "/")));
@@ -74,6 +93,7 @@ export function App({ ssrPath }) {
       {route === "archive" && <ArchiveScreen go={go} />}
 
       <Footer go={go} />
+      <PrivateViewTab route={route} go={go} />
     </div>
   );
 }

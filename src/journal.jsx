@@ -38,16 +38,17 @@ function JournalIndex({ go }) {
         </Reveal>
       </section>
 
-      {/* grid */}
+      {/* grid, as numbered exhibition plates */}
       <section className="journal-grid-wrap">
         <div className="journal-grid">
           {rest.map((a, i) => (
             <Reveal key={a.slug} delay={(i % 3) * 80}>
-              <button className="journal-card" onClick={() => go("journal-article", a.slug)}>
-                <div className="jc-cat">{a.category}</div>
-                <h3 className="jc-title">{a.title}</h3>
-                <p className="jc-excerpt">{a.lead.slice(0, 132)}…</p>
-                <div className="jc-foot"><span className="jc-rt">Read</span><span className="jc-arrow">→</span></div>
+              <button className="jplate" onClick={() => go("journal-article", a.slug)}>
+                <span className="jplate-no">No. {String(i + 2).padStart(2, "0")}</span>
+                <span className="jplate-frame"><FramedArt id={JOURNAL_ART[(i + 1) % JOURNAL_ART.length]} plate={false} className="on-dark" /></span>
+                <span className="jplate-tag">{a.tag}</span>
+                <span className="jplate-title">{a.title}</span>
+                <span className="jplate-more">Read →</span>
               </button>
             </Reveal>
           ))}

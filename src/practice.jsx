@@ -86,6 +86,29 @@ export function Practice({ go }) {
         </div>
       </section>
 
+      {/* 4b · the forward programme (honest, no fixed dates) */}
+      <section className="prog">
+        <div className="prog-head">
+          <p className="label">The programme</p>
+          <h2 className="prog-title">A forward calendar.</h2>
+          <p className="prog-note">The intended rhythm: one artist per edition. Dates are set with each artist as it is confirmed. Private view members hear first.</p>
+        </div>
+        <div className="prog-list" role="table" aria-label="Programme">
+          <div className="prog-row prog-row--head" role="row">
+            <span role="columnheader">Edition</span>
+            <span role="columnheader">Status</span>
+            <span role="columnheader">Artist</span>
+          </div>
+          {[["I", "In development", "To be announced", true], ["II", "Planned", "To be announced"], ["III", "Planned", "To be announced"], ["IV", "Planned", "To be announced"]].map(([no, status, artist, now]) => (
+            <div key={no} className={"prog-row" + (now ? " is-now" : "")} role="row">
+              <span className="prog-no" role="cell"><span className="prog-k">Edition</span>{no}{now && <span className="prog-pip" aria-hidden="true"></span>}</span>
+              <span className="prog-status" role="cell"><span className="prog-k">Status</span>{status}</span>
+              <span className="prog-artist" role="cell"><span className="prog-k">Artist</span>{artist}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* 5 · the case to artists */}
       <section className="for-artists">
         <Reveal className="for-artists-head">
