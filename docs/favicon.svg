@@ -1,4 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" fill="#1A1A17"/>
-  <text x="32" y="45" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="36" letter-spacing="1" fill="#F6F3ED">A<tspan fill="#B5A28E">L</tspan></text>
+  <rect width="64" height="64" fill="#1A1A18"/>
+  <defs>
+    <radialGradient id="m" cx="38%" cy="32%" r="70%">
+      <stop offset="0" stop-color="#d4c39f"/>
+      <stop offset="0.55" stop-color="#C8B89A"/>
+      <stop offset="1" stop-color="#a9966f"/>
+    </radialGradient>
+  </defs>
+  <circle cx="32" cy="32" r="20" fill="url(#m)"/>
+  <circle cx="32" cy="32" r="17" fill="none" stroke="rgba(40,32,20,0.22)" stroke-width="0.6"/>
+  <text x="32" y="39" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="17" fill="rgba(40,32,20,0.78)">AL</text>
 </svg>

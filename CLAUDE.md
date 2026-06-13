@@ -75,3 +75,14 @@ Artwork imagery is real photography (`assets/art-*.jpg`), registered in `ART` (a
 ## Email (Brevo)
 
 Transactional template **id 5, "Private view · Welcome"** exists in the Brevo account (sender id 1, atelierlimite.studio@gmail.com). It is the welcome email for private view signups; attach it to a list-3 automation in the Brevo UI (automations are not exposed via API).
+
+## Conversion, seal, programme, a11y (current)
+
+- **The AL medallion is the one mark** (`.logo-seal`, `.wax-stamp`, `.manifesto-seal`, favicon): a struck taupe seal (radial canvas gradient + emboss + inner ring + cast shadow). Do not reintroduce the thin see-through outline or the retired bronze.
+- **Hero captures email inline** (`HeroSignup` in `hero-morph.jsx`, used in the at-rest head and the resolved state) via `usePrivateViewSignup`. The faded form is set `inert` so it leaves the tab order. `HeroMorph` takes `joined`/`onJoin`.
+- **`PrivateViewTab`** (app.jsx): a fixed, quiet "Private view" affordance that fades in past the hero; hidden on the list route; keyboard-safe.
+- **Journal** index = numbered exhibition plates (`.jplate`). **The practice** has a forward **programme** (`.prog`, dark ground — note the older `.prog{background:ivory}` rule is overridden) and a warm **light manifesto room** (`.manifesto--light`, paper grain via `::before`).
+- **SEO**: Organization JSON-LD + `og:image:alt` in `index.html`; hero study preloaded (`/assets/art-01.jpg`).
+- **A11y**: full-screen menu closes on Esc and returns focus to the burger, is `inert` when closed; global `:focus-visible` rings; global `prefers-reduced-motion` guard.
+- Removed `about.jsx` (folded into The practice). `TeeMockup`/`HoodieMockup` remain in `artwork.jsx` but are unused — no vector garments anywhere.
+- **Verification habit:** before shipping a hero change, run the full-scroll (0→1) overlap assertions on desktop + mobile (`.fh-head`/`.fh-frame-wrap`/`.fh-resolve` must never overlap) — this is what catches the kind of regression that shipped once.

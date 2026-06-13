@@ -1610,3 +1610,25 @@ a:focus-visible, button:focus-visible, input:focus-visible {
   .prog-no { font-size: 20px; }
   .pv-tab { right: 14px; bottom: 14px; padding: 10px 16px; }
 }
+
+/* ════════════════ AUTONOMOUS POLISH ════════════════ */
+
+/* paper grain on the light rooms (so they feel printed, not flat) */
+.manifesto--light, .fep-detail { position: relative; }
+.manifesto--light::before, .fep-detail::before {
+  content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: 0.5; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='pg'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23pg)' opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 200px; }
+.manifesto--light > *, .fep-detail > * { position: relative; z-index: 1; }
+
+/* the seal embossed into the study wall too */
+.sw::after { content: "AL"; position: fixed; right: 5%; bottom: 6%; z-index: 0; pointer-events: none;
+  font-family: var(--serif); font-style: italic; font-size: clamp(80px, 11vw, 170px); letter-spacing: 0.02em;
+  color: rgba(245,242,236,0.02); text-shadow: 0 1px 0 rgba(255,255,255,0.03), 0 -1px 0 rgba(0,0,0,0.45); }
+
+/* global reduced-motion guard: calm everything, keep content visible */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
+  .reveal { opacity: 1 !important; transform: none !important; }
+}
